@@ -1,7 +1,6 @@
 "use client";
 
-import { use, useEffect, useState } from "react";
-import { Navbar } from "@/components/navbar";
+import { use } from "react";
 
 const projects = [
   {
@@ -30,7 +29,6 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
   if (!project) {
     return (
         <div className="min-h-screen bg-background flex flex-col">
-            <Navbar />
             <div className="flex-1 flex items-center justify-center">
                 <h1 className="text-4xl font-bold text-foreground">Project Not Found</h1>
             </div>
@@ -40,9 +38,8 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <Navbar />
       <div className="flex-1 flex items-center justify-center">
-        <h1 className="text-6xl md:text-9xl font-black tracking-tighter text-foreground">
+        <h1 className="text-6xl md:text-9xl font-black tracking-tighter text-foreground font-[family-name:var(--font-safiro)]">
           {project.title}
         </h1>
       </div>

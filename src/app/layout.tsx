@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { clsx } from "clsx";
 import { Navbar } from "@/components/navbar";
@@ -12,6 +13,11 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const safiro = localFont({
+  src: "../../public/fonts/safiro-medium-webfont.woff2",
+  variable: "--font-safiro",
 });
 
 export const metadata: Metadata = {
@@ -30,6 +36,7 @@ export default function RootLayout({
         className={clsx(
           geistSans.variable,
           geistMono.variable,
+          safiro.variable,
           "antialiased bg-background text-foreground min-h-screen"
         )}
       >

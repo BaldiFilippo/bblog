@@ -5,7 +5,6 @@ import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { TiltCard } from "./tilt-card";
-import { Navbar } from "./navbar";
 
 const projects = [
   {
@@ -204,13 +203,14 @@ export default function Parallax() {
       {/* ------------------------------------------------------- */}
       {transitionPhase === "running" && transitionData && (
         <div className="fixed inset-0 z-50 pointer-events-none">
-            {/* GHOST for Measurement (Hidden) */}
-            <div aria-hidden="true" className="fixed inset-0 invisible flex flex-col">
-                <Navbar />
-                <div className="flex-1 flex items-center justify-center">
-                    <h1 ref={ghostTitleRef} className="text-6xl md:text-9xl font-black tracking-tighter text-foreground">
-                        {transitionData.title}
-                    </h1>
+            {/* GHOST for Measurement (Hidden) - Must match project page structure exactly */}
+            <div aria-hidden="true" className="fixed inset-0 invisible">
+                <div className="min-h-screen bg-background flex flex-col">
+                    <div className="flex-1 flex items-center justify-center">
+                        <h1 ref={ghostTitleRef} className="text-6xl md:text-9xl font-black tracking-tighter text-foreground font-[family-name:var(--font-safiro)]">
+                            {transitionData.title}
+                        </h1>
+                    </div>
                 </div>
             </div>
 
@@ -226,7 +226,7 @@ export default function Parallax() {
                             // gets skewed when we animate to 'newOffset'.
                             initial={{ x: 0, opacity: 1, filter: "blur(0px)" }} 
                             animate={titleControls}
-                            className="text-4xl md:text-7xl font-black tracking-tighter text-foreground text-right whitespace-nowrap"
+                            className="text-4xl md:text-7xl font-black tracking-tighter text-foreground text-right whitespace-nowrap font-[family-name:var(--font-safiro)]"
                             style={{ transformOrigin: "center center" }}
                          >
                             {transitionData.title}
@@ -268,7 +268,7 @@ export default function Parallax() {
                     animate={{ x: 0, opacity: 1, filter: "blur(0px)" }}
                     exit={{ x: 0, opacity: 0, filter: "blur(5px)" }}
                     transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }} 
-                    className="text-4xl md:text-7xl font-black tracking-tighter text-foreground text-right whitespace-nowrap"
+                    className="text-4xl md:text-7xl font-black tracking-tighter text-foreground text-right whitespace-nowrap font-[family-name:var(--font-safiro)]"
                 >
                 {activeProject.title}
                 </motion.h2>

@@ -6,7 +6,7 @@ import { Github, Twitter } from "lucide-react";
 
 export function Navbar() {
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-6 bg-transparent">
+    <nav className="fixed top-0 left-0 right-0 z-[60] flex items-center justify-between px-6 py-6 bg-transparent">
       <Link href="/" className="text-xl font-bold tracking-tighter mix-blend-difference text-foreground">
         Portfolio
       </Link>

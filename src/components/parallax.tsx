@@ -1,10 +1,11 @@
 "use client";
 
-import { motion, AnimatePresence, useScroll, useMotionValueEvent, useAnimation } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useMotionValueEvent, useAnimation, useVelocity, useTransform, useSpring, MotionValue } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { TiltCard } from "./tilt-card";
+import { SmoothScroll } from "./smooth-scroll";
 
 const projects = [
   {
@@ -34,6 +35,48 @@ const projects = [
 ];
 
 const COVER_HEIGHT_VH = 40;
+
+// Squeeze Card component that reacts to scroll velocity
+function SqueezeCard({
+  children,
+  scrollY
+}: {
+  children: React.ReactNode;
+  scrollY: MotionValue<number>;
+}) {
+  const scrollVelocity = useVelocity(scrollY);
+
+  // Map velocity to squeeze effect
+  // Compress horizontally (narrower) and stretch vertically (taller)
+  const scaleX = useTransform(
+    scrollVelocity,
+    [-2000, 0, 2000],
+    [0.85, 1, 0.85]
+  );
+
+  const scaleY = useTransform(
+    scrollVelocity,
+    [-2000, 0, 2000],
+    [1.15, 1, 1.15]
+  );
+
+  // Smooth out the effect
+  const smoothScaleX = useSpring(scaleX, { stiffness: 400, damping: 30 });
+  const smoothScaleY = useSpring(scaleY, { stiffness: 400, damping: 30 });
+
+  return (
+    <motion.div
+      style={{
+        scaleX: smoothScaleX,
+        scaleY: smoothScaleY,
+        transformOrigin: "center center",
+      }}
+      className="h-full aspect-square"
+    >
+      {children}
+    </motion.div>
+  );
+}
 
 // Centralized scroll management
 const lockScroll = () => {
@@ -196,6 +239,7 @@ export default function Parallax() {
   };
 
   return (
+    <SmoothScroll>
     <div className="bg-background relative min-h-screen preserve-3d">
       
       {/* ------------------------------------------------------- */}
@@ -300,30 +344,33 @@ export default function Parallax() {
                 perspective: "1200px"
             }}
           >
-            <Link 
-                href={`/project/${project.id}`} 
-                className={`block h-full aspect-square transition-opacity duration-500 ${
-                    transitionPhase === "running" && transitionData?.id !== project.id 
-                    ? "opacity-0 pointer-events-none" 
-                    : ""
-                }`}
-                onClick={(e) => handleProjectClick(e, project)}
-            >
-              <motion.div
-                animate={
-                    transitionPhase === "running" && transitionData?.id === project.id 
-                    ? { opacity: 0 } 
-                    : { opacity: 1 }
-                }
-                transition={{ duration: 0.4 }}
-                className="w-full h-full"
+            <SqueezeCard scrollY={scrollY}>
+              <Link
+                  href={`/project/${project.id}`}
+                  className={`block h-full w-full transition-opacity duration-500 ${
+                      transitionPhase === "running" && transitionData?.id !== project.id
+                      ? "opacity-0 pointer-events-none"
+                      : ""
+                  }`}
+                  onClick={(e) => handleProjectClick(e, project)}
               >
-                  <TiltCard image={project.image} title={project.title} />
-              </motion.div>
-            </Link>
+                <motion.div
+                  animate={
+                      transitionPhase === "running" && transitionData?.id === project.id
+                      ? { opacity: 0 }
+                      : { opacity: 1 }
+                  }
+                  transition={{ duration: 0.4 }}
+                  className="w-full h-full"
+                >
+                    <TiltCard image={project.image} title={project.title} />
+                </motion.div>
+              </Link>
+            </SqueezeCard>
           </div>
         ))}
       </div>
     </div>
+    </SmoothScroll>
   );
 }

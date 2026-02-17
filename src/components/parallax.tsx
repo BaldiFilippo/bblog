@@ -4,37 +4,30 @@ import { motion, AnimatePresence, useScroll, useMotionValueEvent, useAnimation, 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Calendar, Clock } from "lucide-react";
 import { TiltCard } from "./tilt-card";
-import { SmoothScroll } from "./smooth-scroll";
+import { TITLE_CLASSES_TARGET, AUTHOR_CLASSES } from "@/lib/post-styles";
 
-const projects = [
-  {
-    id: 1,
-    title: "Neon Skyline",
-    category: "Urban Design",
-    image: "/images/image1.jpeg",
-  },
-  {
-    id: 2,
-    title: "Quantum Data",
-    category: "Data Visualization",
-    image: "/images/image2.jpeg",
-  },
-  {
-    id: 3,
-    title: "Matrix Flow",
-    category: "Web Application",
-    image: "/images/image3.jpeg",
-  },
-  {
-    id: 4,
-    title: "Holo Interface",
-    category: "UI/UX Design",
-    image: "/images/image4.jpeg",
-  },
-];
+// Blog post type for the parallax component
+export interface BlogPost {
+  id: number;
+  slug: string;
+  title: string;
+  author?: string;
+  image: string;
+  excerpt?: string;
+  date?: string;
+}
+
+interface ParallaxProps {
+  posts: BlogPost[];
+}
 
 const COVER_HEIGHT_VH = 40;
+// How far down (in vh) the first card starts from the top of the page
+const FIRST_CARD_TOP_VH = 80;
+// Gap between cards (in vh)
+const CARD_GAP_VH = 100;
 
 // Squeeze Card component that reacts to scroll velocity
 function SqueezeCard({
@@ -91,56 +84,68 @@ const unlockScroll = () => {
 
 const preventDefault = (e: Event) => e.preventDefault();
 
-export default function Parallax() {
+export default function Parallax({ posts }: ParallaxProps) {
   const router = useRouter();
   const { scrollY } = useScroll();
-  
+
   // -- SCROLL STATE --
   // Controlled by scroll position
   const [activeId, setActiveId] = useState(1);
-  const activeProject = projects.find((p) => p.id === activeId) || projects[0];
+  const activePost = posts.find((p) => p.id === activeId) || posts[0];
 
   // -- TRANSITION STATE --
   // Frozen snapshot for the transition sequence
   const [transitionPhase, setTransitionPhase] = useState<"idle" | "running">("idle");
-  const [transitionData, setTransitionData] = useState<typeof projects[0] | null>(null);
-  
+  const [transitionData, setTransitionData] = useState<BlogPost | null>(null);
+
   // Animation Controls for the Transition Layer
   const titleControls = useAnimation();
-  const subtitleControls = useAnimation();
-  
+
   // Refs for Transition Layer measurement
   const transitionTitleRef = useRef<HTMLHeadingElement>(null);
   const ghostTitleRef = useRef<HTMLHeadingElement>(null);
-  
+
   // Robust cleanup
   useEffect(() => {
     return () => unlockScroll();
   }, []);
 
-  // Sync Active Project with Scroll (ONLY if idle)
+  // Sync Active Post with Scroll (ONLY if idle)
+  // Title changes when a card's TOP edge exits the TOP of the viewport
   useMotionValueEvent(scrollY, "change", (latest) => {
-    // We do NOT block the update of activeId here, but the UI will ignore it 
-    // for the transition layer if we are running.
-    
     const vh = window.innerHeight;
-    let currentExit = vh; 
+    const firstCardTop = (FIRST_CARD_TOP_VH / 100) * vh;
+    const cardHeight = (COVER_HEIGHT_VH / 100) * vh;
+    const gap = (CARD_GAP_VH / 100) * vh;
+
     let newActiveId = 1;
 
-    if (latest < currentExit) {
+    // Card 1 is active until its top edge reaches the top of viewport
+    // Card 1 top position = firstCardTop
+    // When scroll >= firstCardTop + cardHeight, card 1 has exited -> switch to card 2
+
+    if (latest < firstCardTop + cardHeight) {
         newActiveId = 1;
     } else {
-        for (let i = 2; i <= projects.length; i++) {
-            const gap = vh;
-            const height = (COVER_HEIGHT_VH / 100) * vh;
-            const nextExit = currentExit + gap + height;
-            if (latest < nextExit) {
+        // Calculate which card is currently visible
+        // After first card: each card starts at previous card bottom + gap
+        let cardTopPosition = firstCardTop;
+
+        for (let i = 1; i <= posts.length; i++) {
+            const cardBottomExit = cardTopPosition + cardHeight;
+
+            if (latest < cardBottomExit) {
                 newActiveId = i;
                 break;
             }
-            currentExit = nextExit;
-            newActiveId = i;
+
+            // Next card starts after gap
+            cardTopPosition = cardBottomExit + gap;
+            newActiveId = i + 1;
         }
+
+        // Clamp to max posts
+        newActiveId = Math.min(newActiveId, posts.length);
     }
 
     if (newActiveId !== activeId) {
@@ -148,31 +153,30 @@ export default function Parallax() {
     }
   });
 
-  const handleProjectClick = async (e: React.MouseEvent, project: typeof projects[0]) => {
+  const handlePostClick = async (e: React.MouseEvent, post: BlogPost) => {
     e.preventDefault();
     if (transitionPhase !== "idle") return;
 
     // 1. FREEZE STATE
-    setTransitionData(project);
+    setTransitionData(post);
     setTransitionPhase("running");
     lockScroll();
 
-    // 2. WAIT FOR RENDER of Transition Layer
+    // 2. WAIT FOR FONTS TO BE LOADED (critical for consistent measurements)
+    if (document.fonts) {
+      await document.fonts.ready;
+    }
+
+    // 3. WAIT FOR RENDER of Transition Layer
     await new Promise(resolve => setTimeout(resolve, 20));
 
-    // 3. START SEQUENCE (3 PHASES)
-    
-    // -- PHASE 1: CLEANUP SCENE (Cover + Subtitle OUT) --
+    // 4. START SEQUENCE (2 PHASES)
+
+    // -- PHASE 1: CLEANUP SCENE (Cover OUT) --
     // Title must remain perfectly STABLE here.
-    // We animate subtitle out. Cover opacity is handled by the "running" state in the list mapping.
-    await subtitleControls.start({ 
-        opacity: 0, 
-        filter: "blur(10px)", 
-        transition: { duration: 0.4, ease: "easeOut" } 
-    });
-    
-    // Only after subtitle is effectively gone do we start moving the title.
-    // Optional small delay for pacing if desired, but await is enough.
+    // Cover opacity is handled by the "running" state in the list mapping.
+    // Small delay to let the cover fade out
+    await new Promise(resolve => setTimeout(resolve, 400));
 
     // -- PHASE 2: CENTER TITLE --
     let centerXOffset = 0;
@@ -184,107 +188,109 @@ export default function Parallax() {
         centerXOffset = Math.round(centerX - titleCenterX);
     }
 
-    // Move to center (no scale yet)
+    // Move to center (keep scale at 0.6)
     await titleControls.start({
         x: centerXOffset,
         opacity: 1,
-        scale: 1, 
+        scale: 0.6,
         transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
     });
 
-    // -- PHASE 3: SCALE TO MATCH PROJECT PAGE --
-    if (transitionTitleRef.current && ghostTitleRef.current) {
-        // Measure current state (title is now centered at 'centerXOffset')
-        const currentRect = transitionTitleRef.current.getBoundingClientRect();
+    // -- PHASE 3: SCALE UP TO MATCH BLOG PAGE --
+    // Now both home and post use the same TITLE_CLASSES_TARGET
+    // Home shows it at scale 0.6, post shows it at scale 1.0
+    // So we animate from 0.6 to 1.0
+    if (ghostTitleRef.current) {
         const targetRect = ghostTitleRef.current.getBoundingClientRect();
 
-        // Calculate final deltas
-        // Target Center
+        // Calculate final position to match ghost
         const targetCX = targetRect.left + targetRect.width / 2;
         const targetCY = targetRect.top + targetRect.height / 2;
-        
-        // Current Center
-        const currentCX = currentRect.left + currentRect.width / 2;
-        const currentCY = currentRect.top + currentRect.height / 2;
-        
-        // This move is RELATIVE to the current visual position? 
-        // No, 'animate' in Framer Motion usually targets absolute values from the initial state 
-        // unless we use `+=`.
-        // Our current 'x' value is `centerXOffset`.
-        // The distance we need to travel is `targetCX - currentCX`.
-        // So finalX = centerXOffset + (targetCX - currentCX).
-        
-        const moveX = targetCX - currentCX;
-        const moveY = targetCY - currentCY;
-        // Use rounding to ensure we land on exact pixels
+
+        // The title is currently centered horizontally
+        // We need to move it to match the ghost's center
+        const viewportCX = window.innerWidth / 2;
+        const moveX = targetCX - viewportCX;
+        const moveY = targetCY - window.innerHeight / 2;
+
         const finalX = Math.round(centerXOffset + moveX);
-        const finalY = Math.round(moveY); // Vertical move from current transform (0)
-        
-        const scale = targetRect.height / currentRect.height; // Height is safer for text scaling
-        
+        const finalY = Math.round(moveY);
+
         await titleControls.start({
             x: finalX,
             y: finalY,
-            scale: scale,
+            scale: 1, // Scale from 0.6 to 1.0
             opacity: 1,
             transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
         });
     }
 
     // -- NAVIGATION --
-    // Do NOT unlock scroll here. 
+    // Do NOT unlock scroll here.
     // Unlocking forces a layout shift (scrollbar reappears) BEFORE the page navigates, causing a jump.
     // Cleanup in useEffect will unlock it when this component unmounts.
-    router.push(`/project/${project.id}`);
+    router.push(`/blog/${post.slug}`);
   };
 
+  // Guard against empty posts
+  if (!posts || posts.length === 0) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <p className="text-muted-foreground">No posts found.</p>
+      </div>
+    );
+  }
+
   return (
-    <SmoothScroll>
     <div className="bg-background relative min-h-screen preserve-3d">
-      
+
       {/* ------------------------------------------------------- */}
       {/* TRANSITION OVERLAY (Only visible during transition)     */}
       {/* ------------------------------------------------------- */}
       {transitionPhase === "running" && transitionData && (
         <div className="fixed inset-0 z-50 pointer-events-none">
-            {/* GHOST for Measurement (Hidden) - Must match project page structure exactly */}
+            {/* GHOST for Measurement (Hidden) - Must match blog page structure exactly */}
             <div aria-hidden="true" className="fixed inset-0 invisible">
-                <div className="min-h-screen bg-background flex flex-col">
-                    <div className="flex-1 flex items-center justify-center">
-                        <h1 ref={ghostTitleRef} className="text-6xl md:text-9xl font-black tracking-tighter text-foreground font-[family-name:var(--font-safiro)]">
-                            {transitionData.title}
-                        </h1>
+                <div className="relative w-full">
+                    <div className="h-[100dvh] bg-background flex flex-col">
+                        <div className="flex-1 flex items-center justify-center px-4">
+                            <div className="flex flex-col items-center gap-2 md:gap-4">
+                                <h1 ref={ghostTitleRef} className={TITLE_CLASSES_TARGET}>
+                                    {transitionData.title}
+                                </h1>
+                                <p className={AUTHOR_CLASSES}>
+                                    by Author Name
+                                </p>
+                                <div className="flex gap-4 text-sm md:text-base mt-2">
+                                    <div className="flex items-center gap-2 text-muted-foreground">
+                                        <Calendar className="w-4 h-4" />
+                                        <time>Date placeholder</time>
+                                    </div>
+                                    <div className="flex items-center gap-2 text-muted-foreground">
+                                        <Clock className="w-4 h-4" />
+                                        <span>Reading time</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
             {/* ANIMATING ELEMENTS */}
             <div className="fixed inset-0 flex items-center justify-center">
-                 <div className="relative w-full max-w-[90vw] h-[20vh] flex items-center justify-center">
-                    <div className="absolute inset-0 flex flex-row items-baseline justify-center gap-4 md:gap-12 px-4 w-full">
-                         {/* Transition Title */}
+                 <div className="relative w-full flex items-center justify-center">
+                    <div className="flex flex-col items-center justify-center gap-2 md:gap-4 px-4 w-full">
+                         {/* Transition Title - starts at scale 0.6 (home size), animates to scale 1 (target size) */}
                          <motion.h2
                             ref={transitionTitleRef}
-                            // FIXED: Start at x: 0 to match the "idle" state of the underlying title.
-                            // If we start at -60, the centering calculation (which assumes 0 start or includes transform)
-                            // gets skewed when we animate to 'newOffset'.
-                            initial={{ x: 0, opacity: 1, filter: "blur(0px)" }} 
+                            initial={{ x: 0, opacity: 1, filter: "blur(0px)", scale: 0.6 }}
                             animate={titleControls}
-                            className="text-4xl md:text-7xl font-black tracking-tighter text-foreground text-right whitespace-nowrap font-[family-name:var(--font-safiro)]"
+                            className={TITLE_CLASSES_TARGET}
                             style={{ transformOrigin: "center center" }}
                          >
                             {transitionData.title}
                          </motion.h2>
-
-                         {/* Transition Subtitle */}
-                         <motion.p
-                            // FIXED: Start at x: 0 to match idle state
-                            initial={{ x: 0, opacity: 1, filter: "blur(0px)" }}
-                            animate={subtitleControls}
-                             className="text-2xl md:text-5xl font-light tracking-wide text-muted-foreground text-left whitespace-nowrap"
-                         >
-                            {transitionData.category}
-                         </motion.p>
                     </div>
                  </div>
             </div>
@@ -297,35 +303,26 @@ export default function Parallax() {
       {/* ------------------------------------------------------- */}
 
       {/* FIXED TITLE LAYER (Hidden during transition) */}
-      <div 
+      <div
         className="fixed inset-0 flex items-center justify-center pointer-events-none z-0 transition-opacity duration-200"
         style={{ opacity: transitionPhase === "running" ? 0 : 1 }}
       >
-        <div className="relative w-full max-w-[90vw] h-[20vh] flex items-center justify-center">
+        <div className="relative w-full flex items-center justify-center">
             <AnimatePresence mode="popLayout">
-            <motion.div 
-                key={activeProject.id}
-                className="absolute inset-0 flex flex-row items-baseline justify-center gap-4 md:gap-12 px-4 w-full"
+            <motion.div
+                key={activePost.id}
+                className="flex flex-col items-center justify-center px-4 w-full"
+                style={{ scale: 0.6 }}
             >
                 <motion.h2
-                    initial={{ x: -60, opacity: 0, filter: "blur(10px)" }}
-                    animate={{ x: 0, opacity: 1, filter: "blur(0px)" }}
-                    exit={{ x: 0, opacity: 0, filter: "blur(5px)" }}
-                    transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }} 
-                    className="text-4xl md:text-7xl font-black tracking-tighter text-foreground text-right whitespace-nowrap font-[family-name:var(--font-safiro)]"
-                >
-                {activeProject.title}
-                </motion.h2>
-
-                <motion.p
-                    initial={{ x: 60, opacity: 0, filter: "blur(10px)" }}
-                    animate={{ x: 0, opacity: 1, filter: "blur(0px)" }}
-                    exit={{ x: 0, opacity: 0, filter: "blur(5px)" }}
+                    initial={{ y: -50, opacity: 0, filter: "blur(10px)" }}
+                    animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+                    exit={{ y: 0, opacity: 0, filter: "blur(5px)" }}
                     transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                    className="text-2xl md:text-5xl font-light tracking-wide text-muted-foreground text-left whitespace-nowrap"
+                    className={TITLE_CLASSES_TARGET}
                 >
-                {activeProject.category}
-                </motion.p>
+                {activePost.title}
+                </motion.h2>
             </motion.div>
             </AnimatePresence>
         </div>
@@ -333,37 +330,37 @@ export default function Parallax() {
 
       {/* SCROLLABLE CONTENT */}
       <div className="relative z-10 w-full flex flex-col items-center">
-        {projects.map((project, index) => (
+        {posts.map((post, index) => (
           <div
-            key={project.id}
+            key={post.id}
             className="w-full flex justify-center perspective-container"
             style={{
-                marginTop: index === 0 ? `${100 - COVER_HEIGHT_VH}vh` : "100vh",
+                marginTop: index === 0 ? `${FIRST_CARD_TOP_VH}vh` : `${CARD_GAP_VH}vh`,
                 height: `${COVER_HEIGHT_VH}vh`,
-                marginBottom: index === projects.length - 1 ? "50vh" : "0",
+                marginBottom: index === posts.length - 1 ? "50vh" : "0",
                 perspective: "1200px"
             }}
           >
             <SqueezeCard scrollY={scrollY}>
               <Link
-                  href={`/project/${project.id}`}
+                  href={`/blog/${post.slug}`}
                   className={`block h-full w-full transition-opacity duration-500 ${
-                      transitionPhase === "running" && transitionData?.id !== project.id
+                      transitionPhase === "running" && transitionData?.id !== post.id
                       ? "opacity-0 pointer-events-none"
                       : ""
                   }`}
-                  onClick={(e) => handleProjectClick(e, project)}
+                  onClick={(e) => handlePostClick(e, post)}
               >
                 <motion.div
                   animate={
-                      transitionPhase === "running" && transitionData?.id === project.id
+                      transitionPhase === "running" && transitionData?.id === post.id
                       ? { opacity: 0 }
                       : { opacity: 1 }
                   }
                   transition={{ duration: 0.4 }}
                   className="w-full h-full"
                 >
-                    <TiltCard image={project.image} title={project.title} />
+                    <TiltCard image={post.image} title={post.title} />
                 </motion.div>
               </Link>
             </SqueezeCard>
@@ -371,6 +368,5 @@ export default function Parallax() {
         ))}
       </div>
     </div>
-    </SmoothScroll>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import Image from "next/image";
 import React, { useState, useEffect } from "react";
 
 interface TiltCardProps {
@@ -94,11 +95,12 @@ export function TiltCard({ image, title }: TiltCardProps) {
             >
                 {/* Image */}
                 <div className="absolute inset-0 z-0 transform translate-z-0">
-                    <img
+                    <Image
                         src={image}
                         alt={title}
-                        className="w-full h-full object-cover pointer-events-none"
-                        style={{ scale: 1.1 }} // Safer scale
+                        fill
+                        className="object-cover pointer-events-none scale-110"
+                        sizes="(max-width: 768px) 100vw, 50vw"
                     />
                     <div className="absolute inset-0 bg-black/10 mix-blend-overlay"></div>
                 </div>

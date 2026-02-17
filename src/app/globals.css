@@ -119,7 +119,286 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html,
+  body {
+    overflow-x: hidden;
+    width: 100%;
+  }
   body {
     @apply bg-background text-foreground;
   }
+
+  /* Force font rendering optimization for smoother animations */
+  h1, h2, h3, h4, h5, h6, p {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Ensure custom font displays immediately to prevent layout shift */
+  .font-\[family-name\:var\(--font-safiro\)\] {
+    font-display: swap;
+  }
+
+  /* Optimize animations on titles for mobile performance */
+  h1[id="post-title-target"],
+  h1#post-title-target {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+}
+
+/* ============================================
+   ARTICLE TYPOGRAPHY SYSTEM
+   ============================================ */
+
+.article-content {
+  /* Base typography */
+  font-size: clamp(1.0625rem, 0.95rem + 0.5vw, 1.1875rem);
+  line-height: 1.75;
+  letter-spacing: -0.011em;
+  color: var(--foreground);
+
+  /* Optimal line length for readability */
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Headings */
+.article-content h2 {
+  font-family: var(--font-safiro);
+  font-size: clamp(1.75rem, 1.5rem + 1vw, 2.25rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  margin-top: 3.5rem;
+  margin-bottom: 1.25rem;
+  color: var(--foreground);
+}
+
+.article-content h3 {
+  font-family: var(--font-safiro);
+  font-size: clamp(1.375rem, 1.2rem + 0.75vw, 1.625rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.3;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--foreground);
+}
+
+.article-content h4 {
+  font-size: clamp(1.125rem, 1rem + 0.5vw, 1.25rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.4;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  color: var(--foreground);
+}
+
+/* Paragraphs */
+.article-content p {
+  margin-bottom: 1.75rem;
+  color: oklch(from var(--foreground) l c h / 0.88);
+}
+
+.article-content p:last-child {
+  margin-bottom: 0;
+}
+
+/* Strong/Bold */
+.article-content strong {
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+/* Links */
+.article-content a {
+  color: var(--foreground);
+  text-decoration: underline;
+  text-decoration-color: oklch(from var(--foreground) l c h / 0.3);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: text-decoration-color 0.2s ease;
+}
+
+.article-content a:hover {
+  text-decoration-color: var(--foreground);
+}
+
+/* Blockquotes */
+.article-content blockquote {
+  margin: 2.5rem 0;
+  padding: 0 0 0 1.5rem;
+  border-left: 3px solid oklch(from var(--foreground) l c h / 0.15);
+  font-style: italic;
+  color: oklch(from var(--foreground) l c h / 0.75);
+}
+
+.article-content blockquote p {
+  margin-bottom: 0;
+}
+
+/* Lists */
+.article-content ul,
+.article-content ol {
+  margin: 1.75rem 0;
+  padding-left: 1.5rem;
+}
+
+.article-content li {
+  margin-bottom: 0.75rem;
+  color: oklch(from var(--foreground) l c h / 0.88);
+}
+
+.article-content li::marker {
+  color: oklch(from var(--foreground) l c h / 0.4);
+}
+
+.article-content li:last-child {
+  margin-bottom: 0;
+}
+
+/* Nested lists */
+.article-content li > ul,
+.article-content li > ol {
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+}
+
+/* Inline code */
+.article-content code:not(pre code) {
+  font-family: var(--font-geist-mono);
+  font-size: 0.875em;
+  background: oklch(from var(--foreground) l c h / 0.06);
+  padding: 0.2em 0.4em;
+  border-radius: 0.25rem;
+  color: var(--foreground);
+}
+
+/* Code blocks */
+.article-content pre {
+  margin: 2rem 0;
+  padding: 1.25rem 1.5rem;
+  background: oklch(from var(--foreground) l c h / 0.04);
+  border: 1px solid oklch(from var(--foreground) l c h / 0.08);
+  border-radius: 0.75rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.article-content pre code {
+  font-family: var(--font-geist-mono);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  background: none;
+  padding: 0;
+}
+
+/* Horizontal rules */
+.article-content hr {
+  margin: 3.5rem 0;
+  border: none;
+  height: 1px;
+  background: oklch(from var(--foreground) l c h / 0.1);
+}
+
+/* Tables */
+.article-content table {
+  width: 100%;
+  margin: 2rem 0;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+
+.article-content th,
+.article-content td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid oklch(from var(--foreground) l c h / 0.1);
+}
+
+.article-content th {
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.article-content td {
+  color: oklch(from var(--foreground) l c h / 0.88);
+}
+
+/* Images within article */
+.article-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.75rem;
+  margin: 2.5rem 0;
+}
+
+/* First paragraph - slightly larger (lead paragraph) */
+.article-content > p:first-of-type {
+  font-size: 1.125em;
+  line-height: 1.7;
+  color: oklch(from var(--foreground) l c h / 0.92);
+}
+
+/* Dark mode adjustments */
+.dark .article-content p,
+.dark .article-content li {
+  color: oklch(from var(--foreground) l c h / 0.85);
+}
+
+.dark .article-content > p:first-of-type {
+  color: oklch(from var(--foreground) l c h / 0.9);
+}
+
+.dark .article-content code:not(pre code) {
+  background: oklch(from var(--foreground) l c h / 0.1);
+}
+
+.dark .article-content pre {
+  background: oklch(from var(--foreground) l c h / 0.06);
+  border-color: oklch(from var(--foreground) l c h / 0.1);
+}
+
+/* Image Grid - 3 columns */
+.article-content .image-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin: 2.5rem 0;
+}
+
+.article-content .image-grid img {
+  width: 100%;
+  height: auto;
+  margin: 0;
+  border-radius: 0.5rem;
+  object-fit: cover;
+  aspect-ratio: 3/4;
+}
+
+/* Responsive: 2 columns on tablet */
+@media (max-width: 768px) {
+  .article-content .image-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+}
+
+/* Full-bleed images - break out of max-width */
+.article-content .full-bleed {
+  width: 100vw;
+  max-width: none;
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
+  border-radius: 0;
+}
+
+.article-content .full-bleed img {
+  width: 100%;
+  border-radius: 0;
 }

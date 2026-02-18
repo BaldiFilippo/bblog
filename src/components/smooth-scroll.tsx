@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import Lenis from "lenis";
 
 interface SmoothScrollProps {
@@ -8,8 +8,6 @@ interface SmoothScrollProps {
 }
 
 export function SmoothScroll({ children }: SmoothScrollProps) {
-  const lenisRef = useRef<Lenis | null>(null);
-
   useEffect(() => {
     const lenis = new Lenis({
       duration: 1.2,
@@ -18,7 +16,8 @@ export function SmoothScroll({ children }: SmoothScrollProps) {
       smoothWheel: true,
     });
 
-    lenisRef.current = lenis;
+    // Expose globally so other components can stop/start scroll
+    (window as Window & { __lenis?: Lenis }).__lenis = lenis;
 
     function raf(time: number) {
       lenis.raf(time);
@@ -29,6 +28,7 @@ export function SmoothScroll({ children }: SmoothScrollProps) {
 
     return () => {
       lenis.destroy();
+      delete (window as Window & { __lenis?: Lenis }).__lenis;
     };
   }, []);
 

@@ -3,8 +3,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, Calendar } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ArrowLeft, ArrowUpRight, Calendar } from "lucide-react";
 
 function formatDate(dateString: string): string {
   const date = new Date(dateString);
@@ -41,11 +40,12 @@ export function AllPostsList({ posts }: AllPostsListProps) {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, ease }}
           >
-            <Link href="/">
-              <Button variant="ghost" className="gap-2 mb-8">
-                <ArrowLeft className="w-4 h-4" />
-                Back to home
-              </Button>
+            <Link
+              href="/"
+              className="group inline-flex items-center gap-1.5 text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors duration-200 mb-8"
+            >
+              <ArrowLeft className="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
+              Back to home
             </Link>
           </motion.div>
 
@@ -84,41 +84,45 @@ export function AllPostsList({ posts }: AllPostsListProps) {
                   ease,
                   delay: 0.3 + index * 0.08,
                 }}
-                className="group border-b border-border pb-8 last:border-0"
+                className="border-b border-border pb-8 last:border-0"
               >
-                <Link href={`/blog/${post.slug}`} className="block">
-                  <div className="flex flex-col md:flex-row gap-6">
-                    {/* Cover image */}
-                    {post.cover && (
-                      <div className="relative md:w-48 h-48 md:h-32 shrink-0">
-                        <Image
-                          src={post.cover}
-                          alt={post.title}
-                          fill
-                          className="object-cover rounded-lg group-hover:opacity-80 transition-opacity"
-                          sizes="(max-width: 768px) 100vw, 192px"
-                        />
-                      </div>
-                    )}
+                <Link
+                  href={`/blog/${post.slug}`}
+                  className="group flex flex-col md:flex-row gap-6 hover:text-muted-foreground transition-colors duration-200"
+                >
+                  {/* Cover image */}
+                  {post.cover && (
+                    <div className="relative md:w-48 h-48 md:h-32 shrink-0">
+                      <Image
+                        src={post.cover}
+                        alt={post.title}
+                        fill
+                        className="object-cover rounded-lg"
+                        sizes="(max-width: 768px) 100vw, 192px"
+                      />
+                    </div>
+                  )}
 
-                    {/* Content */}
-                    <div className="flex-1">
-                      <h2 className="text-2xl font-bold tracking-tight text-foreground group-hover:text-primary transition-colors font-[family-name:var(--font-safiro)]">
+                  {/* Content */}
+                  <div className="flex-1">
+                    <div className="flex items-start justify-between gap-4">
+                      <h2 className="text-2xl font-bold tracking-tight text-foreground font-[family-name:var(--font-safiro)]">
                         {post.title}
                       </h2>
-
-                      <div className="mt-2 flex items-center gap-4 text-sm text-muted-foreground">
-                        <div className="flex items-center gap-1">
-                          <Calendar className="w-4 h-4" />
-                          <time dateTime={post.date}>{formatDate(post.date)}</time>
-                        </div>
-                        <span>{post.readingTime}</span>
-                      </div>
-
-                      <p className="mt-3 text-muted-foreground line-clamp-2">
-                        {post.excerpt}
-                      </p>
+                      <ArrowUpRight className="w-5 h-5 shrink-0 mt-1 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                     </div>
+
+                    <div className="mt-2 flex items-center gap-4 text-sm text-muted-foreground">
+                      <div className="flex items-center gap-1">
+                        <Calendar className="w-4 h-4" />
+                        <time dateTime={post.date}>{formatDate(post.date)}</time>
+                      </div>
+                      <span>{post.readingTime}</span>
+                    </div>
+
+                    <p className="mt-3 text-muted-foreground line-clamp-2">
+                      {post.excerpt}
+                    </p>
                   </div>
                 </Link>
               </motion.article>

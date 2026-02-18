@@ -1,10 +1,10 @@
 "use client";
 
-import { motion, AnimatePresence, useScroll, useMotionValueEvent, useAnimation, useVelocity, useTransform, useSpring, MotionValue } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useMotionValueEvent, useAnimation, useVelocity, useTransform, useSpring, MotionValue, useInView } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Calendar, Clock } from "lucide-react";
+import { Calendar, Clock, ArrowUpRight } from "lucide-react";
 import { TiltCard } from "./tilt-card";
 import { TITLE_CLASSES_TARGET, AUTHOR_CLASSES } from "@/lib/post-styles";
 
@@ -84,6 +84,29 @@ const unlockScroll = () => {
 };
 
 const preventDefault = (e: Event) => e.preventDefault();
+
+function SeeMoreButton() {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-10%" });
+
+  return (
+    <div ref={ref} className="w-full flex items-center justify-center py-8 pointer-events-auto">
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        animate={isInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <Link
+          href="/blog"
+          className="group flex items-center gap-1.5 text-sm font-semibold text-foreground hover:text-muted-foreground transition-colors duration-200"
+        >
+          See all posts
+          <ArrowUpRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+        </Link>
+      </motion.div>
+    </div>
+  );
+}
 
 export default function Parallax({ posts }: ParallaxProps) {
   const router = useRouter();
@@ -306,7 +329,13 @@ export default function Parallax({ posts }: ParallaxProps) {
                     transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                     className={TITLE_CLASSES_TARGET}
                 >
-                {activePost.title}
+                    <Link
+                        href={`/blog/${activePost.slug}`}
+                        className="pointer-events-auto cursor-pointer hover:text-muted-foreground transition-colors duration-200"
+                        onClick={(e) => handlePostClick(e, activePost)}
+                    >
+                        {activePost.title}
+                    </Link>
                 </motion.h2>
             </motion.div>
             </AnimatePresence>
@@ -314,7 +343,7 @@ export default function Parallax({ posts }: ParallaxProps) {
       </div>
 
       {/* SCROLLABLE CONTENT */}
-      <div className="relative z-10 w-full flex flex-col items-center">
+      <div className="relative z-10 w-full flex flex-col items-center pointer-events-none">
         {posts.map((post, index) => {
           if (post.isSeeAll) return null;
 
@@ -331,7 +360,7 @@ export default function Parallax({ posts }: ParallaxProps) {
               <SqueezeCard scrollY={scrollY}>
                 <Link
                     href={`/blog/${post.slug}`}
-                    className={`block h-full w-full transition-opacity duration-500 ${
+                    className={`block h-full w-full transition-opacity duration-500 pointer-events-auto ${
                         transitionPhase === "running" && transitionData?.id !== post.id
                         ? "opacity-0 pointer-events-none"
                         : ""
@@ -356,6 +385,11 @@ export default function Parallax({ posts }: ParallaxProps) {
         })}
         {/* Extra space so the last card can scroll past the middle of the viewport */}
         <div style={{ height: "80vh" }} />
+
+        {/* See More Button */}
+        <SeeMoreButton />
+
+        <div style={{ height: "20vh" }} />
       </div>
     </div>
   );

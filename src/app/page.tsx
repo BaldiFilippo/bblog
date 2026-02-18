@@ -1,5 +1,6 @@
 import Parallax, { BlogPost } from "@/components/parallax";
 import { getAllPosts } from "@/lib/blog";
+import { LoadingScreen } from "@/components/loading-screen";
 
 export default function Home() {
   const posts = getAllPosts();
@@ -15,5 +16,10 @@ export default function Home() {
     date: post.date,
   }));
 
-  return <Parallax posts={blogPosts} />;
+  return (
+    <>
+      <LoadingScreen />
+      <Parallax posts={blogPosts} />
+    </>
+  );
 }

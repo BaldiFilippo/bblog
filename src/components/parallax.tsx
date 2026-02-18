@@ -17,6 +17,7 @@ export interface BlogPost {
   image: string;
   excerpt?: string;
   date?: string;
+  isSeeAll?: boolean;
 }
 
 interface ParallaxProps {
@@ -107,7 +108,9 @@ export default function Parallax({ posts }: ParallaxProps) {
 
   // Robust cleanup
   useEffect(() => {
-    return () => unlockScroll();
+    return () => {
+      unlockScroll();
+    };
   }, []);
 
   // Sync Active Post with Scroll (ONLY if idle)
@@ -120,15 +123,9 @@ export default function Parallax({ posts }: ParallaxProps) {
 
     let newActiveId = 1;
 
-    // Card 1 is active until its top edge reaches the top of viewport
-    // Card 1 top position = firstCardTop
-    // When scroll >= firstCardTop + cardHeight, card 1 has exited -> switch to card 2
-
     if (latest < firstCardTop + cardHeight) {
         newActiveId = 1;
     } else {
-        // Calculate which card is currently visible
-        // After first card: each card starts at previous card bottom + gap
         let cardTopPosition = firstCardTop;
 
         for (let i = 1; i <= posts.length; i++) {
@@ -139,12 +136,10 @@ export default function Parallax({ posts }: ParallaxProps) {
                 break;
             }
 
-            // Next card starts after gap
             cardTopPosition = cardBottomExit + gap;
             newActiveId = i + 1;
         }
 
-        // Clamp to max posts
         newActiveId = Math.min(newActiveId, posts.length);
     }
 
@@ -183,8 +178,7 @@ export default function Parallax({ posts }: ParallaxProps) {
     if (transitionTitleRef.current) {
         const titleRect = transitionTitleRef.current.getBoundingClientRect();
         const centerX = window.innerWidth / 2;
-        const titleCenterX = titleRect.left + titleRect.width / 2; // Rect already includes current transform (0)
-        // Round to avoid subpixel centering issues
+        const titleCenterX = titleRect.left + titleRect.width / 2;
         centerXOffset = Math.round(centerX - titleCenterX);
     }
 
@@ -197,18 +191,12 @@ export default function Parallax({ posts }: ParallaxProps) {
     });
 
     // -- PHASE 3: SCALE UP TO MATCH BLOG PAGE --
-    // Now both home and post use the same TITLE_CLASSES_TARGET
-    // Home shows it at scale 0.6, post shows it at scale 1.0
-    // So we animate from 0.6 to 1.0
     if (ghostTitleRef.current) {
         const targetRect = ghostTitleRef.current.getBoundingClientRect();
 
-        // Calculate final position to match ghost
         const targetCX = targetRect.left + targetRect.width / 2;
         const targetCY = targetRect.top + targetRect.height / 2;
 
-        // The title is currently centered horizontally
-        // We need to move it to match the ghost's center
         const viewportCX = window.innerWidth / 2;
         const moveX = targetCX - viewportCX;
         const moveY = targetCY - window.innerHeight / 2;
@@ -219,16 +207,13 @@ export default function Parallax({ posts }: ParallaxProps) {
         await titleControls.start({
             x: finalX,
             y: finalY,
-            scale: 1, // Scale from 0.6 to 1.0
+            scale: 1,
             opacity: 1,
             transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
         });
     }
 
     // -- NAVIGATION --
-    // Do NOT unlock scroll here.
-    // Unlocking forces a layout shift (scrollbar reappears) BEFORE the page navigates, causing a jump.
-    // Cleanup in useEffect will unlock it when this component unmounts.
     router.push(`/blog/${post.slug}`);
   };
 
@@ -252,7 +237,7 @@ export default function Parallax({ posts }: ParallaxProps) {
             {/* GHOST for Measurement (Hidden) - Must match blog page structure exactly */}
             <div aria-hidden="true" className="fixed inset-0 invisible">
                 <div className="relative w-full">
-                    <div className="h-[100dvh] bg-background flex flex-col">
+                    <div className="h-dvh bg-background flex flex-col">
                         <div className="flex-1 flex items-center justify-center px-4">
                             <div className="flex flex-col items-center gap-2 md:gap-4">
                                 <h1 ref={ghostTitleRef} className={TITLE_CLASSES_TARGET}>
@@ -330,42 +315,47 @@ export default function Parallax({ posts }: ParallaxProps) {
 
       {/* SCROLLABLE CONTENT */}
       <div className="relative z-10 w-full flex flex-col items-center">
-        {posts.map((post, index) => (
-          <div
-            key={post.id}
-            className="w-full flex justify-center perspective-container"
-            style={{
-                marginTop: index === 0 ? `${FIRST_CARD_TOP_VH}vh` : `${CARD_GAP_VH}vh`,
-                height: `${COVER_HEIGHT_VH}vh`,
-                marginBottom: index === posts.length - 1 ? "50vh" : "0",
-                perspective: "1200px"
-            }}
-          >
-            <SqueezeCard scrollY={scrollY}>
-              <Link
-                  href={`/blog/${post.slug}`}
-                  className={`block h-full w-full transition-opacity duration-500 ${
-                      transitionPhase === "running" && transitionData?.id !== post.id
-                      ? "opacity-0 pointer-events-none"
-                      : ""
-                  }`}
-                  onClick={(e) => handlePostClick(e, post)}
-              >
-                <motion.div
-                  animate={
-                      transitionPhase === "running" && transitionData?.id === post.id
-                      ? { opacity: 0 }
-                      : { opacity: 1 }
-                  }
-                  transition={{ duration: 0.4 }}
-                  className="w-full h-full"
+        {posts.map((post, index) => {
+          if (post.isSeeAll) return null;
+
+          return (
+            <div
+              key={post.id}
+              className="w-full flex justify-center perspective-container"
+              style={{
+                  marginTop: index === 0 ? `${FIRST_CARD_TOP_VH}vh` : `${CARD_GAP_VH}vh`,
+                  height: `${COVER_HEIGHT_VH}vh`,
+                  perspective: "1200px"
+              }}
+            >
+              <SqueezeCard scrollY={scrollY}>
+                <Link
+                    href={`/blog/${post.slug}`}
+                    className={`block h-full w-full transition-opacity duration-500 ${
+                        transitionPhase === "running" && transitionData?.id !== post.id
+                        ? "opacity-0 pointer-events-none"
+                        : ""
+                    }`}
+                    onClick={(e) => handlePostClick(e, post)}
                 >
-                    <TiltCard image={post.image} title={post.title} />
-                </motion.div>
-              </Link>
-            </SqueezeCard>
-          </div>
-        ))}
+                  <motion.div
+                    animate={
+                        transitionPhase === "running" && transitionData?.id === post.id
+                        ? { opacity: 0 }
+                        : { opacity: 1 }
+                    }
+                    transition={{ duration: 0.4 }}
+                    className="w-full h-full"
+                  >
+                      <TiltCard image={post.image} title={post.title} />
+                  </motion.div>
+                </Link>
+              </SqueezeCard>
+            </div>
+          );
+        })}
+        {/* Extra space so the last card can scroll past the middle of the viewport */}
+        <div style={{ height: "80vh" }} />
       </div>
     </div>
   );

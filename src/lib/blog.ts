@@ -115,26 +115,14 @@ export function getAllPosts(): Post[] {
 }
 
 /**
- * Get posts by tag
+ * Get the next post (chronologically older) given a slug. Wraps to first if at the end.
  */
-export function getPostsByTag(tag: string): Post[] {
-  return getAllPosts().filter((post) =>
-    post.tags?.map((t) => t.toLowerCase()).includes(tag.toLowerCase())
-  );
-}
-
-/**
- * Get all unique tags
- */
-export function getAllTags(): string[] {
+export function getNextPost(currentSlug: string): Post | null {
   const posts = getAllPosts();
-  const tagsSet = new Set<string>();
-
-  posts.forEach((post) => {
-    post.tags?.forEach((tag) => tagsSet.add(tag.toLowerCase()));
-  });
-
-  return Array.from(tagsSet).sort();
+  const currentIndex = posts.findIndex((p) => p.slug === currentSlug);
+  if (currentIndex === -1) return null;
+  const nextIndex = (currentIndex + 1) % posts.length;
+  return posts[nextIndex];
 }
 
 /**

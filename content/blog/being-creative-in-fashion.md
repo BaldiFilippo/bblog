@@ -57,15 +57,15 @@ It comes from a place I know well, “the in-between”. That moment where you�
 My team and I built The Unknown Season around two figures: the Newcomer and the Local.
 
 <div class="image-grid">
-  <img src="/images/blog/being-creative-in-fashion/gallery1.webp" alt="The Unknown Season" />
-  <img src="/images/blog/being-creative-in-fashion/gallery2.webp" alt="The Unknown Season" />
-  <img src="/images/blog/being-creative-in-fashion/gallery3.webp" alt="The Unknown Season" />
-  <img src="/images/blog/being-creative-in-fashion/gallery4.webp" alt="The Unknown Season" />
-  <img src="/images/blog/being-creative-in-fashion/gallery5.webp" alt="The Unknown Season" />
-  <img src="/images/blog/being-creative-in-fashion/gallery6.webp" alt="The Unknown Season" />
-  <img src="/images/blog/being-creative-in-fashion/gallery7.webp" alt="The Unknown Season" />
-  <img src="/images/blog/being-creative-in-fashion/gallery8.webp" alt="The Unknown Season" />
-  <img src="/images/blog/being-creative-in-fashion/gallery9.webp" alt="The Unknown Season" />
+  <img src="/images/blog/being-creative-in-fashion/gallery1.webp" alt="The Unknown Season" loading="lazy" />
+  <img src="/images/blog/being-creative-in-fashion/gallery2.webp" alt="The Unknown Season" loading="lazy" />
+  <img src="/images/blog/being-creative-in-fashion/gallery3.webp" alt="The Unknown Season" loading="lazy" />
+  <img src="/images/blog/being-creative-in-fashion/gallery4.webp" alt="The Unknown Season" loading="lazy" />
+  <img src="/images/blog/being-creative-in-fashion/gallery5.webp" alt="The Unknown Season" loading="lazy" />
+  <img src="/images/blog/being-creative-in-fashion/gallery6.webp" alt="The Unknown Season" loading="lazy" />
+  <img src="/images/blog/being-creative-in-fashion/gallery7.webp" alt="The Unknown Season" loading="lazy" />
+  <img src="/images/blog/being-creative-in-fashion/gallery8.webp" alt="The Unknown Season" loading="lazy" />
+  <img src="/images/blog/being-creative-in-fashion/gallery9.webp" alt="The Unknown Season" loading="lazy" />
 </div>
 
 They're not characters in conflict. They’re mirrors. One is arriving, observing, and trying to understand the rhythm of a place. The other already belongs, but still remembers what it felt like to be new. I see myself in both.

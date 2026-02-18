@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getPostSlugs, getPostWithHtml, formatDate } from "@/lib/blog";
+import { getPostSlugs, getPostWithHtml, getNextPost, formatDate } from "@/lib/blog";
 import { PostContent } from "@/components/blog/post-content";
 import { PostFixedHero } from "@/components/blog/PostFixedHero";
 
@@ -68,6 +68,8 @@ export default async function BlogPostPage({ params }: PageProps) {
     notFound();
   }
 
+  const nextPost = getNextPost(slug);
+
   // JSON-LD structured data for SEO
   const jsonLd = {
     "@context": "https://schema.org",
@@ -97,13 +99,13 @@ export default async function BlogPostPage({ params }: PageProps) {
           readingTime={post.readingTime}
         />
 
-        {/* Content (tags, cover, body, back button) */}
+        {/* Content (cover, body, back button) */}
         <div className="mt-[-10vh]">
           <PostContent
-            tags={post.tags}
             cover={post.cover}
             title={post.title}
             contentHtml={post.contentHtml}
+            nextPost={nextPost ? { slug: nextPost.slug, title: nextPost.title, cover: nextPost.cover, excerpt: nextPost.excerpt } : undefined}
           />
         </div>
       

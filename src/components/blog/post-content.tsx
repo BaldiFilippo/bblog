@@ -3,15 +3,22 @@
 import { motion, useInView } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRef } from "react";
 
+interface NextPostInfo {
+  slug: string;
+  title: string;
+  cover?: string;
+  excerpt: string;
+}
+
 interface PostContentProps {
-  tags?: string[];
   cover?: string;
   title: string;
   contentHtml: string;
+  nextPost?: NextPostInfo;
 }
 
 // Smooth easing curve
@@ -54,10 +61,10 @@ function AnimatedSection({
 }
 
 export function PostContent({
-  tags,
   cover,
   title,
   contentHtml,
+  nextPost,
 }: PostContentProps) {
   return (
     <motion.article
@@ -96,41 +103,49 @@ export function PostContent({
           />
         </AnimatedSection>
 
-        {/* Tags */}
-        {tags && tags.length > 0 && (
+        {/* Next Post Preview */}
+        {nextPost && (
           <AnimatedSection className="max-w-[680px] mx-auto mt-16" delay={0.1}>
             <div className="border-t border-foreground/10 pt-8">
-              <div className="flex flex-wrap items-center gap-3">
-                <span className="text-sm text-muted-foreground font-medium">
-                  Tagged:
-                </span>
-                {tags.map((tag) => (
-                  <Link
-                    key={tag}
-                    href={`/blog/tag/${tag.toLowerCase()}`}
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
-                  >
-                    #{tag}
-                  </Link>
-                ))}
-              </div>
+              <span className="text-sm text-muted-foreground font-medium">Next post</span>
+              <Link
+                href={`/blog/${nextPost.slug}`}
+                className="group mt-4 flex items-center gap-5 rounded-xl p-4 -mx-4 transition-colors duration-200 hover:bg-foreground/3"
+              >
+                {nextPost.cover && (
+                  <div className="relative w-20 h-20 md:w-24 md:h-24 shrink-0 overflow-hidden rounded-lg">
+                    <Image
+                      src={nextPost.cover}
+                      alt={nextPost.title}
+                      fill
+                      className="object-cover"
+                      sizes="96px"
+                    />
+                  </div>
+                )}
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-semibold text-foreground line-clamp-2 group-hover:text-foreground/80 transition-colors duration-200">
+                    {nextPost.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground mt-1 line-clamp-1">{nextPost.excerpt}</p>
+                </div>
+                <ArrowRight className="w-5 h-5 text-muted-foreground shrink-0 group-hover:translate-x-1 transition-transform duration-200" />
+              </Link>
             </div>
           </AnimatedSection>
         )}
 
         {/* Footer Navigation */}
-        <AnimatedSection className="max-w-[680px] mx-auto mt-12 pb-24" delay={0.15}>
-          <div className="border-t border-foreground/10 pt-8">
-            <Link href="/">
-              <Button
-                variant="ghost"
-                className="gap-2 -ml-4 text-muted-foreground hover:text-foreground transition-colors duration-200"
-              >
-                <ArrowLeft className="w-4 h-4" />
-                Back to all posts
-              </Button>
-            </Link>
-          </div>
+        <AnimatedSection className="max-w-[680px] mx-auto mt-8 pb-24" delay={0.15}>
+          <Link href="/blog">
+            <Button
+              variant="ghost"
+              className="gap-2 -ml-4 text-muted-foreground hover:text-foreground transition-colors duration-200"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Back to all posts
+            </Button>
+          </Link>
         </AnimatedSection>
       </div>
     </motion.article>

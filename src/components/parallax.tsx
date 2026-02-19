@@ -323,10 +323,10 @@ export default function Parallax({ posts }: ParallaxProps) {
                 style={{ scale: 0.6 }}
             >
                 <motion.h2
-                    initial={{ y: -50, opacity: 0, filter: "blur(10px)" }}
-                    animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-                    exit={{ y: 0, opacity: 0, filter: "blur(5px)" }}
-                    transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                    initial={{ opacity: 0, filter: "blur(12px)" }}
+                    animate={{ opacity: 1, filter: "blur(0px)" }}
+                    exit={{ opacity: 0, filter: "blur(8px)" }}
+                    transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                     className={TITLE_CLASSES_TARGET}
                 >
                     <Link

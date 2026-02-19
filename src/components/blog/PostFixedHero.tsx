@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Calendar, Clock } from "lucide-react";
 import { TITLE_CLASSES_TARGET, AUTHOR_CLASSES } from "@/lib/post-styles";
@@ -46,9 +47,18 @@ export function PostFixedHero({
   formattedDate,
   readingTime,
 }: PostFixedHeroProps) {
+  // Capture viewport height once to prevent jumps from browser bar changes
+  const [stableVh, setStableVh] = useState<number | null>(null);
+  useEffect(() => {
+    setStableVh(window.innerHeight);
+  }, []);
+
   return (
     <header className="relative w-screen left-1/2 -translate-x-1/2">
-      <div className="h-[100svh] bg-background flex flex-col">
+      <div
+        className="bg-background flex flex-col"
+        style={{ height: stableVh ? `${stableVh}px` : '100svh', overflowAnchor: 'none' }}
+      >
         <div className="flex-1 flex items-center justify-center px-4">
           <motion.div
             variants={containerVariants}

@@ -193,7 +193,7 @@ export function PostContent({
               className="group inline-flex items-center gap-1.5 text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors duration-200"
             >
               <ArrowLeft className="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
-              Back to all posts
+              See all posts
             </Link>
           </AnimatedSection>
         </div>

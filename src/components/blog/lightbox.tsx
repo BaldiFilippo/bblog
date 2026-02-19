@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { X } from "lucide-react";
 
 interface LightboxProps {
@@ -11,6 +11,8 @@ interface LightboxProps {
 }
 
 export function Lightbox({ src, alt, onClose }: LightboxProps) {
+  const scrollYRef = useRef(0);
+
   // Close on Escape
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
@@ -18,10 +20,32 @@ export function Lightbox({ src, alt, onClose }: LightboxProps) {
     return () => window.removeEventListener("keydown", onKey);
   }, [onClose]);
 
-  // Prevent background scroll
+  // Lock scroll preserving position (mobile-safe)
   useEffect(() => {
+    const lenis = (window as Window & { __lenis?: { stop: () => void; start: () => void } }).__lenis;
+    lenis?.stop();
+
+    scrollYRef.current = window.scrollY;
+    const scrollX = window.scrollX;
+
+    // Freeze body in place — prevents iOS bounce and position jump
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollYRef.current}px`;
+    document.body.style.left = `-${scrollX}px`;
+    document.body.style.right = "0";
     document.body.style.overflow = "hidden";
-    return () => { document.body.style.overflow = ""; };
+
+    return () => {
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.left = "";
+      document.body.style.right = "";
+      document.body.style.overflow = "";
+
+      // Restore exact scroll position
+      window.scrollTo(scrollX, scrollYRef.current);
+      lenis?.start();
+    };
   }, []);
 
   return (

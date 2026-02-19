@@ -7,9 +7,10 @@ import React, { useState, useEffect } from "react";
 interface TiltCardProps {
     image: string;
     title: string;
+    priority?: boolean;
 }
 
-export function TiltCard({ image, title }: TiltCardProps) {
+export function TiltCard({ image, title, priority = false }: TiltCardProps) {
     const x = useMotionValue(0);
     const y = useMotionValue(0);
     const [isTouch, setIsTouch] = useState(false);
@@ -99,6 +100,7 @@ export function TiltCard({ image, title }: TiltCardProps) {
                         src={image}
                         alt={title}
                         fill
+                        priority={priority}
                         className="object-cover pointer-events-none scale-110"
                         sizes="(max-width: 768px) 100vw, 50vw"
                     />

@@ -8,38 +8,53 @@ const LINE = "Fashion Consultancy & Creative Direction";
 
 const preventDefault = (e: Event) => e.preventDefault();
 
+const charDelay = 0.04;
+const totalReveal = 0.1 + LINE.length * charDelay + 0.45;
+const holdDelay = 1.2;
+const exitAfter = (totalReveal + holdDelay) * 1000;
+
+// Module-level flag: persists during client-side navigation (JS bundle stays in memory),
+// resets on page refresh/reload (JS bundle is reloaded from scratch).
+// This naturally gives us: show on first load + show on refresh, skip on internal navigation.
+let animationHasPlayed = false;
+
+type Mode = "pending" | "show" | "hidden";
+
 export function LoadingScreen() {
-  const [visible, setVisible] = useState(true);
+  // Both SSR and first client render start as 'pending' (renders nothing) — no hydration mismatch.
+  const [mode, setMode] = useState<Mode>("pending");
 
   useEffect(() => {
-    // Block all scroll methods
+    if (animationHasPlayed) {
+      // Internal navigation — skip immediately
+      setMode("hidden");
+      return;
+    }
+
+    // First load or page refresh — show animation
+    animationHasPlayed = true;
+    setMode("show");
+
+    // Block scroll
     document.body.style.overflow = "hidden";
     window.addEventListener("wheel", preventDefault, { passive: false });
     window.addEventListener("touchmove", preventDefault, { passive: false });
 
-    // Stop Lenis after a tick (gives SmoothScroll time to initialize)
     const stopLenis = setTimeout(() => {
       (window as Window & { __lenis?: Lenis }).__lenis?.stop();
     }, 50);
+
+    const t = setTimeout(() => setMode("hidden"), exitAfter);
 
     return () => {
       document.body.style.overflow = "";
       window.removeEventListener("wheel", preventDefault);
       window.removeEventListener("touchmove", preventDefault);
       clearTimeout(stopLenis);
+      clearTimeout(t);
       (window as Window & { __lenis?: Lenis }).__lenis?.start();
     };
-  }, []);
-
-  const charDelay = 0.04;
-  const totalReveal = 0.1 + LINE.length * charDelay + 0.45;
-  const holdDelay = 1.2;
-  const exitAfter = (totalReveal + holdDelay) * 1000;
-
-  useEffect(() => {
-    const t = setTimeout(() => setVisible(false), exitAfter);
-    return () => clearTimeout(t);
-  }, [exitAfter]);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const unlockScroll = () => {
     document.body.style.overflow = "";
@@ -50,7 +65,7 @@ export function LoadingScreen() {
 
   return (
     <AnimatePresence>
-      {visible && (
+      {mode === "show" && (
         <motion.div
           className="fixed inset-0 z-[200] bg-black flex items-center justify-center"
           exit={{ y: "-100%" }}

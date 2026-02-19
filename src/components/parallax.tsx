@@ -376,7 +376,7 @@ export default function Parallax({ posts }: ParallaxProps) {
                     transition={{ duration: 0.4 }}
                     className="w-full h-full"
                   >
-                      <TiltCard image={post.image} title={post.title} />
+                      <TiltCard image={post.image} title={post.title} priority={index === 0} />
                   </motion.div>
                 </Link>
               </SqueezeCard>

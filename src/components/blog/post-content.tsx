@@ -161,7 +161,7 @@ export function PostContent({
                 <span className="text-sm text-muted-foreground font-medium">Next post</span>
                 <Link
                   href={`/blog/${nextPost.slug}`}
-                  className="group mt-4 flex items-center gap-5 hover:text-muted-foreground transition-colors duration-200"
+                  className="group mt-4 flex items-center gap-5"
                 >
                   {nextPost.cover && (
                     <div className="relative w-20 h-20 md:w-24 md:h-24 shrink-0 overflow-hidden rounded-lg">
@@ -169,13 +169,13 @@ export function PostContent({
                         src={nextPost.cover}
                         alt={nextPost.title}
                         fill
-                        className="object-cover"
+                        className="object-cover transition-opacity duration-200 group-hover:opacity-70"
                         sizes="96px"
                       />
                     </div>
                   )}
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold text-foreground line-clamp-2">
+                    <h3 className="font-semibold text-foreground line-clamp-2 transition-colors duration-200 group-hover:text-muted-foreground">
                       {nextPost.title}
                     </h3>
                     <p className="text-sm text-muted-foreground mt-1 line-clamp-1">{nextPost.excerpt}</p>

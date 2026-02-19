@@ -11,7 +11,7 @@ export default function Home() {
     slug: post.slug,
     title: post.title,
     author: post.author,
-    image: post.cover || "/images/image1.jpeg",
+    image: post.cover || "/images/image1.webp",
     excerpt: post.excerpt,
     date: post.date,
   }));

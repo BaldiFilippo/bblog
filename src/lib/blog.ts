@@ -92,7 +92,10 @@ export async function getPostWithHtml(slug: string): Promise<PostWithHtml | null
     .use(html, { sanitize: false })
     .process(post.content);
 
-  const contentHtml = processedContent.toString();
+  // Add lazy loading + async decoding to all plain <img> tags in markdown output
+  const contentHtml = processedContent
+    .toString()
+    .replace(/<img\s/g, '<img loading="lazy" decoding="async" ');
 
   return {
     ...post,

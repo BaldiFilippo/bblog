@@ -4,10 +4,10 @@ import Link from "next/link";
 
 export function Navbar() {
   return (
-    <nav className="fixed top-0 left-0 right-0 z-[60] flex items-center justify-between px-6 py-6 bg-transparent">
+    <nav className="fixed top-0 left-0 right-0 z-[60] flex items-center justify-between px-6 py-6 bg-transparent mix-blend-difference">
       <Link
         href="/"
-        className="text-xl font-bold tracking-tighter mix-blend-difference text-foreground hover:opacity-60 transition-opacity duration-200"
+        className="text-xl font-bold tracking-tighter text-white hover:opacity-60 transition-opacity duration-200"
       >
         JUSTIN OCTAVIANO
       </Link>
@@ -17,7 +17,7 @@ export function Navbar() {
           href="https://instagram.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-foreground hover:text-muted-foreground transition-colors duration-200"
+          className="text-white hover:opacity-60 transition-opacity duration-200"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
@@ -27,7 +27,7 @@ export function Navbar() {
         </Link>
         <Link
           href="/contact"
-          className="text-sm font-semibold bg-foreground text-background px-4 py-1.5 rounded-full hover:opacity-70 transition-opacity duration-200"
+          className="text-sm font-semibold text-black bg-white px-4 py-1.5 rounded-full hover:opacity-70 transition-opacity duration-200"
         >
           Contact
         </Link>

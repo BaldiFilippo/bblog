@@ -88,7 +88,7 @@ export function AllPostsList({ posts }: AllPostsListProps) {
               >
                 <Link
                   href={`/blog/${post.slug}`}
-                  className="group flex flex-col md:flex-row gap-6 hover:text-muted-foreground transition-colors duration-200"
+                  className="group flex flex-col md:flex-row gap-6"
                 >
                   {/* Cover image */}
                   {post.cover && (
@@ -97,7 +97,7 @@ export function AllPostsList({ posts }: AllPostsListProps) {
                         src={post.cover}
                         alt={post.title}
                         fill
-                        className="object-cover rounded-lg"
+                        className="object-cover rounded-lg transition-opacity duration-200 group-hover:opacity-70"
                         sizes="(max-width: 768px) 100vw, 192px"
                       />
                     </div>
@@ -106,7 +106,7 @@ export function AllPostsList({ posts }: AllPostsListProps) {
                   {/* Content */}
                   <div className="flex-1">
                     <div className="flex items-start justify-between gap-4">
-                      <h2 className="text-2xl font-bold tracking-tight text-foreground font-[family-name:var(--font-safiro)]">
+                      <h2 className="text-2xl font-bold tracking-tight text-foreground font-[family-name:var(--font-safiro)] transition-colors duration-200 group-hover:text-muted-foreground">
                         {post.title}
                       </h2>
                       <ArrowUpRight className="w-5 h-5 shrink-0 mt-1 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />

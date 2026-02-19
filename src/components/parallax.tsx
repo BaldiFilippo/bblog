@@ -112,13 +112,6 @@ export default function Parallax({ posts }: ParallaxProps) {
   const router = useRouter();
   const { scrollY } = useScroll();
 
-  // Capture viewport height ONCE on mount so it never changes
-  // when browser bars appear/disappear (Chrome mobile, Safari, etc.)
-  const [stableVh, setStableVh] = useState<number | null>(null);
-  useEffect(() => {
-    setStableVh(window.innerHeight);
-  }, []);
-
   // -- SCROLL STATE --
   // Controlled by scroll position
   const [activeId, setActiveId] = useState(1);
@@ -146,8 +139,7 @@ export default function Parallax({ posts }: ParallaxProps) {
   // Sync Active Post with Scroll (ONLY if idle)
   // Title changes when a card's TOP edge exits the TOP of the viewport
   useMotionValueEvent(scrollY, "change", (latest) => {
-    // Use stable height to prevent jumps when browser bar changes
-    const vh = stableVh ?? window.innerHeight;
+    const vh = window.innerHeight;
     const firstCardTop = (FIRST_CARD_TOP_VH / 100) * vh;
     const cardHeight = (COVER_HEIGHT_VH / 100) * vh;
     const gap = (CARD_GAP_VH / 100) * vh;
@@ -268,7 +260,7 @@ export default function Parallax({ posts }: ParallaxProps) {
             {/* GHOST for Measurement (Hidden) - Must match blog page structure exactly */}
             <div aria-hidden="true" className="fixed inset-0 invisible">
                 <div className="relative w-full">
-                    <div className="bg-background flex flex-col" style={{ height: stableVh ? `${stableVh}px` : '100dvh' }}>
+                    <div className="h-dvh bg-background flex flex-col">
                         <div className="flex-1 flex items-center justify-center px-4">
                             <div className="flex flex-col items-center gap-2 md:gap-4">
                                 <h1 ref={ghostTitleRef} className={TITLE_CLASSES_TARGET}>
@@ -320,12 +312,8 @@ export default function Parallax({ posts }: ParallaxProps) {
 
       {/* FIXED TITLE LAYER (Hidden during transition) */}
       <div
-        className="fixed top-0 left-0 right-0 flex items-center justify-center pointer-events-none z-0 transition-opacity duration-200"
-        style={{
-          height: stableVh ? `${stableVh}px` : '100svh',
-          opacity: transitionPhase === "running" ? 0 : 1,
-          overflowAnchor: 'none',
-        }}
+        className="fixed top-0 left-0 right-0 h-[100svh] flex items-center justify-center pointer-events-none z-0 transition-opacity duration-200"
+        style={{ opacity: transitionPhase === "running" ? 0 : 1 }}
       >
         <div className="relative w-full flex items-center justify-center">
             <AnimatePresence mode="popLayout">
@@ -355,7 +343,7 @@ export default function Parallax({ posts }: ParallaxProps) {
       </div>
 
       {/* SCROLLABLE CONTENT */}
-      <div className="relative z-10 w-full flex flex-col items-center pointer-events-none" style={{ overflowAnchor: 'none' }}>
+      <div className="relative z-10 w-full flex flex-col items-center pointer-events-none">
         {posts.map((post, index) => {
           if (post.isSeeAll) return null;
 

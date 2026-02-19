@@ -88,7 +88,7 @@ export default function ContactPage() {
                 required
                 onFocus={() => setFocused("name")}
                 onBlur={() => setFocused(null)}
-                className="border-b border-foreground/15 bg-transparent pb-2 text-foreground placeholder:text-foreground/20 text-sm outline-none transition-colors duration-200 focus:border-foreground/60"
+                className="border-b border-foreground/15 bg-transparent pb-2 text-foreground placeholder:text-foreground/20 text-base outline-none transition-colors duration-200 focus:border-foreground/60"
                 placeholder="Your name"
               />
             </div>
@@ -110,7 +110,7 @@ export default function ContactPage() {
                 required
                 onFocus={() => setFocused("email")}
                 onBlur={() => setFocused(null)}
-                className="border-b border-foreground/15 bg-transparent pb-2 text-foreground placeholder:text-foreground/20 text-sm outline-none transition-colors duration-200 focus:border-foreground/60"
+                className="border-b border-foreground/15 bg-transparent pb-2 text-foreground placeholder:text-foreground/20 text-base outline-none transition-colors duration-200 focus:border-foreground/60"
                 placeholder="your@email.com"
               />
             </div>
@@ -132,7 +132,7 @@ export default function ContactPage() {
                 rows={3}
                 onFocus={() => setFocused("message")}
                 onBlur={() => setFocused(null)}
-                className="border-b border-foreground/15 bg-transparent pb-2 text-foreground placeholder:text-foreground/20 text-sm outline-none resize-none transition-colors duration-200 focus:border-foreground/60"
+                className="border-b border-foreground/15 bg-transparent pb-2 text-foreground placeholder:text-foreground/20 text-base outline-none resize-none transition-colors duration-200 focus:border-foreground/60"
                 placeholder="Your message..."
               />
             </div>

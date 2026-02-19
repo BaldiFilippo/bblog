@@ -67,13 +67,9 @@ export function PostContent({
 }: PostContentProps) {
   // Scroll to top on mount (Lenis doesn't reset automatically on navigation)
   useEffect(() => {
-    const lenis = (window as Window & { __lenis?: { scrollTo: (target: number, opts?: object) => void; stop: () => void; start: () => void } }).__lenis;
-    // Stop Lenis so it doesn't fight with the native scroll reset on mobile
-    lenis?.stop();
     window.scrollTo(0, 0);
+    const lenis = (window as Window & { __lenis?: { scrollTo: (target: number, opts?: object) => void } }).__lenis;
     lenis?.scrollTo(0, { immediate: true });
-    // Re-enable after a frame so touch scroll works immediately
-    requestAnimationFrame(() => lenis?.start());
   }, []);
 
   return (

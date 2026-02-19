@@ -48,7 +48,7 @@ export function PostFixedHero({
 }: PostFixedHeroProps) {
   return (
     <header className="relative w-screen left-1/2 -translate-x-1/2">
-      <div className="h-[100dvh] bg-background flex flex-col">
+      <div className="h-[100svh] bg-background flex flex-col">
         <div className="flex-1 flex items-center justify-center px-4">
           <motion.div
             variants={containerVariants}

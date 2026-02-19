@@ -312,7 +312,7 @@ export default function Parallax({ posts }: ParallaxProps) {
 
       {/* FIXED TITLE LAYER (Hidden during transition) */}
       <div
-        className="fixed inset-0 flex items-center justify-center pointer-events-none z-0 transition-opacity duration-200"
+        className="fixed top-0 left-0 right-0 h-[100svh] flex items-center justify-center pointer-events-none z-0 transition-opacity duration-200"
         style={{ opacity: transitionPhase === "running" ? 0 : 1 }}
       >
         <div className="relative w-full flex items-center justify-center">

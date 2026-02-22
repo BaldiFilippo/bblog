@@ -25,10 +25,9 @@ const ease = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
 // Animation variants for initial load
 const fadeUpVariants = {
-  hidden: { opacity: 0, y: 40 },
+  hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    y: 0,
     transition: { duration: 0.8, ease },
   },
 };
@@ -49,8 +48,8 @@ function AnimatedSection({
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 30 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+      initial={{ opacity: 0 }}
+      animate={isInView ? { opacity: 1 } : { opacity: 0 }}
       transition={{ duration: 0.7, ease, delay }}
       className={className}
     >
@@ -66,10 +65,17 @@ export function PostContent({
   nextPost,
 }: PostContentProps) {
   // Scroll to top on mount (Lenis doesn't reset automatically on navigation)
+  // and force Lenis to recalculate scroll limits after content is rendered
   useEffect(() => {
     window.scrollTo(0, 0);
-    const lenis = (window as Window & { __lenis?: { scrollTo: (target: number, opts?: object) => void } }).__lenis;
+    const lenis = (window as Window & { __lenis?: { scrollTo: (target: number, opts?: object) => void; resize: () => void } }).__lenis;
     lenis?.scrollTo(0, { immediate: true });
+
+    // Force resize after content is painted so Lenis picks up the full page height
+    const raf = requestAnimationFrame(() => {
+      lenis?.resize();
+    });
+    return () => cancelAnimationFrame(raf);
   }, []);
 
   return (

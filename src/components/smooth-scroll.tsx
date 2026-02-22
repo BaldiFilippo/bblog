@@ -14,7 +14,8 @@ export function SmoothScroll({ children }: SmoothScrollProps) {
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: "vertical",
       smoothWheel: true,
-      touchMultiplier: 0,
+      touchMultiplier: 2,
+      autoResize: true,
     });
 
     // Expose globally so other components can stop/start scroll

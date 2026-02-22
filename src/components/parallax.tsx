@@ -214,18 +214,19 @@ export default function Parallax({ posts }: ParallaxProps) {
     });
 
     // -- PHASE 3: SCALE UP TO MATCH BLOG PAGE --
-    if (ghostTitleRef.current) {
+    // Measure actual visual centers instead of assuming viewport midpoints
+    // (on mobile, 100svh ≠ window.innerHeight due to browser chrome)
+    if (ghostTitleRef.current && transitionTitleRef.current) {
         const targetRect = ghostTitleRef.current.getBoundingClientRect();
+        const currentRect = transitionTitleRef.current.getBoundingClientRect();
 
         const targetCX = targetRect.left + targetRect.width / 2;
         const targetCY = targetRect.top + targetRect.height / 2;
+        const currentCX = currentRect.left + currentRect.width / 2;
+        const currentCY = currentRect.top + currentRect.height / 2;
 
-        const viewportCX = window.innerWidth / 2;
-        const moveX = targetCX - viewportCX;
-        const moveY = targetCY - window.innerHeight / 2;
-
-        const finalX = Math.round(centerXOffset + moveX);
-        const finalY = Math.round(moveY);
+        const finalX = Math.round(centerXOffset + (targetCX - currentCX));
+        const finalY = Math.round(targetCY - currentCY);
 
         await titleControls.start({
             x: finalX,
@@ -266,9 +267,11 @@ export default function Parallax({ posts }: ParallaxProps) {
                                 <h1 ref={ghostTitleRef} className={TITLE_CLASSES_TARGET}>
                                     {transitionData.title}
                                 </h1>
-                                <p className={AUTHOR_CLASSES}>
-                                    by Author Name
-                                </p>
+                                {transitionData.author && (
+                                  <p className={AUTHOR_CLASSES}>
+                                    by {transitionData.author}
+                                  </p>
+                                )}
                                 <div className="flex gap-4 text-sm md:text-base mt-2">
                                     <div className="flex items-center gap-2 text-muted-foreground">
                                         <Calendar className="w-4 h-4" />
@@ -290,7 +293,7 @@ export default function Parallax({ posts }: ParallaxProps) {
                  <div className="relative w-full flex items-center justify-center">
                     <div className="flex flex-col items-center justify-center gap-2 md:gap-4 px-4 w-full">
                          {/* Transition Title - starts at scale 0.6 (home size), animates to scale 1 (target size) */}
-                         <motion.h2
+                         <motion.h1
                             ref={transitionTitleRef}
                             initial={{ x: 0, opacity: 1, filter: "blur(0px)", scale: 0.6 }}
                             animate={titleControls}
@@ -298,7 +301,7 @@ export default function Parallax({ posts }: ParallaxProps) {
                             style={{ transformOrigin: "center center" }}
                          >
                             {transitionData.title}
-                         </motion.h2>
+                         </motion.h1>
                     </div>
                  </div>
             </div>

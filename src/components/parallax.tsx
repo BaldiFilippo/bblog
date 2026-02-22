@@ -171,9 +171,17 @@ export default function Parallax({ posts }: ParallaxProps) {
     }
   });
 
+  // Proactive prefetch: when a card becomes active via scroll, prefetch its route
+  useEffect(() => {
+    router.prefetch(`/blog/${activePost.slug}`);
+  }, [activePost.slug, router]);
+
   const handlePostClick = async (e: React.MouseEvent, post: BlogPost) => {
     e.preventDefault();
     if (transitionPhase !== "idle") return;
+
+    // Prefetch in parallel with the FLIP animation so the route is cached by navigation time
+    router.prefetch(`/blog/${post.slug}`);
 
     // 1. FREEZE STATE
     setTransitionData(post);

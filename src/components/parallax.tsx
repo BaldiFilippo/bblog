@@ -260,7 +260,7 @@ export default function Parallax({ posts }: ParallaxProps) {
             {/* GHOST for Measurement (Hidden) - Must match blog page structure exactly */}
             <div aria-hidden="true" className="fixed inset-0 invisible">
                 <div className="relative w-full">
-                    <div className="h-dvh bg-background flex flex-col">
+                    <div className="h-[100svh] bg-background flex flex-col">
                         <div className="flex-1 flex items-center justify-center px-4">
                             <div className="flex flex-col items-center gap-2 md:gap-4">
                                 <h1 ref={ghostTitleRef} className={TITLE_CLASSES_TARGET}>
@@ -285,8 +285,8 @@ export default function Parallax({ posts }: ParallaxProps) {
                 </div>
             </div>
 
-            {/* ANIMATING ELEMENTS */}
-            <div className="fixed inset-0 flex items-center justify-center">
+            {/* ANIMATING ELEMENTS — h-[100svh] must match the home fixed title layer */}
+            <div className="fixed top-0 left-0 right-0 h-[100svh] flex items-center justify-center">
                  <div className="relative w-full flex items-center justify-center">
                     <div className="flex flex-col items-center justify-center gap-2 md:gap-4 px-4 w-full">
                          {/* Transition Title - starts at scale 0.6 (home size), animates to scale 1 (target size) */}

@@ -248,6 +248,13 @@ export default function Parallax({ posts }: ParallaxProps) {
     }
 
     // -- NAVIGATION --
+    // Reset scroll to top BEFORE navigating, while the z-50 overlay is still visible.
+    // Without this, the blog page initially renders at the old scroll position (200-400vh)
+    // which is past the hero, causing a visible flash before PostContent scrolls to top.
+    window.scrollTo(0, 0);
+    const lenis = (window as Window & { __lenis?: { scrollTo: (target: number, opts?: object) => void } }).__lenis;
+    lenis?.scrollTo(0, { immediate: true });
+
     router.push(`/blog/${post.slug}`);
   };
 

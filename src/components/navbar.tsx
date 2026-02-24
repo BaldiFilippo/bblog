@@ -14,7 +14,7 @@ export function Navbar() {
 
       <div className="flex items-center gap-5">
         <Link
-          href="https://instagram.com"
+          href="https://www.instagram.com/mrjoctaviano/"
           target="_blank"
           rel="noopener noreferrer"
           className="text-white hover:opacity-60 transition-opacity duration-200"

@@ -283,7 +283,7 @@ export default function Parallax({ posts }: ParallaxProps) {
       {/* TRANSITION OVERLAY (Only visible during transition)     */}
       {/* ------------------------------------------------------- */}
       {transitionPhase === "running" && transitionData && (
-        <div className="fixed inset-0 z-50 pointer-events-none">
+        <div className="fixed inset-0 z-58 pointer-events-none">
             {/* GHOST for Measurement (Hidden) - Must match blog page structure exactly */}
             <div aria-hidden="true" className="fixed inset-0 invisible">
                 <div className="relative w-full">

@@ -4,7 +4,7 @@ import { motion, useInView } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useLayoutEffect } from "react";
 
 interface NextPostInfo {
   slug: string;
@@ -64,18 +64,20 @@ export function PostContent({
   contentHtml,
   nextPost,
 }: PostContentProps) {
-  // Scroll to top on mount (Lenis doesn't reset automatically on navigation)
-  // and force Lenis to recalculate scroll limits after content is rendered
-  useEffect(() => {
+  // Remove the nav transition cover and reset scroll BEFORE the browser paints,
+  // so the user never sees a frame with the cover hiding content.
+  useLayoutEffect(() => {
     window.scrollTo(0, 0);
     const lenis = (window as Window & { __lenis?: { scrollTo: (target: number, opts?: object) => void; resize: () => void } }).__lenis;
     lenis?.scrollTo(0, { immediate: true });
+    document.getElementById("__nav-transition-cover")?.remove();
+  }, []);
 
-    // Force resize after content is painted so Lenis picks up the full page height.
-    // Also remove the nav transition cover injected by parallax.tsx during navigation.
+  // Force Lenis to recalculate scroll limits after content is painted.
+  useEffect(() => {
+    const lenis = (window as Window & { __lenis?: { resize: () => void } }).__lenis;
     const raf = requestAnimationFrame(() => {
       lenis?.resize();
-      document.getElementById("__nav-transition-cover")?.remove();
     });
     return () => cancelAnimationFrame(raf);
   }, []);

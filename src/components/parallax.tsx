@@ -171,10 +171,12 @@ export default function Parallax({ posts }: ParallaxProps) {
     }
   });
 
-  // Proactive prefetch: when a card becomes active via scroll, prefetch its route
+  // Prefetch ALL article routes on mount so every router.push() is instant
   useEffect(() => {
-    router.prefetch(`/blog/${activePost.slug}`);
-  }, [activePost.slug, router]);
+    posts.forEach(post => {
+      router.prefetch(`/blog/${post.slug}`);
+    });
+  }, [posts, router]);
 
   const handlePostClick = async (e: React.MouseEvent, post: BlogPost) => {
     e.preventDefault();

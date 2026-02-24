@@ -5,6 +5,7 @@ import "./globals.css";
 import { clsx } from "clsx";
 import { Navbar } from "@/components/navbar";
 import { Providers } from "@/components/providers";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -77,6 +78,7 @@ export default function RootLayout({
           <Navbar />
           {children}
         </Providers>
+        <SpeedInsights />
       </body>
     </html>
   );

@@ -23,12 +23,13 @@ interface PostContentProps {
 // Smooth easing curve
 const ease = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
-// Animation variants for initial load
-const fadeUpVariants = {
-  hidden: { opacity: 0 },
+// Animation variants for cover - matches hero stagger pattern (opacity + y, same duration/ease)
+const coverVariants = {
+  hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
-    transition: { duration: 0.8, ease },
+    y: 0,
+    transition: { duration: 0.7, ease, delay: 0.54 },
   },
 };
 
@@ -91,7 +92,7 @@ export function PostContent({
       {/* Cover Image - Full-bleed with elegant presentation */}
       {cover && (
         <motion.div
-          variants={fadeUpVariants}
+          variants={coverVariants}
           className="w-full mb-16 md:mb-24"
         >
           <div className="max-w-5xl mx-auto px-4 md:px-8">

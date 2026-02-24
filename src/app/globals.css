@@ -139,14 +139,6 @@
   .font-\[family-name\:var\(--font-safiro\)\] {
     font-display: swap;
   }
-
-  /* Optimize animations on titles for mobile performance */
-  h1[id="post-title-target"],
-  h1#post-title-target {
-    will-change: transform, opacity;
-    transform: translateZ(0);
-    backface-visibility: hidden;
-  }
 }
 
 /* ============================================

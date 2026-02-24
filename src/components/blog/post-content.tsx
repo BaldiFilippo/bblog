@@ -71,9 +71,11 @@ export function PostContent({
     const lenis = (window as Window & { __lenis?: { scrollTo: (target: number, opts?: object) => void; resize: () => void } }).__lenis;
     lenis?.scrollTo(0, { immediate: true });
 
-    // Force resize after content is painted so Lenis picks up the full page height
+    // Force resize after content is painted so Lenis picks up the full page height.
+    // Also remove the nav transition cover injected by parallax.tsx during navigation.
     const raf = requestAnimationFrame(() => {
       lenis?.resize();
+      document.getElementById("__nav-transition-cover")?.remove();
     });
     return () => cancelAnimationFrame(raf);
   }, []);

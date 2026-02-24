@@ -255,6 +255,15 @@ export default function Parallax({ posts }: ParallaxProps) {
     const lenis = (window as Window & { __lenis?: { scrollTo: (target: number, opts?: object) => void } }).__lenis;
     lenis?.scrollTo(0, { immediate: true });
 
+    // Inject a bg-background layer at z-55 (above content z-50, below navbar z-60).
+    // The navbar uses mix-blend-difference, so its colors depend on the pixels behind it.
+    // During the page swap the content behind it changes for 1-2 frames, causing a blink.
+    // This layer gives the navbar a stable background to blend with during the transition.
+    const navCover = document.createElement("div");
+    navCover.id = "__nav-transition-cover";
+    navCover.className = "fixed inset-0 z-[55] bg-background pointer-events-none";
+    document.body.appendChild(navCover);
+
     router.push(`/blog/${post.slug}`);
   };
 

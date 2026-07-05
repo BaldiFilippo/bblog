@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Lenis from "lenis";
 
-const LINE = "Web Design & Sviluppo";
+const LINE = "A Personal Blog";
 
 const preventDefault = (e: Event) => e.preventDefault();
 

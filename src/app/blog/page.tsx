@@ -2,11 +2,11 @@ import { Metadata } from "next";
 import { getAllPosts } from "@/lib/posts";
 import { AllPostsList } from "@/components/posts/all-posts-list";
 
-const SITE_NAME = "BDESIGN";
+const SITE_NAME = "BBLOG";
 
 export const metadata: Metadata = {
-  title: `Progetti | ${SITE_NAME}`,
-  description: "Tutti i progetti realizzati da BDESIGN",
+  title: `Posts | ${SITE_NAME}`,
+  description: "All posts from BBLOG, the personal blog of Filippo Baldi",
 };
 
 export default function BlogPage() {

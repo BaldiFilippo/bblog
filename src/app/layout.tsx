@@ -29,10 +29,10 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
 export const metadata: Metadata = {
   title: {
-    default: "BDESIGN",
-    template: "%s | BDESIGN",
+    default: "BBLOG",
+    template: "%s | BBLOG",
   },
-  description: "Studio di web design e sviluppo. Progettazione e realizzazione di siti web su misura.",
+  description: "The personal blog of Filippo Baldi. Thoughts on fashion, creativity, and design.",
   metadataBase: new URL(SITE_URL),
   alternates: {
     types: {
@@ -41,9 +41,9 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    locale: "it_IT",
+    locale: "en_US",
     url: SITE_URL,
-    siteName: "BDESIGN",
+    siteName: "BBLOG",
   },
   twitter: {
     card: "summary_large_image",
@@ -56,7 +56,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="it">
+    <html lang="en">
       <head>
         <link
           rel="preload"

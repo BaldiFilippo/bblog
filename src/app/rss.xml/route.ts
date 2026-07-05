@@ -1,8 +1,8 @@
 import { getAllPosts } from "@/lib/posts";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-const SITE_NAME = "BDESIGN";
-const SITE_DESCRIPTION = "Progetti e siti web realizzati da BDESIGN.";
+const SITE_NAME = "BBLOG";
+const SITE_DESCRIPTION = "Posts from BBLOG, the personal blog of Filippo Baldi.";
 
 function escapeXml(text: string): string {
   return text
@@ -39,7 +39,7 @@ export async function GET() {
     <title>${escapeXml(SITE_NAME)}</title>
     <link>${SITE_URL}</link>
     <description>${escapeXml(SITE_DESCRIPTION)}</description>
-    <language>it</language>
+    <language>en</language>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
     <atom:link href="${SITE_URL}/rss.xml" rel="self" type="application/rss+xml"/>
     ${rssItems}

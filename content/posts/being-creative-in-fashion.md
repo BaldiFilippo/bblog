@@ -5,8 +5,7 @@ date: "2026-02-02"
 excerpt: "Beyond the job title. Creativity isn't evenly distributed, and it carries dual characteristics—opening doors while imposing constraints."
 cover: "/images/posts/being-creative-in-fashion/cover.webp"
 tags: ["fashion", "creativity", "personal"]
-author: "BDESIGN"
-url: "https://example.com"
+author: "Filippo Baldi"
 published: true
 ---
 Perhaps the easiest way to begin is by accepting that **we’re not all creatives**.
@@ -85,7 +84,7 @@ It is the willingness to stand at the edge of chaos and attempt to shape it.
 ---
 
 **Project Credits:**
-- Creative Direction: BDESIGN
+- Creative Direction: Filippo Baldi
 - Photography: Giada Ramera
 - Styling: Sofia Accorsi
 - Assistant Styling: Idirss Baldovino & Vedika Barge

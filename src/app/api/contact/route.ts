@@ -11,11 +11,11 @@ export async function POST(request: Request) {
   }
 
   const { error } = await resend.emails.send({
-    from: "BDESIGN <onboarding@resend.dev>",
+    from: "BBLOG <onboarding@resend.dev>",
     to: "baldi.filippo@icloud.com",
     replyTo: email,
-    subject: `Nuovo messaggio da ${name}`,
-    text: `Nome: ${name}\nEmail: ${email}\n\n${message}`,
+    subject: `New message from ${name}`,
+    text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
   });
 
   if (error) {

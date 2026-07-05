@@ -9,7 +9,7 @@ export function Navbar() {
         href="/"
         className="text-xl font-bold tracking-tighter text-white hover:opacity-60 transition-opacity duration-200"
       >
-        BDESIGN
+        BBLOG
       </Link>
 
       <div className="flex items-center gap-5">
@@ -17,7 +17,7 @@ export function Navbar() {
           href="/contact"
           className="text-sm font-semibold text-black bg-white px-4 py-1.5 rounded-none hover:opacity-70 transition-opacity duration-200"
         >
-          Contatti
+          Contact
         </Link>
       </div>
     </nav>

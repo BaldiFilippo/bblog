@@ -5,8 +5,7 @@ date: "2026-01-10"
 excerpt: "Visual identity in fashion is never just a logo or a colour palette. It lives in posture, in proportion, in the silence between garments on a rail."
 cover: "/images/image4.webp"
 tags: ["fashion", "identity", "branding"]
-author: "BDESIGN"
-url: "https://example.com"
+author: "Filippo Baldi"
 published: true
 ---
 

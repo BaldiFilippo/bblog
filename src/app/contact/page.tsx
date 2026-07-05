@@ -33,7 +33,7 @@ export default function ContactPage() {
       if (!res.ok) throw new Error("Failed to send");
       setSent(true);
     } catch {
-      setError("Qualcosa è andato storto. Riprova.");
+      setError("Something went wrong. Please try again.");
     } finally {
       setSending(false);
     }
@@ -52,12 +52,12 @@ export default function ContactPage() {
           className="mb-12"
         >
           <h1 className="text-5xl md:text-6xl font-black tracking-tighter text-foreground font-[family-name:var(--font-safiro)] leading-[0.95]">
-            {sent ? <>Grazie.</> : <>Parliamo<br />del tuo<br />progetto</>}
+            {sent ? <>Thank you.</> : <>Let&apos;s<br />get in<br />touch</>}
           </h1>
           <p className="mt-4 text-muted-foreground text-sm leading-relaxed">
             {sent
-              ? <>Il tuo messaggio è stato ricevuto.<br />Ti risponderò a breve.</>
-              : <>Siti web, web design,<br />sviluppo e collaborazioni.</>
+              ? <>Your message has been received.<br />I&apos;ll get back to you soon.</>
+              : <>Thoughts, feedback,<br />ideas and collaborations.</>
             }
           </p>
         </motion.div>
@@ -79,7 +79,7 @@ export default function ContactPage() {
                   focused === "name" ? "text-foreground" : "text-muted-foreground"
                 }`}
               >
-                Nome
+                Name
               </label>
               <input
                 id="name"
@@ -89,7 +89,7 @@ export default function ContactPage() {
                 onFocus={() => setFocused("name")}
                 onBlur={() => setFocused(null)}
                 className="border-b border-foreground/15 bg-transparent pb-2 text-foreground placeholder:text-foreground/20 text-base outline-none transition-colors duration-200 focus:border-foreground/60"
-                placeholder="Il tuo nome"
+                placeholder="Your name"
               />
             </div>
 
@@ -123,7 +123,7 @@ export default function ContactPage() {
                   focused === "message" ? "text-foreground" : "text-muted-foreground"
                 }`}
               >
-                Messaggio
+                Message
               </label>
               <textarea
                 id="message"
@@ -133,7 +133,7 @@ export default function ContactPage() {
                 onFocus={() => setFocused("message")}
                 onBlur={() => setFocused(null)}
                 className="border-b border-foreground/15 bg-transparent pb-2 text-foreground placeholder:text-foreground/20 text-base outline-none resize-none transition-colors duration-200 focus:border-foreground/60"
-                placeholder="Il tuo messaggio..."
+                placeholder="Your message..."
               />
             </div>
 
@@ -144,14 +144,14 @@ export default function ContactPage() {
               )}
               <div className="flex items-center justify-between">
                 <span className="text-xs text-foreground/30 tracking-wide">
-                  hello@bdesign.com
+                  hello@bblog.com
                 </span>
                 <button
                   type="submit"
                   disabled={sending}
                   className="group flex items-center gap-1.5 text-sm font-semibold text-foreground hover:text-muted-foreground transition-colors duration-200 disabled:opacity-40"
                 >
-                  {sending ? "Invio..." : "Invia"}
+                  {sending ? "Sending..." : "Send"}
                   {!sending && <ArrowUpRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />}
                 </button>
               </div>
@@ -167,7 +167,7 @@ export default function ContactPage() {
               href="/"
               className="group flex items-center gap-1.5 text-sm font-semibold text-foreground hover:text-muted-foreground transition-colors duration-200"
             >
-              Torna alla home
+              Back to home
               <ArrowUpRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </Link>
           </motion.div>

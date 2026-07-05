@@ -5,8 +5,7 @@ date: "2026-02-04"
 excerpt: "What five years inside fashion weeks taught me about silence, scale, and real influence. The season felt different, and no, it's not just in your head."
 cover: "/images/posts/mens-milan-fashion-week/cover.webp"
 tags: ["fashion", "milan", "menswear"]
-author: "BDESIGN"
-url: "https://example.com"
+author: "Filippo Baldi"
 published: true
 ---
 

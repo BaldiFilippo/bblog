@@ -100,7 +100,7 @@ function SeeMoreButton() {
           href="/blog"
           className="group flex items-center gap-1.5 text-sm font-semibold text-foreground hover:text-muted-foreground transition-colors duration-200"
         >
-          Vedi tutti i progetti
+          See all posts
           <ArrowUpRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
         </Link>
       </motion.div>
@@ -271,7 +271,7 @@ export default function Parallax({ posts }: ParallaxProps) {
   if (!posts || posts.length === 0) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
-        <p className="text-muted-foreground">Nessun progetto trovato.</p>
+        <p className="text-muted-foreground">No posts found.</p>
       </div>
     );
   }

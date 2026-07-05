@@ -7,7 +7,7 @@ import { ArrowLeft, ArrowUpRight, Calendar } from "lucide-react";
 
 function formatDate(dateString: string): string {
   const date = new Date(dateString);
-  return date.toLocaleDateString("it-IT", {
+  return date.toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
     day: "numeric",
@@ -45,7 +45,7 @@ export function AllPostsList({ posts }: AllPostsListProps) {
               className="group inline-flex items-center gap-1.5 text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors duration-200 mb-8"
             >
               <ArrowLeft className="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
-              Torna alla home
+              Back to home
             </Link>
           </motion.div>
 
@@ -55,7 +55,7 @@ export function AllPostsList({ posts }: AllPostsListProps) {
             transition={{ duration: 0.7, ease, delay: 0.1 }}
             className="text-4xl md:text-6xl font-black tracking-tighter text-foreground font-[family-name:var(--font-safiro)]"
           >
-            Progetti
+            Posts
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -63,7 +63,7 @@ export function AllPostsList({ posts }: AllPostsListProps) {
             transition={{ duration: 0.6, ease, delay: 0.2 }}
             className="mt-4 text-muted-foreground text-lg"
           >
-            {posts.length} {posts.length === 1 ? "progetto" : "progetti"}
+            {posts.length} {posts.length === 1 ? "post" : "posts"}
           </motion.p>
         </div>
       </header>
@@ -71,7 +71,7 @@ export function AllPostsList({ posts }: AllPostsListProps) {
       {/* Posts list */}
       <main className="max-w-4xl mx-auto px-4 pb-16">
         {posts.length === 0 ? (
-          <p className="text-muted-foreground">Nessun progetto ancora.</p>
+          <p className="text-muted-foreground">No posts yet.</p>
         ) : (
           <div className="space-y-8">
             {posts.map((post, index) => (

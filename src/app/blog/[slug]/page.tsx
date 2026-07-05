@@ -4,7 +4,7 @@ import { getPostSlugs, getPostWithHtml, getNextPost, formatDate } from "@/lib/po
 import { PostContent } from "@/components/posts/post-content";
 import { PostFixedHero } from "@/components/posts/PostFixedHero";
 
-const SITE_NAME = "BDESIGN";
+const SITE_NAME = "BBLOG";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
 interface PageProps {
@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!post) {
     return {
-      title: "Progetto non trovato",
+      title: "Post not found",
     };
   }
 

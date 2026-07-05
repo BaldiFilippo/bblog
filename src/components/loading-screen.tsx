@@ -35,6 +35,14 @@ export function LoadingScreen() {
     animationHasPlayed = true;
     setMode("show");
 
+    // A reload must always start from the top: the browser would otherwise
+    // restore the previous scroll position (and keeps re-applying it even
+    // after a reset while the page loads). Disable restoration for the
+    // duration of the intro and reset behind the opaque overlay.
+    window.history.scrollRestoration = "manual";
+    window.scrollTo(0, 0);
+    (window as Window & { __lenis?: Lenis }).__lenis?.scrollTo(0, { immediate: true });
+
     // Block scroll
     document.body.style.overflow = "hidden";
     window.addEventListener("wheel", preventDefault, { passive: false });
@@ -53,6 +61,7 @@ export function LoadingScreen() {
       clearTimeout(stopLenis);
       clearTimeout(t);
       (window as Window & { __lenis?: Lenis }).__lenis?.start();
+      window.history.scrollRestoration = "auto";
     };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -61,6 +70,9 @@ export function LoadingScreen() {
     window.removeEventListener("wheel", preventDefault);
     window.removeEventListener("touchmove", preventDefault);
     (window as Window & { __lenis?: Lenis }).__lenis?.start();
+    // Intro finished: re-enable native restoration so browser back/forward
+    // keeps its normal scroll behavior.
+    window.history.scrollRestoration = "auto";
   };
 
   return (

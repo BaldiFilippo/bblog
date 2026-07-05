@@ -2,9 +2,9 @@
 
 import { motion } from "framer-motion";
 import { Calendar, Clock } from "lucide-react";
-import { TITLE_CLASSES_TARGET, AUTHOR_CLASSES } from "@/lib/project-styles";
+import { TITLE_CLASSES_TARGET, AUTHOR_CLASSES } from "@/lib/post-styles";
 
-interface ProjectFixedHeroProps {
+interface PostFixedHeroProps {
   title: string;
   url?: string;
   date: string;
@@ -44,13 +44,13 @@ const itemVariants = {
   },
 };
 
-export function ProjectFixedHero({
+export function PostFixedHero({
   title,
   url,
   date,
   formattedDate,
   readingTime,
-}: ProjectFixedHeroProps) {
+}: PostFixedHeroProps) {
   return (
     <header className="relative w-screen left-1/2 -translate-x-1/2">
       <div className="h-[100svh] bg-background flex flex-col">

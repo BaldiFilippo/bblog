@@ -3,7 +3,7 @@ title: "Being a Creative in Fashion: Beyond the Job Title"
 slug: "being-creative-in-fashion"
 date: "2026-02-02"
 excerpt: "Beyond the job title. Creativity isn't evenly distributed, and it carries dual characteristics—opening doors while imposing constraints."
-cover: "/images/projects/being-creative-in-fashion/cover.webp"
+cover: "/images/posts/being-creative-in-fashion/cover.webp"
 tags: ["fashion", "creativity", "personal"]
 author: "BDESIGN"
 url: "https://example.com"
@@ -35,7 +35,7 @@ And that’s where my creative journey started.
 I didn’t know what I wanted to do. So I took the risk of stepping into unexplored territories. I had no money, no stable job, and no connections. I didn’t even know what networking meant. Those questions kept looping in my head.
 
 
-![](/images/projects/being-creative-in-fashion/01.webp)
+![](/images/posts/being-creative-in-fashion/01.webp)
 
 And yet, somewhere in the middle of that confusion, I realized something important: I was already in a position where I could choose who I wanted to become. The uncertainty didn’t paralyze me: it forced me to think critically. To strategize. To look back and notice that creativity had always been part of my life. I just hadn’t learned how to develop it yet. And maybe those things weren’t problems after all.
 
@@ -43,14 +43,14 @@ Because, in some strange way, I already had everything I needed to move toward w
 
 That was one of the best decisions I’ve ever made in my life.
 
-![](/images/projects/being-creative-in-fashion/04.webp)
+![](/images/posts/being-creative-in-fashion/04.webp)
 
 The feeling behind that choice still resonates deeply with me, especially in relation to my project, The Unknown Season.
 
 The Unknown Season is a project that feels very close to me. It was born from a moment of transition, when certainty hadn’t arrived yet, but something inside me knew I was moving in the right direction.
 
 
-![](/images/projects/being-creative-in-fashion/03.webp)
+![](/images/posts/being-creative-in-fashion/03.webp)
 
 
 It comes from a place I know well, “the in-between”. That moment where you’ve outgrown who you were, but you’re not fully sure who you’re becoming yet. I’ve lived that phase personally, creatively, geographically. This project is my way of giving shape to it.
@@ -58,15 +58,15 @@ It comes from a place I know well, “the in-between”. That moment where you�
 My team and I built The Unknown Season around two figures: the Newcomer and the Local.
 
 <div class="image-grid">
-  <img src="/images/projects/being-creative-in-fashion/gallery1.webp" alt="The Unknown Season" loading="lazy" />
-  <img src="/images/projects/being-creative-in-fashion/gallery2.webp" alt="The Unknown Season" loading="lazy" />
-  <img src="/images/projects/being-creative-in-fashion/gallery3.webp" alt="The Unknown Season" loading="lazy" />
-  <img src="/images/projects/being-creative-in-fashion/gallery4.webp" alt="The Unknown Season" loading="lazy" />
-  <img src="/images/projects/being-creative-in-fashion/gallery5.webp" alt="The Unknown Season" loading="lazy" />
-  <img src="/images/projects/being-creative-in-fashion/gallery6.webp" alt="The Unknown Season" loading="lazy" />
-  <img src="/images/projects/being-creative-in-fashion/gallery7.webp" alt="The Unknown Season" loading="lazy" />
-  <img src="/images/projects/being-creative-in-fashion/gallery8.webp" alt="The Unknown Season" loading="lazy" />
-  <img src="/images/projects/being-creative-in-fashion/gallery9.webp" alt="The Unknown Season" loading="lazy" />
+  <img src="/images/posts/being-creative-in-fashion/gallery1.webp" alt="The Unknown Season" loading="lazy" />
+  <img src="/images/posts/being-creative-in-fashion/gallery2.webp" alt="The Unknown Season" loading="lazy" />
+  <img src="/images/posts/being-creative-in-fashion/gallery3.webp" alt="The Unknown Season" loading="lazy" />
+  <img src="/images/posts/being-creative-in-fashion/gallery4.webp" alt="The Unknown Season" loading="lazy" />
+  <img src="/images/posts/being-creative-in-fashion/gallery5.webp" alt="The Unknown Season" loading="lazy" />
+  <img src="/images/posts/being-creative-in-fashion/gallery6.webp" alt="The Unknown Season" loading="lazy" />
+  <img src="/images/posts/being-creative-in-fashion/gallery7.webp" alt="The Unknown Season" loading="lazy" />
+  <img src="/images/posts/being-creative-in-fashion/gallery8.webp" alt="The Unknown Season" loading="lazy" />
+  <img src="/images/posts/being-creative-in-fashion/gallery9.webp" alt="The Unknown Season" loading="lazy" />
 </div>
 
 They're not characters in conflict. They’re mirrors. One is arriving, observing, and trying to understand the rhythm of a place. The other already belongs, but still remembers what it felt like to be new. I see myself in both.
@@ -81,7 +81,7 @@ Unknown Season is not a phase everyone enters, but a territory only some are dra
 
 It is the willingness to stand at the edge of chaos and attempt to shape it.
 
-![](/images/projects/being-creative-in-fashion/02.webp)
+![](/images/posts/being-creative-in-fashion/02.webp)
 ---
 
 **Project Credits:**

@@ -1,4 +1,4 @@
-import { getAllProjects } from "@/lib/projects";
+import { getAllPosts } from "@/lib/posts";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 const SITE_NAME = "BDESIGN";
@@ -14,12 +14,12 @@ function escapeXml(text: string): string {
 }
 
 export async function GET() {
-  const projects = getAllProjects();
+  const posts = getAllPosts();
 
-  const rssItems = projects
+  const rssItems = posts
     .map((post) => {
       const pubDate = new Date(post.date).toUTCString();
-      const link = `${SITE_URL}/work/${post.slug}`;
+      const link = `${SITE_URL}/blog/${post.slug}`;
 
       return `
     <item>

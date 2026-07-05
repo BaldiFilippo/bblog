@@ -14,7 +14,7 @@ function formatDate(dateString: string): string {
   });
 }
 
-interface ProjectItem {
+interface PostItem {
   slug: string;
   title: string;
   date: string;
@@ -23,13 +23,13 @@ interface ProjectItem {
   readingTime: string;
 }
 
-interface AllProjectsListProps {
-  projects: ProjectItem[];
+interface AllPostsListProps {
+  posts: PostItem[];
 }
 
 const ease = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
-export function AllProjectsList({ projects }: AllProjectsListProps) {
+export function AllPostsList({ posts }: AllPostsListProps) {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -63,20 +63,20 @@ export function AllProjectsList({ projects }: AllProjectsListProps) {
             transition={{ duration: 0.6, ease, delay: 0.2 }}
             className="mt-4 text-muted-foreground text-lg"
           >
-            {projects.length} {projects.length === 1 ? "progetto" : "progetti"}
+            {posts.length} {posts.length === 1 ? "progetto" : "progetti"}
           </motion.p>
         </div>
       </header>
 
-      {/* Projects list */}
+      {/* Posts list */}
       <main className="max-w-4xl mx-auto px-4 pb-16">
-        {projects.length === 0 ? (
+        {posts.length === 0 ? (
           <p className="text-muted-foreground">Nessun progetto ancora.</p>
         ) : (
           <div className="space-y-8">
-            {projects.map((project, index) => (
+            {posts.map((post, index) => (
               <motion.article
-                key={project.slug}
+                key={post.slug}
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
@@ -87,15 +87,15 @@ export function AllProjectsList({ projects }: AllProjectsListProps) {
                 className="border-b border-border pb-8 last:border-0"
               >
                 <Link
-                  href={`/work/${project.slug}`}
+                  href={`/blog/${post.slug}`}
                   className="group flex flex-col md:flex-row gap-6"
                 >
                   {/* Cover image */}
-                  {project.cover && (
+                  {post.cover && (
                     <div className="relative md:w-48 h-48 md:h-32 shrink-0">
                       <Image
-                        src={project.cover}
-                        alt={project.title}
+                        src={post.cover}
+                        alt={post.title}
                         fill
                         className="object-cover rounded-lg transition-opacity duration-200 group-hover:opacity-70"
                         sizes="(max-width: 768px) 100vw, 192px"
@@ -107,7 +107,7 @@ export function AllProjectsList({ projects }: AllProjectsListProps) {
                   <div className="flex-1">
                     <div className="flex items-start justify-between gap-4">
                       <h2 className="text-2xl font-bold tracking-tight text-foreground font-[family-name:var(--font-safiro)] transition-colors duration-200 group-hover:text-muted-foreground">
-                        {project.title}
+                        {post.title}
                       </h2>
                       <ArrowUpRight className="w-5 h-5 shrink-0 mt-1 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                     </div>
@@ -115,13 +115,13 @@ export function AllProjectsList({ projects }: AllProjectsListProps) {
                     <div className="mt-2 flex items-center gap-4 text-sm text-muted-foreground">
                       <div className="flex items-center gap-1">
                         <Calendar className="w-4 h-4" />
-                        <time dateTime={project.date}>{formatDate(project.date)}</time>
+                        <time dateTime={post.date}>{formatDate(post.date)}</time>
                       </div>
-                      <span>{project.readingTime}</span>
+                      <span>{post.readingTime}</span>
                     </div>
 
                     <p className="mt-3 text-muted-foreground line-clamp-2">
-                      {project.excerpt}
+                      {post.excerpt}
                     </p>
                   </div>
                 </Link>

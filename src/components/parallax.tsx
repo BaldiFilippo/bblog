@@ -6,10 +6,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Calendar, Clock, ArrowUpRight } from "lucide-react";
 import { TiltCard } from "./tilt-card";
-import { TITLE_CLASSES_TARGET, AUTHOR_CLASSES } from "@/lib/project-styles";
+import { TITLE_CLASSES_TARGET, AUTHOR_CLASSES } from "@/lib/post-styles";
 
-// Project type for the parallax component
-export interface ProjectItem {
+// Post type for the parallax component
+export interface PostItem {
   id: number;
   slug: string;
   title: string;
@@ -21,7 +21,7 @@ export interface ProjectItem {
 }
 
 interface ParallaxProps {
-  projects: ProjectItem[];
+  posts: PostItem[];
 }
 
 const COVER_HEIGHT_VH = 40;
@@ -97,7 +97,7 @@ function SeeMoreButton() {
         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
       >
         <Link
-          href="/work"
+          href="/blog"
           className="group flex items-center gap-1.5 text-sm font-semibold text-foreground hover:text-muted-foreground transition-colors duration-200"
         >
           Vedi tutti i progetti
@@ -108,12 +108,9 @@ function SeeMoreButton() {
   );
 }
 
-export default function Parallax({ projects }: ParallaxProps) {
+export default function Parallax({ posts }: ParallaxProps) {
   const router = useRouter();
   const { scrollY } = useScroll();
-
-  // Internal alias so the scroll/transition logic below reads naturally
-  const posts = projects;
 
   // -- SCROLL STATE --
   // Controlled by scroll position
@@ -123,7 +120,7 @@ export default function Parallax({ projects }: ParallaxProps) {
   // -- TRANSITION STATE --
   // Frozen snapshot for the transition sequence
   const [transitionPhase, setTransitionPhase] = useState<"idle" | "running">("idle");
-  const [transitionData, setTransitionData] = useState<ProjectItem | null>(null);
+  const [transitionData, setTransitionData] = useState<PostItem | null>(null);
 
   // Animation Controls for the Transition Layer
   const titleControls = useAnimation();
@@ -177,16 +174,16 @@ export default function Parallax({ projects }: ParallaxProps) {
   // Prefetch ALL article routes on mount so every router.push() is instant
   useEffect(() => {
     posts.forEach(post => {
-      router.prefetch(`/work/${post.slug}`);
+      router.prefetch(`/blog/${post.slug}`);
     });
   }, [posts, router]);
 
-  const handlePostClick = async (e: React.MouseEvent, post: ProjectItem) => {
+  const handlePostClick = async (e: React.MouseEvent, post: PostItem) => {
     e.preventDefault();
     if (transitionPhase !== "idle") return;
 
     // Prefetch in parallel with the FLIP animation so the route is cached by navigation time
-    router.prefetch(`/work/${post.slug}`);
+    router.prefetch(`/blog/${post.slug}`);
 
     // 1. FREEZE STATE
     setTransitionData(post);
@@ -267,10 +264,10 @@ export default function Parallax({ projects }: ParallaxProps) {
     navCover.className = "fixed inset-0 z-[55] bg-background pointer-events-none";
     document.body.appendChild(navCover);
 
-    router.push(`/work/${post.slug}`);
+    router.push(`/blog/${post.slug}`);
   };
 
-  // Guard against empty projects
+  // Guard against empty posts
   if (!posts || posts.length === 0) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
@@ -362,7 +359,7 @@ export default function Parallax({ projects }: ParallaxProps) {
                     className={TITLE_CLASSES_TARGET}
                 >
                     <Link
-                        href={`/work/${activePost.slug}`}
+                        href={`/blog/${activePost.slug}`}
                         className="pointer-events-auto cursor-pointer hover:text-muted-foreground transition-colors duration-200"
                         onClick={(e) => handlePostClick(e, activePost)}
                     >
@@ -391,7 +388,7 @@ export default function Parallax({ projects }: ParallaxProps) {
             >
               <SqueezeCard scrollY={scrollY}>
                 <Link
-                    href={`/work/${post.slug}`}
+                    href={`/blog/${post.slug}`}
                     className={`block h-full w-full transition-opacity duration-500 pointer-events-auto ${
                         transitionPhase === "running" && transitionData?.id !== post.id
                         ? "opacity-0 pointer-events-none"

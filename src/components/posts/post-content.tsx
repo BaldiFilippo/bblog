@@ -6,18 +6,18 @@ import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useRef, useEffect, useLayoutEffect } from "react";
 
-interface NextProjectInfo {
+interface NextPostInfo {
   slug: string;
   title: string;
   cover?: string;
   excerpt: string;
 }
 
-interface ProjectContentProps {
+interface PostContentProps {
   cover?: string;
   title: string;
   contentHtml: string;
-  nextProject?: NextProjectInfo;
+  nextPost?: NextPostInfo;
 }
 
 // Smooth easing curve
@@ -59,12 +59,12 @@ function AnimatedSection({
   );
 }
 
-export function ProjectContent({
+export function PostContent({
   cover,
   title,
   contentHtml,
-  nextProject,
-}: ProjectContentProps) {
+  nextPost,
+}: PostContentProps) {
   // Remove the nav transition cover and reset scroll BEFORE the browser paints,
   // so the user never sees a frame with the cover hiding content.
   useLayoutEffect(() => {
@@ -112,7 +112,7 @@ export function ProjectContent({
 
       {/* Main Content Container */}
       <div className="px-5 md:px-8">
-        {/* Project Body with custom typography */}
+        {/* Post Body with custom typography */}
         <AnimatedSection>
           <div
             className="article-content"
@@ -120,20 +120,20 @@ export function ProjectContent({
           />
         </AnimatedSection>
 
-        {/* Next Project Preview */}
-        {nextProject && (
+        {/* Next Post Preview */}
+        {nextPost && (
           <AnimatedSection className="max-w-[680px] mx-auto mt-16" delay={0.1}>
             <div className="border-t border-foreground/10 pt-8">
               <span className="text-sm text-muted-foreground font-medium">Prossimo progetto</span>
               <Link
-                href={`/work/${nextProject.slug}`}
+                href={`/blog/${nextPost.slug}`}
                 className="group mt-4 flex items-center gap-5"
               >
-                {nextProject.cover && (
+                {nextPost.cover && (
                   <div className="relative w-20 h-20 md:w-24 md:h-24 shrink-0 overflow-hidden rounded-lg">
                     <Image
-                      src={nextProject.cover}
-                      alt={nextProject.title}
+                      src={nextPost.cover}
+                      alt={nextPost.title}
                       fill
                       className="object-cover transition-opacity duration-200 group-hover:opacity-70"
                       sizes="96px"
@@ -142,9 +142,9 @@ export function ProjectContent({
                 )}
                 <div className="flex-1 min-w-0">
                   <h3 className="font-semibold text-foreground line-clamp-2 transition-colors duration-200 group-hover:text-muted-foreground">
-                    {nextProject.title}
+                    {nextPost.title}
                   </h3>
-                  <p className="text-sm text-muted-foreground mt-1 line-clamp-1">{nextProject.excerpt}</p>
+                  <p className="text-sm text-muted-foreground mt-1 line-clamp-1">{nextPost.excerpt}</p>
                 </div>
                 <ArrowRight className="w-5 h-5 text-muted-foreground shrink-0 transition-transform duration-200 group-hover:translate-x-0.5" />
               </Link>
@@ -155,7 +155,7 @@ export function ProjectContent({
         {/* Footer Navigation */}
         <AnimatedSection className="max-w-[680px] mx-auto mt-8 pb-24" delay={0.15}>
           <Link
-            href="/work"
+            href="/blog"
             className="group inline-flex items-center gap-1.5 text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors duration-200"
           >
             <ArrowLeft className="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-0.5" />

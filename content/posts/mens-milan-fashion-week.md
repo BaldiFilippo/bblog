@@ -3,7 +3,7 @@ title: "Is Men's Milan Fashion Week Dying—or Evolving?"
 slug: "mens-milan-fashion-week"
 date: "2026-02-04"
 excerpt: "What five years inside fashion weeks taught me about silence, scale, and real influence. The season felt different, and no, it's not just in your head."
-cover: "/images/projects/mens-milan-fashion-week/cover.webp"
+cover: "/images/posts/mens-milan-fashion-week/cover.webp"
 tags: ["fashion", "milan", "menswear"]
 author: "BDESIGN"
 url: "https://example.com"
@@ -16,7 +16,7 @@ The Fall/Winter 2026–27 men's season ran from January 16 to 20, with roughly 7
 
 Yet this year, I kept hearing the same thing: from young creatives, models, peers, and myself included: **"This men's fashion week feels different."**
 
-![](/images/projects/mens-milan-fashion-week/01.webp)
+![](/images/posts/mens-milan-fashion-week/01.webp)
 
 ## Is It Really Different?
 
@@ -28,7 +28,7 @@ The tangible factors are there: **economic pressure, creative fatigue, scaled-do
 
 Coverage described the season as "quieter, lighter, and shorter than usual." Yet the 76 events represented consistency with recent years. So what changed?
 
-![](/images/projects/mens-milan-fashion-week/02.webp)
+![](/images/posts/mens-milan-fashion-week/02.webp)
 
 ## The Male Consumer
 
@@ -40,7 +40,7 @@ The male consumer isn't disengaged. He's intentional. **Fewer purchases, but wit
 
 This has implications for how brands present themselves during fashion week. The spectacle matters less than the substance. The Instagram moment matters less than the product itself.
 
-![](/images/projects/mens-milan-fashion-week/03.webp)
+![](/images/posts/mens-milan-fashion-week/03.webp)
 
 ## Milan's Unique Position
 
@@ -50,7 +50,7 @@ But Milan operates differently. Its strength lies in **production infrastructure
 
 Milan commands **professional trust** rather than mere visibility. Buyers come here not for the show, but for the product. That distinction matters more than ever.
 
-![](/images/projects/mens-milan-fashion-week/04.webp)
+![](/images/posts/mens-milan-fashion-week/04.webp)
 
 ## Function Over Spectacle
 
@@ -60,7 +60,7 @@ Brands seemed more focused on **what clothes do** rather than what they represen
 
 This might sound obvious, but in an industry often drunk on symbolism and narrative, it's actually quite radical. It suggests a return to fundamentals. A willingness to let the work speak for itself.
 
-![](/images/projects/mens-milan-fashion-week/05.webp)
+![](/images/posts/mens-milan-fashion-week/05.webp)
 
 ## What This Means
 

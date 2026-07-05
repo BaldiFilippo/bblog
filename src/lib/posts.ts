@@ -6,7 +6,7 @@ import html from "remark-html";
 import readingTime from "reading-time";
 
 // Types
-export interface ProjectFrontmatter {
+export interface PostFrontmatter {
   title: string;
   slug?: string;
   date: string;
@@ -18,23 +18,23 @@ export interface ProjectFrontmatter {
   url?: string;
 }
 
-export interface Project extends ProjectFrontmatter {
+export interface Post extends PostFrontmatter {
   slug: string;
   content: string;
   readingTime: string;
 }
 
-export interface ProjectWithHtml extends Project {
+export interface PostWithHtml extends Post {
   contentHtml: string;
 }
 
 // Constants
-const CONTENT_DIR = path.join(process.cwd(), "content", "projects");
+const CONTENT_DIR = path.join(process.cwd(), "content", "posts");
 
 /**
- * Get all project slugs for static generation
+ * Get all post slugs for static generation
  */
-export function getProjectSlugs(): string[] {
+export function getPostSlugs(): string[] {
   if (!fs.existsSync(CONTENT_DIR)) {
     return [];
   }
@@ -45,9 +45,9 @@ export function getProjectSlugs(): string[] {
 }
 
 /**
- * Get a single project by slug (without HTML conversion)
+ * Get a single post by slug (without HTML conversion)
  */
-export function getProjectBySlug(slug: string): Project | null {
+export function getPostBySlug(slug: string): Post | null {
   const fullPath = path.join(CONTENT_DIR, `${slug}.md`);
   const mdxPath = path.join(CONTENT_DIR, `${slug}.mdx`);
 
@@ -62,9 +62,9 @@ export function getProjectBySlug(slug: string): Project | null {
 
   const fileContents = fs.readFileSync(filePath, "utf8");
   const { data, content } = matter(fileContents);
-  const frontmatter = data as ProjectFrontmatter;
+  const frontmatter = data as PostFrontmatter;
 
-  // Skip unpublished projects in production
+  // Skip unpublished posts in production
   if (frontmatter.published === false && process.env.NODE_ENV === "production") {
     return null;
   }
@@ -80,18 +80,18 @@ export function getProjectBySlug(slug: string): Project | null {
 }
 
 /**
- * Get a single project with HTML content
+ * Get a single post with HTML content
  */
-export async function getProjectWithHtml(slug: string): Promise<ProjectWithHtml | null> {
-  const project = getProjectBySlug(slug);
+export async function getPostWithHtml(slug: string): Promise<PostWithHtml | null> {
+  const post = getPostBySlug(slug);
 
-  if (!project) {
+  if (!post) {
     return null;
   }
 
   const processedContent = await remark()
     .use(html, { sanitize: false })
-    .process(project.content);
+    .process(post.content);
 
   // Add lazy loading + async decoding to all plain <img> tags in markdown output
   const contentHtml = processedContent
@@ -99,34 +99,34 @@ export async function getProjectWithHtml(slug: string): Promise<ProjectWithHtml 
     .replace(/<img\s/g, '<img loading="lazy" decoding="async" ');
 
   return {
-    ...project,
+    ...post,
     contentHtml,
   };
 }
 
 /**
- * Get all projects sorted by date (newest first)
+ * Get all posts sorted by date (newest first)
  */
-export function getAllProjects(): Project[] {
-  const slugs = getProjectSlugs();
+export function getAllPosts(): Post[] {
+  const slugs = getPostSlugs();
 
-  const projects = slugs
-    .map((slug) => getProjectBySlug(slug))
-    .filter((project): project is Project => project !== null)
+  const posts = slugs
+    .map((slug) => getPostBySlug(slug))
+    .filter((post): post is Post => post !== null)
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-  return projects;
+  return posts;
 }
 
 /**
- * Get the next project (chronologically older) given a slug. Wraps to first if at the end.
+ * Get the next post (chronologically older) given a slug. Wraps to first if at the end.
  */
-export function getNextProject(currentSlug: string): Project | null {
-  const projects = getAllProjects();
-  const currentIndex = projects.findIndex((p) => p.slug === currentSlug);
+export function getNextPost(currentSlug: string): Post | null {
+  const posts = getAllPosts();
+  const currentIndex = posts.findIndex((p) => p.slug === currentSlug);
   if (currentIndex === -1) return null;
-  const nextIndex = (currentIndex + 1) % projects.length;
-  return projects[nextIndex];
+  const nextIndex = (currentIndex + 1) % posts.length;
+  return posts[nextIndex];
 }
 
 /**

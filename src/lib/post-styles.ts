@@ -1,10 +1,10 @@
 // Shared title and author classes - MUST be identical across all components
-// for proper animation alignment between Home and Project pages
+// for proper animation alignment between Home and Post pages
 //
 // IMPORTANT: These classes are the SINGLE SOURCE OF TRUTH.
-// Import them in parallax.tsx and ProjectFixedHero.tsx - do NOT duplicate!
+// Import them in parallax.tsx and PostFixedHero.tsx - do NOT duplicate!
 
-// Target size (larger, ending point of animation - matches Project page exactly)
+// Target size (larger, ending point of animation - matches Post page exactly)
 export const TITLE_CLASSES_TARGET = "text-6xl md:text-9xl font-black tracking-tighter text-foreground text-center font-[family-name:var(--font-safiro)] max-w-[90vw] leading-[1.1]";
 
 // Home size (smaller, starting point of animation)

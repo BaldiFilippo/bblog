@@ -1,0 +1,135 @@
+"use client";
+
+import { motion } from "framer-motion";
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowLeft, ArrowUpRight, Calendar } from "lucide-react";
+
+function formatDate(dateString: string): string {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("it-IT", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
+
+interface ProjectItem {
+  slug: string;
+  title: string;
+  date: string;
+  excerpt: string;
+  cover?: string;
+  readingTime: string;
+}
+
+interface AllProjectsListProps {
+  projects: ProjectItem[];
+}
+
+const ease = [0.22, 1, 0.36, 1] as [number, number, number, number];
+
+export function AllProjectsList({ projects }: AllProjectsListProps) {
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="pt-24 pb-12 px-4">
+        <div className="max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, ease }}
+          >
+            <Link
+              href="/"
+              className="group inline-flex items-center gap-1.5 text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors duration-200 mb-8"
+            >
+              <ArrowLeft className="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
+              Torna alla home
+            </Link>
+          </motion.div>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease, delay: 0.1 }}
+            className="text-4xl md:text-6xl font-black tracking-tighter text-foreground font-[family-name:var(--font-safiro)]"
+          >
+            Progetti
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease, delay: 0.2 }}
+            className="mt-4 text-muted-foreground text-lg"
+          >
+            {projects.length} {projects.length === 1 ? "progetto" : "progetti"}
+          </motion.p>
+        </div>
+      </header>
+
+      {/* Projects list */}
+      <main className="max-w-4xl mx-auto px-4 pb-16">
+        {projects.length === 0 ? (
+          <p className="text-muted-foreground">Nessun progetto ancora.</p>
+        ) : (
+          <div className="space-y-8">
+            {projects.map((project, index) => (
+              <motion.article
+                key={project.slug}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 0.6,
+                  ease,
+                  delay: 0.3 + index * 0.08,
+                }}
+                className="border-b border-border pb-8 last:border-0"
+              >
+                <Link
+                  href={`/work/${project.slug}`}
+                  className="group flex flex-col md:flex-row gap-6"
+                >
+                  {/* Cover image */}
+                  {project.cover && (
+                    <div className="relative md:w-48 h-48 md:h-32 shrink-0">
+                      <Image
+                        src={project.cover}
+                        alt={project.title}
+                        fill
+                        className="object-cover rounded-lg transition-opacity duration-200 group-hover:opacity-70"
+                        sizes="(max-width: 768px) 100vw, 192px"
+                      />
+                    </div>
+                  )}
+
+                  {/* Content */}
+                  <div className="flex-1">
+                    <div className="flex items-start justify-between gap-4">
+                      <h2 className="text-2xl font-bold tracking-tight text-foreground font-[family-name:var(--font-safiro)] transition-colors duration-200 group-hover:text-muted-foreground">
+                        {project.title}
+                      </h2>
+                      <ArrowUpRight className="w-5 h-5 shrink-0 mt-1 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    </div>
+
+                    <div className="mt-2 flex items-center gap-4 text-sm text-muted-foreground">
+                      <div className="flex items-center gap-1">
+                        <Calendar className="w-4 h-4" />
+                        <time dateTime={project.date}>{formatDate(project.date)}</time>
+                      </div>
+                      <span>{project.readingTime}</span>
+                    </div>
+
+                    <p className="mt-3 text-muted-foreground line-clamp-2">
+                      {project.excerpt}
+                    </p>
+                  </div>
+                </Link>
+              </motion.article>
+            ))}
+          </div>
+        )}
+      </main>
+    </div>
+  );
+}

@@ -235,8 +235,11 @@ export default function Parallax({ posts }: ParallaxProps) {
         const currentCX = currentRect.left + currentRect.width / 2;
         const currentCY = currentRect.top + currentRect.height / 2;
 
-        const finalX = Math.round(centerXOffset + (targetCX - currentCX));
-        const finalY = Math.round(targetCY - currentCY);
+        // Exact (unrounded) deltas: the title must land on the same sub-pixel
+        // position as the post page h1, otherwise glyph antialiasing differs
+        // and the swap is visible as a subtle "font change".
+        const finalX = centerXOffset + (targetCX - currentCX);
+        const finalY = targetCY - currentCY;
 
         await titleControls.start({
             x: finalX,
@@ -319,9 +322,11 @@ export default function Parallax({ posts }: ParallaxProps) {
                  <div className="relative w-full flex items-center justify-center">
                     <div className="flex flex-col items-center justify-center gap-2 md:gap-4 px-4 w-full">
                          {/* Transition Title - starts at scale 0.6 (home size), animates to scale 1 (target size) */}
+                         {/* No `filter` here: even blur(0px) forces GPU rasterization
+                             and makes the text render differently from the post page h1 */}
                          <motion.h1
                             ref={transitionTitleRef}
-                            initial={{ x: 0, opacity: 1, filter: "blur(0px)", scale: 0.6 }}
+                            initial={{ x: 0, opacity: 1, scale: 0.6 }}
                             animate={titleControls}
                             className={TITLE_CLASSES_TARGET}
                             style={{ transformOrigin: "center center" }}

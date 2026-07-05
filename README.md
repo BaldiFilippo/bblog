@@ -1,5 +1,13 @@
 # bblog
 
-The personal blog of Filippo Baldi. Thoughts on fashion, creativity, and design.
+Personal blog.
 
-Built with Next.js, Tailwind CSS, and Framer Motion. Posts are written in Markdown under `content/posts/`.
+Written in:
+
+- Next.js 16 (App Router) + React 19 + TypeScript
+- Tailwind CSS 4 for styling
+- Framer Motion for animations and page transitions
+- Lenis for smooth scrolling
+- Markdown posts in `content/posts/` (gray-matter + remark)
+- Resend for the contact form
+- Deployed on Vercel

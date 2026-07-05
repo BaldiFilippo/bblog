@@ -85,12 +85,17 @@ const unlockScroll = () => {
 
 const preventDefault = (e: Event) => e.preventDefault();
 
-function SeeMoreButton() {
+function SeeMoreButton({ hidden }: { hidden: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-10%" });
 
   return (
-    <div ref={ref} className="w-full flex items-center justify-center py-8 pointer-events-auto">
+    <div
+      ref={ref}
+      className={`w-full flex items-center justify-center py-8 transition-opacity duration-500 ${
+        hidden ? "opacity-0 pointer-events-none" : "pointer-events-auto"
+      }`}
+    >
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -420,8 +425,8 @@ export default function Parallax({ posts }: ParallaxProps) {
         {/* Extra space so the last card can scroll past the middle of the viewport */}
         <div style={{ height: "80vh" }} />
 
-        {/* See More Button */}
-        <SeeMoreButton />
+        {/* See More Button — fades out with the cards during the post transition */}
+        <SeeMoreButton hidden={transitionPhase === "running"} />
 
         <div style={{ height: "20vh" }} />
       </div>

@@ -1,5 +1,5 @@
 ---
-title: "The Worst Time to Start a Blog"
+title: "2026 Is the Worst Time in History to Start a Blog"
 slug: "the-worst-time-to-start-a-blog"
 date: "2026-07-07"
 excerpt: "Someone online said that 2026 is the worst time in history to start a blog. And the funny thing is, I think they're right. I'm doing it anyway."

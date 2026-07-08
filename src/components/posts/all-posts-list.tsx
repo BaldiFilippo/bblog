@@ -55,7 +55,7 @@ export function AllPostsList({ posts }: AllPostsListProps) {
             transition={{ duration: 0.7, ease, delay: 0.1 }}
             className="text-4xl md:text-6xl font-black tracking-tighter text-foreground font-[family-name:var(--font-safiro)]"
           >
-            Posts
+            Articles
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -63,7 +63,7 @@ export function AllPostsList({ posts }: AllPostsListProps) {
             transition={{ duration: 0.6, ease, delay: 0.2 }}
             className="mt-4 text-muted-foreground text-lg"
           >
-            {posts.length} {posts.length === 1 ? "post" : "posts"}
+            {posts.length} {posts.length === 1 ? "article" : "articles"}
           </motion.p>
         </div>
       </header>
@@ -71,7 +71,7 @@ export function AllPostsList({ posts }: AllPostsListProps) {
       {/* Posts list */}
       <main className="max-w-4xl mx-auto px-4 pb-16">
         {posts.length === 0 ? (
-          <p className="text-muted-foreground">No posts yet.</p>
+          <p className="text-muted-foreground">No articles yet.</p>
         ) : (
           <div className="space-y-8">
             {posts.map((post, index) => (

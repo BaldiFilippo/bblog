@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!post) {
     return {
-      title: "Post not found",
+      title: "Article not found",
     };
   }
 

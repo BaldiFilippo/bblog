@@ -5,8 +5,8 @@ import { AllPostsList } from "@/components/posts/all-posts-list";
 const SITE_NAME = "BBLOG";
 
 export const metadata: Metadata = {
-  title: `Posts | ${SITE_NAME}`,
-  description: "All posts from BBLOG, the personal blog of Filippo Baldi",
+  title: `Articles | ${SITE_NAME}`,
+  description: "All articles from BBLOG, the personal blog of Filippo Baldi",
 };
 
 export default function BlogPage() {

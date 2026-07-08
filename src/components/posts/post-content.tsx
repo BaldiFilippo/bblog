@@ -124,7 +124,7 @@ export function PostContent({
         {nextPost && (
           <AnimatedSection className="max-w-[680px] mx-auto mt-16" delay={0.1}>
             <div className="border-t border-foreground/10 pt-8">
-              <span className="text-sm text-muted-foreground font-medium">Next post</span>
+              <span className="text-sm text-muted-foreground font-medium">Next article</span>
               <Link
                 href={`/blog/${nextPost.slug}`}
                 className="group mt-4 flex items-center gap-5"
@@ -159,7 +159,7 @@ export function PostContent({
             className="group inline-flex items-center gap-1.5 text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors duration-200"
           >
             <ArrowLeft className="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
-            See all posts
+            See all articles
           </Link>
         </AnimatedSection>
       </div>

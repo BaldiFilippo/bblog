@@ -331,20 +331,11 @@
 }
 
 /* First paragraph - slightly larger (lead paragraph) */
-.article-content > p:first-of-type {
-  font-size: 1.125em;
-  line-height: 1.7;
-  color: oklch(from var(--foreground) l c h / 0.92);
-}
 
 /* Dark mode adjustments */
 .dark .article-content p,
 .dark .article-content li {
   color: oklch(from var(--foreground) l c h / 0.85);
-}
-
-.dark .article-content > p:first-of-type {
-  color: oklch(from var(--foreground) l c h / 0.9);
 }
 
 .dark .article-content code:not(pre code) {

@@ -14,12 +14,7 @@ Someone online said that 2026 is the worst time in history to start a blog. And 
 I’m doing it anyway.
 
 Their point made sense. Google now answers your question right at the top of the page, using the same blogs it used to send you to — so you never click.
-
-Social media hides your posts if you add a link, because it doesn’t want you to leave.
-
-Nobody watching videos wants to stop and read.
-
-And AI tools just give you a clean answer without showing you where it came from.
+Social media hides your posts if you add a link, because it doesn’t want you to leave. Nobody watching videos wants to stop and read and AI tools just give you a clean answer without showing you where it came from.
 
 The old ways of finding a blog are closing, one by one.
 
@@ -29,19 +24,13 @@ At some point we started treating a blog like a business — a way to collect re
 
 I’m not doing this to be found. I’m doing this to think.
 
-There’s a difference between writing *to be read* and writing *to think*. When I write to be read, I smooth things over. I pick the words that sound good instead of the ones that are true.
+There’s a difference between writing *to be read* and writing *to think*. When I write to be read, I smooth things over. I pick the words that sound good instead of the ones that are true. When I write to think, it’s just me and the problem, and the writing is how I work out what I really believe.
 
-When I write to think, it’s just me and the problem, and the writing is how I work out what I really believe.
-
-A long time ago, a French writer named Montaigne shut himself in a room and started writing short pieces he called “essays” — from a word that means “to try.” Not to explain. To try.
-
-He wasn’t writing down thoughts he already had. He was using the page to find them. That’s what I want this blog to be: me, trying to think one thing through, out loud.
+A long time ago, a French writer named Montaigne shut himself in a room and started writing short pieces he called “essays” — from a word that means “to try.” Not to explain. To try. He wasn’t writing down thoughts he already had. He was using the page to find them. That’s what I want this blog to be: me, trying to think one thing through, out loud.
 
 And this matters more now, not less.
 
-We’re living in the first time in history when a machine can hand you a finished answer to almost any question in a few seconds. The *answer* is free now. Which means the effort of thinking isn’t really needed anymore.
-
-And maybe that’s exactly why it’s worth doing. Nobody has to think anymore, so choosing to is the one thing still worth something.
+We’re living in the first time in history when a machine can hand you a finished answer to almost any question in a few seconds. The *answer* is free now. Which means the effort of thinking isn’t really needed anymore. And maybe that’s exactly why it’s worth doing. Nobody has to think anymore, so choosing to is the one thing still worth something.
 
 One real person, in one real moment, working something out. A machine can give you the conclusion. It can’t be a human being in 2026, trying to make sense of things while they’re still happening. That’s not a weakness. That’s the whole point.
 
@@ -51,9 +40,7 @@ Ten years from now, a machine will still write a perfect summary of these years.
 
 So will anyone read this? Maybe not. Maybe the doors really are closing and this drifts off into a web that has stopped clicking.
 
-But I’ve already noticed something, just from writing this far: I understand what I think a little better than I did an hour ago.
-
-The writing has already done its job. It did it on me.
+But I’ve already noticed something, just from writing this far: I understand what I think a little better than I did an hour ago. The writing has already done its job. It did it on me.
 
 If that’s all a blog is in 2026 — a quiet, small, human thing — then maybe it’s finally free to just be that.
 

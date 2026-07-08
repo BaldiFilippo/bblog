@@ -100,7 +100,7 @@ export default async function PostPage({ params }: PageProps) {
         />
 
         {/* Content (cover, body, back button) */}
-        <div className="mt-[-10vh]">
+        <div className="mt-[-20vh]">
           <PostContent
             cover={post.cover}
             title={post.title}

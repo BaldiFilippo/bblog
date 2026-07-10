@@ -3,7 +3,7 @@ title: "Is Men's Milan Fashion Week Dying—or Evolving?"
 slug: "mens-milan-fashion-week"
 date: "2026-02-04"
 excerpt: "What five years inside fashion weeks taught me about silence, scale, and real influence. The season felt different, and no, it's not just in your head."
-cover: "/images/posts/mens-milan-fashion-week/cover.webp"
+cover: "/images/covers/abstract-05.gif"
 tags: ["fashion", "milan", "menswear"]
 author: "Filippo Baldi"
 published: true

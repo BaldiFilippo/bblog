@@ -3,7 +3,7 @@ title: "The Beautiful Hidden Architecture of Taste (test)"
 slug: "the-architecture-of-taste"
 date: "2026-01-18"
 excerpt: "A collection is never just clothes. It is a sequence of decisions about space, light, and movement — and the room it inhabits is part of the work."
-cover: "/images/image3.webp"
+cover: "/images/covers/abstract-01.gif"
 tags: ["fashion", "space", "direction"]
 author: "Filippo Baldi"
 published: true

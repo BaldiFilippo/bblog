@@ -3,7 +3,7 @@ title: "Between the Human Body and the Clothing Brand (test)"
 slug: "between-the-body-and-the-brand"
 date: "2026-01-10"
 excerpt: "Visual identity in fashion is never just a logo or a colour palette. It lives in posture, in proportion, in the silence between garments on a rail."
-cover: "/images/image4.webp"
+cover: "/images/covers/abstract-04.gif"
 tags: ["fashion", "identity", "branding"]
 author: "Filippo Baldi"
 published: true

@@ -3,7 +3,7 @@ title: "Being a Creative in Fashion: Beyond the Job Title"
 slug: "being-creative-in-fashion"
 date: "2026-02-02"
 excerpt: "Beyond the job title. Creativity isn't evenly distributed, and it carries dual characteristics—opening doors while imposing constraints."
-cover: "/images/posts/being-creative-in-fashion/cover.webp"
+cover: "/images/covers/abstract-03.gif"
 tags: ["fashion", "creativity", "personal"]
 author: "Filippo Baldi"
 published: true

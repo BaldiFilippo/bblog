@@ -11,15 +11,6 @@ export function Navbar() {
       >
         BBLOG
       </Link>
-
-      <div className="flex items-center gap-5">
-        <Link
-          href="/contact"
-          className="text-sm font-semibold text-black bg-white px-4 py-1.5 rounded-none hover:opacity-70 transition-opacity duration-200"
-        >
-          Contact
-        </Link>
-      </div>
     </nav>
   );
 }

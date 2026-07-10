@@ -351,7 +351,7 @@ export default function Parallax({ posts }: ParallaxProps) {
 
       {/* FIXED TITLE LAYER (Hidden during transition) */}
       <div
-        className="fixed top-0 left-0 right-0 h-[100svh] flex items-center justify-center pointer-events-none z-0 transition-opacity duration-200"
+        className="fixed top-0 left-0 right-0 h-[100svh] flex items-center justify-center pointer-events-none z-20 mix-blend-difference transition-opacity duration-200"
         style={{ opacity: transitionPhase === "running" ? 0 : 1 }}
       >
         <div className="relative w-full flex items-center justify-center">
@@ -367,6 +367,7 @@ export default function Parallax({ posts }: ParallaxProps) {
                     exit={{ opacity: 0, filter: "blur(8px)" }}
                     transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                     className={TITLE_CLASSES_TARGET}
+                    style={{ color: "#fff" }}
                 >
                     <Link
                         href={`/blog/${activePost.slug}`}

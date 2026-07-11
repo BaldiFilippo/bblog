@@ -101,8 +101,9 @@ export default async function PostPage({ params }: PageProps) {
 
         {/* Content (cover, body, back button) */}
         {/* svh (not vh): must match the hero's 100svh so the pull-up amount
-            doesn't depend on the mobile browser URL bar state */}
-        <div className="mt-[-20svh]">
+            doesn't depend on the mobile browser URL bar state.
+            Mobile pulls up less: the 5-line title leaves little room below the meta row. */}
+        <div className="mt-[-10svh] md:mt-[-20svh]">
           <PostContent
             cover={post.cover}
             title={post.title}

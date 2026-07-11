@@ -9,7 +9,7 @@ author: "Filippo Baldi"
 published: true
 ---
 
-A few days ago I asked a system to do something fairly complicated, and it did it well. Better than I would have. I looked at the result, nodded, and moved on. Only later did an uncomfortable thought come to me: I had no idea how it got there. I couldn’t have retraced a single step. And what bothered me wasn’t the not-knowing — it was how comfortable the not-knowing felt. I hadn’t lost control by accident. I had handed it over, happily, because handing it over is easy.
+A few days ago I asked Fable5 to do something fairly complicated, and it did it well. Better than I would have. I looked at the result, nodded, and moved on. Only later did an uncomfortable thought come to me: I had no idea how it got there. I couldn’t have retraced a single step. And what bothered me wasn’t the not-knowing — it was how comfortable the not-knowing felt. I hadn’t lost control by accident. I had handed it over, happily, because handing it over is easy.
 
 We talk a lot about what these systems can do. We talk far less about how we talk to them — and almost never about what that conversation is quietly doing to us. Most of the debate about AI and work asks whether the machine will replace us. I think that’s the wrong question. The better one is about how we interact with them. The approach we’ve adopted — and the interfaces that run these systems — end up wearing down our own abilities, turning us, little by little, into spectators.
 

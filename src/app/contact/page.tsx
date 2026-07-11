@@ -39,8 +39,9 @@ export default function ContactPage() {
     }
   };
 
+  // svh (not dvh): dvh resizes live with the mobile URL bar and shifts the layout
   return (
-    <div className="h-dvh bg-background flex items-center justify-center overflow-hidden px-6">
+    <div className="h-svh bg-background flex items-center justify-center overflow-hidden px-6">
       <div className="w-full max-w-lg">
 
         {/* Header */}

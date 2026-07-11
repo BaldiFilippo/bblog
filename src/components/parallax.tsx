@@ -24,11 +24,26 @@ interface ParallaxProps {
   posts: PostItem[];
 }
 
-const COVER_HEIGHT_VH = 40;
-// How far down (in vh) the first card starts from the top of the page
-const FIRST_CARD_TOP_VH = 80;
-// Gap between cards (in vh)
-const CARD_GAP_VH = 100;
+// All vertical layout uses svh (small viewport height): it stays constant while
+// mobile browser URL bars show/hide, so nothing shifts with the bar state.
+const COVER_HEIGHT_SVH = 40;
+// How far down (in svh) the first card starts from the top of the page
+const FIRST_CARD_TOP_SVH = 80;
+// Gap between cards (in svh)
+const CARD_GAP_SVH = 100;
+
+// Measure 100svh in px. Unlike window.innerHeight, this value does not change
+// when the mobile browser URL bar collapses/expands, keeping the JS scroll math
+// in sync with the svh-based CSS layout.
+function measureSvhPx(): number {
+  const probe = document.createElement("div");
+  probe.style.cssText =
+    "position:fixed;top:0;left:0;width:0;height:100svh;pointer-events:none;visibility:hidden";
+  document.body.appendChild(probe);
+  const px = probe.offsetHeight;
+  probe.remove();
+  return px || window.innerHeight;
+}
 
 // Squeeze Card component that reacts to scroll velocity
 function SqueezeCard({
@@ -134,6 +149,17 @@ export default function Parallax({ posts }: ParallaxProps) {
   const transitionTitleRef = useRef<HTMLHeadingElement>(null);
   const ghostTitleRef = useRef<HTMLHeadingElement>(null);
 
+  // Stable viewport height (100svh in px) for scroll math — see measureSvhPx
+  const svhPxRef = useRef(0);
+  useEffect(() => {
+    const update = () => { svhPxRef.current = measureSvhPx(); };
+    update();
+    // Re-measuring on resize is safe: URL-bar resizes yield the same svh value,
+    // only orientation changes / real window resizes produce a new one.
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+
   // Robust cleanup
   useEffect(() => {
     return () => {
@@ -144,10 +170,10 @@ export default function Parallax({ posts }: ParallaxProps) {
   // Sync Active Post with Scroll (ONLY if idle)
   // Title changes when a card's TOP edge exits the TOP of the viewport
   useMotionValueEvent(scrollY, "change", (latest) => {
-    const vh = window.innerHeight;
-    const firstCardTop = (FIRST_CARD_TOP_VH / 100) * vh;
-    const cardHeight = (COVER_HEIGHT_VH / 100) * vh;
-    const gap = (CARD_GAP_VH / 100) * vh;
+    const vh = svhPxRef.current || measureSvhPx();
+    const firstCardTop = (FIRST_CARD_TOP_SVH / 100) * vh;
+    const cardHeight = (COVER_HEIGHT_SVH / 100) * vh;
+    const gap = (CARD_GAP_SVH / 100) * vh;
 
     let newActiveId = 1;
 
@@ -392,8 +418,8 @@ export default function Parallax({ posts }: ParallaxProps) {
               key={post.id}
               className="w-full flex justify-center perspective-container"
               style={{
-                  marginTop: index === 0 ? `${FIRST_CARD_TOP_VH}vh` : `${CARD_GAP_VH}vh`,
-                  height: `${COVER_HEIGHT_VH}vh`,
+                  marginTop: index === 0 ? `${FIRST_CARD_TOP_SVH}svh` : `${CARD_GAP_SVH}svh`,
+                  height: `${COVER_HEIGHT_SVH}svh`,
                   perspective: "1200px"
               }}
             >
@@ -424,12 +450,12 @@ export default function Parallax({ posts }: ParallaxProps) {
           );
         })}
         {/* Extra space so the last card can scroll past the middle of the viewport */}
-        <div style={{ height: "80vh" }} />
+        <div style={{ height: "80svh" }} />
 
         {/* See More Button — fades out with the cards during the post transition */}
         <SeeMoreButton hidden={transitionPhase === "running"} />
 
-        <div style={{ height: "20vh" }} />
+        <div style={{ height: "20svh" }} />
       </div>
     </div>
   );

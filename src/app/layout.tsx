@@ -6,6 +6,7 @@ import { clsx } from "clsx";
 import { Navbar } from "@/components/navbar";
 import { Providers } from "@/components/providers";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { SITE_NAME, SITE_URL } from "@/lib/site";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,14 +26,13 @@ const safiro = localFont({
   preload: true,
 });
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-
 export const metadata: Metadata = {
   title: {
-    default: "BBLOG",
-    template: "%s | BBLOG",
+    default: SITE_NAME,
+    template: `%s | ${SITE_NAME}`,
   },
-  description: "The personal blog of Filippo Baldi. Thoughts on fashion, creativity, and design.",
+  description:
+    "The personal blog of Filippo Baldi. Essays on design, technology, and what it's like to live with the things we build.",
   metadataBase: new URL(SITE_URL),
   alternates: {
     types: {
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: SITE_URL,
-    siteName: "BBLOG",
+    siteName: SITE_NAME,
   },
   twitter: {
     card: "summary_large_image",

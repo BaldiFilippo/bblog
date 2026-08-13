@@ -1,8 +1,7 @@
 import { getAllPosts } from "@/lib/posts";
+import { SITE_NAME, SITE_URL } from "@/lib/site";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-const SITE_NAME = "BBLOG";
-const SITE_DESCRIPTION = "Articles from BBLOG, the personal blog of Filippo Baldi.";
+const SITE_DESCRIPTION = `Articles from ${SITE_NAME}, the personal blog of Filippo Baldi.`;
 
 function escapeXml(text: string): string {
   return text

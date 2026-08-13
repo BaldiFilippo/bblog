@@ -3,9 +3,7 @@ import { notFound } from "next/navigation";
 import { getPostSlugs, getPostWithHtml, getNextPost, formatDate } from "@/lib/posts";
 import { PostContent } from "@/components/posts/post-content";
 import { PostFixedHero } from "@/components/posts/PostFixedHero";
-
-const SITE_NAME = "BBLOG";
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+import { SITE_NAME, SITE_URL } from "@/lib/site";
 
 interface PageProps {
   params: Promise<{ slug: string }>;

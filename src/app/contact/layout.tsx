@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 // The contact page is a client component and can't export metadata itself
 export const metadata: Metadata = {
   title: "Contact",
-  description: "Thoughts, feedback, ideas and collaborations: get in touch with Filippo Baldi.",
+  description: "Thoughts, disagreements, ideas and collaborations: write to Filippo Baldi.",
   alternates: { canonical: "/contact" },
 };
 

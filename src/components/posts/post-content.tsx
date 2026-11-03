@@ -3,6 +3,7 @@
 import { motion, useInView } from "framer-motion";
 import { CoverMedia } from "@/components/cover-media";
 import { ReadingProgress } from "@/components/reading-progress";
+import { WriteBack } from "@/components/write-back";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { useRef, useEffect, useLayoutEffect } from "react";
@@ -15,6 +16,7 @@ interface NextPostInfo {
 }
 
 interface PostContentProps {
+  slug: string;
   cover?: string;
   title: string;
   contentHtml: string;
@@ -61,6 +63,7 @@ function AnimatedSection({
 }
 
 export function PostContent({
+  slug,
   cover,
   title,
   contentHtml,
@@ -153,6 +156,11 @@ export function PostContent({
             </div>
           </AnimatedSection>
         )}
+
+        {/* Reply to the essay, like a letter */}
+        <AnimatedSection delay={0.1}>
+          <WriteBack slug={slug} />
+        </AnimatedSection>
 
         {/* Bottom breathing room (going home is the bookmark, top left) */}
         <div aria-hidden className="pb-section" />

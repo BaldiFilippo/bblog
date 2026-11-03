@@ -98,6 +98,7 @@ export default async function PostPage({ params }: PageProps) {
 
         {/* Content (cover, body, back button) - follows the hero at a fixed gap */}
         <PostContent
+          slug={post.slug}
           cover={post.cover}
           title={post.title}
           contentHtml={post.contentHtml}

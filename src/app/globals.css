@@ -165,11 +165,6 @@
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
   }
-
-  /* Ensure custom font displays immediately to prevent layout shift */
-  .font-\[family-name\:var\(--font-safiro\)\] {
-    font-display: swap;
-  }
 }
 
 /* ============================================

@@ -399,7 +399,7 @@ export default function Parallax({ posts }: ParallaxProps) {
                 className="flex flex-col items-center px-4 w-full"
                 style={{ scale: HOME_TITLE_SCALE, transformOrigin: "50% 0" }}
             >
-                <motion.h2
+                <motion.h1
                     initial={{ opacity: 0, filter: "blur(12px)" }}
                     animate={{ opacity: 1, filter: "blur(0px)" }}
                     exit={{ opacity: 0, filter: "blur(8px)" }}
@@ -411,12 +411,12 @@ export default function Parallax({ posts }: ParallaxProps) {
                         href={`/blog/${activePost.slug}`}
                         // This layer is mix-blend-difference: #aaa here shows as #555 on white,
                         // a soft dim rather than the washed-out grey muted-foreground gave
-                        className="pointer-events-auto cursor-pointer hover:text-[#aaa] transition-colors duration-200"
+                        className="pointer-events-auto cursor-pointer hover:text-[#aaa] transition-colors duration-200 outline-none focus-visible:underline focus-visible:underline-offset-[0.15em] focus-visible:decoration-[0.06em]"
                         onClick={(e) => handlePostClick(e, activePost)}
                     >
                         {activePost.title}
                     </Link>
-                </motion.h2>
+                </motion.h1>
             </motion.div>
             </AnimatePresence>
         </div>

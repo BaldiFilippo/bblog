@@ -21,7 +21,7 @@ const geistMono = Geist_Mono({
 const safiro = localFont({
   src: "../../public/fonts/safiro-medium-webfont.woff2",
   variable: "--font-safiro",
-  weight: "100 900",
+  weight: "500",
   display: "swap",
   preload: true,
 });
@@ -40,6 +40,7 @@ export const metadata: Metadata = {
     "The personal blog of Filippo Baldi. Essays on design, technology, and what it's like to live with the things we build.",
   metadataBase: new URL(SITE_URL),
   alternates: {
+    canonical: "/",
     types: {
       "application/rss+xml": "/rss.xml",
     },
@@ -62,15 +63,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <link
-          rel="preload"
-          href="/fonts/safiro-medium-webfont.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
-      </head>
       <body
         className={clsx(
           geistSans.variable,

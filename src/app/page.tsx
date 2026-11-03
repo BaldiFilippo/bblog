@@ -1,6 +1,11 @@
+import type { Metadata } from "next";
 import Parallax, { PostItem } from "@/components/parallax";
 import { getAllPosts } from "@/lib/posts";
 import { LoadingScreen } from "@/components/loading-screen";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export default function Home() {
   const posts = getAllPosts();
@@ -17,9 +22,9 @@ export default function Home() {
   }));
 
   return (
-    <>
+    <main>
       <LoadingScreen />
       <Parallax posts={postItems} />
-    </>
+    </main>
   );
 }

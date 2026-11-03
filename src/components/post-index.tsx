@@ -40,7 +40,7 @@ export function PostIndex({ posts, activeId, progress, onSelect, hidden, allHref
                 onClick={() => onSelect(post.id)}
                 aria-current={isActive ? "true" : undefined}
                 aria-label={`${number} ${post.title}`}
-                className="group relative flex h-3 w-12 items-center justify-end outline-none"
+                className="group relative flex h-3 w-12 items-center justify-end rounded-sm outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground"
               >
                 {/* Dash */}
                 <motion.span

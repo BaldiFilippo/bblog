@@ -161,7 +161,7 @@ export function Navbar() {
         onPointerUp={release}
         onPointerCancel={release}
         onPointerLeave={() => !drag.current && length.set(REST)}
-        className="absolute left-3 top-0 block h-28 w-14 touch-none select-none outline-none"
+        className="absolute left-3 top-0 block h-28 w-14 touch-none select-none rounded-b-md outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
       >
         <svg
           aria-hidden

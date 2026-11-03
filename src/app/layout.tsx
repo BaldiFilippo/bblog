@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     template: `%s | ${SITE_NAME}`,
   },
   description:
-    "The personal blog of Filippo Baldi. Essays on design, technology, and what it's like to live with the things we build.",
+    "The personal blog of Filippo Baldi. Articles on design, technology, and what it's like to live with the things we build.",
   metadataBase: new URL(SITE_URL),
   alternates: {
     canonical: "/",

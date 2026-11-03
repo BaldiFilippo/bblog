@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-// End of an essay: the reader answers it like a letter. Opens the contact
+// End of an article: the reader answers it like a letter. Opens the contact
 // form as a reply to this post (see src/app/contact/page.tsx).
 export function WriteBack({ slug }: { slug: string }) {
   return (

@@ -12,7 +12,7 @@ interface PostIndexProps {
   progress: MotionValue<number>;
   onSelect: (id: number) => void;
   hidden?: boolean;
-  // When set, a small "all essays" mark under the dashes links to the archive
+  // When set, a small "all articles" mark under the dashes links to the archive
   allHref?: string;
 }
 
@@ -67,7 +67,7 @@ export function PostIndex({ posts, activeId, progress, onSelect, hidden, allHref
       {allHref && (
         <Link
           href={allHref}
-          aria-label="All essays"
+          aria-label="All articles"
           className="mt-3 ml-auto flex h-6 w-12 items-center justify-end text-foreground/40 hover:text-foreground focus-visible:text-foreground outline-none transition-colors duration-200"
         >
           {/* A deck seen from the front: the cards behind peek out on top, like the home's stack */}

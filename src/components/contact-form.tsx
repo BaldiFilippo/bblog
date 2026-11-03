@@ -14,9 +14,9 @@ const LABEL = "font-mono text-xs text-muted-foreground";
 type Topic = { slug: string; title: string };
 
 interface ContactFormProps {
-  // Every essay the letter can be about, newest first
+  // Every article the letter can be about, newest first
   posts: Topic[];
-  // Preselected when the reader arrives from an essay's "Write back"
+  // Preselected when the reader arrives from an article's "Write back"
   initialSlug?: string;
 }
 
@@ -25,7 +25,7 @@ interface ContactFormProps {
 // min-h (not h + overflow-hidden) so a very short screen can still scroll.
 export function ContactForm({ posts, initialSlug }: ContactFormProps) {
   const reduced = useReducedMotion();
-  // "" = a general letter, otherwise the slug of the essay it answers
+  // "" = a general letter, otherwise the slug of the article it answers
   const [topic, setTopic] = useState(initialSlug ?? "");
   const replyTo = posts.find((p) => p.slug === topic);
   const [sent, setSent] = useState(false);
@@ -78,7 +78,7 @@ export function ContactForm({ posts, initialSlug }: ContactFormProps) {
               {replyTo ? `Re: ${replyTo.title}` : "Sent"}
             </span>
           ) : (
-            // What the letter is about: in general, or a reply to one essay
+            // What the letter is about: in general, or a reply to one article
             <TopicPicker
               value={topic}
               onChange={setTopic}
@@ -92,7 +92,7 @@ export function ContactForm({ posts, initialSlug }: ContactFormProps) {
             {/* Same copy whatever the Re: choice, so the centred block never shifts */}
             {sent
               ? "Your message is on its way. I'll get back to you soon."
-              : "About an essay, an idea, or anything else."}
+              : "About an article, an idea, or anything else."}
           </p>
         </motion.div>
 
@@ -108,7 +108,7 @@ export function ContactForm({ posts, initialSlug }: ContactFormProps) {
               </>
             ) : null}
             <Link href="/blog" className="text-foreground underline underline-offset-4 decoration-foreground/30 hover:decoration-foreground transition-colors">
-              {replyTo ? "browse every essay" : "Browse every essay"}
+              {replyTo ? "browse every article" : "Browse every article"}
             </Link>
             .
           </motion.p>

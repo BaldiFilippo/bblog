@@ -22,7 +22,7 @@ export default function NotFound() {
         <p className="text-sm text-muted-foreground">
           The bookmark up top takes you back to the start, or{" "}
           <Link href="/blog" className="text-foreground underline underline-offset-4 decoration-foreground/30 hover:decoration-foreground transition-colors">
-            browse every essay
+            browse every article
           </Link>
           .
         </p>

@@ -5,7 +5,7 @@ interface PageProps {
   searchParams: Promise<{ re?: string | string[] }>;
 }
 
-// ?re=<slug> comes from an essay's "Write back" and preselects that essay;
+// ?re=<slug> comes from an article's "Write back" and preselects that article;
 // the reader can still switch to another one or to a general letter.
 // Only real posts are offered, so the title shown is never user-supplied text.
 export default async function ContactPage({ searchParams }: PageProps) {

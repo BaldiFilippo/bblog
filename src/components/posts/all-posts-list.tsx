@@ -23,8 +23,8 @@ function meta(post: PostItem) {
   return `${date} · ${post.readingTime.replace(" read", "")}`;
 }
 
-// The archive as a book's index: same column as the essays, one numbered row
-// per essay, no icons or arrows. On hover/focus the home side index's dash
+// The archive as a book's index: same column as the articles, one numbered row
+// per article, no icons or arrows. On hover/focus the home side index's dash
 // grows in and the title steps aside for it.
 export function AllPostsList({ posts }: { posts: PostItem[] }) {
   return (
@@ -32,13 +32,13 @@ export function AllPostsList({ posts }: { posts: PostItem[] }) {
       <div className="mx-auto max-w-article">
         <header className="flex flex-col gap-6">
           <span className="font-mono text-sm text-muted-foreground">
-            Index · {posts.length} {posts.length === 1 ? "essay" : "essays"}
+            Index · {posts.length} {posts.length === 1 ? "article" : "articles"}
           </span>
           <h1 className={`text-5xl md:text-7xl font-black tracking-tighter leading-[1.05] ${SAFIRO}`}>Articles.</h1>
         </header>
 
         {posts.length === 0 ? (
-          <p className="mt-section text-muted-foreground">Nothing here yet. The first essay is on its way.</p>
+          <p className="mt-section text-muted-foreground">Nothing here yet. The first article is on its way.</p>
         ) : (
           <ol className="mt-section">
             {posts.map((post, i) => (

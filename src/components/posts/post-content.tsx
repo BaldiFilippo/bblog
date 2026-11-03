@@ -157,7 +157,7 @@ export function PostContent({
           </AnimatedSection>
         )}
 
-        {/* Reply to the essay, like a letter */}
+        {/* Reply to the article, like a letter */}
         <AnimatedSection delay={0.1}>
           <WriteBack slug={slug} />
         </AnimatedSection>

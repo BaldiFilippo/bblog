@@ -15,8 +15,8 @@ import {
 // Ribbon length (px) at rest, and how far it reaches toward a nearby cursor
 const REST = 72;
 const REACH = 12;
-const HALF_WIDTH = 8;
-const NOTCH = 7;
+const HALF_WIDTH = 6;
+const NOTCH = 6;
 // The ribbon really starts this far above the screen, so its anchor never shows
 const ANCHOR = 120;
 // Pull the ribbon this much longer and let go to go home

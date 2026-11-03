@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -25,6 +25,11 @@ const safiro = localFont({
   display: "swap",
   preload: true,
 });
+
+// Paints the browser UI around the page (Safari/Chrome address bar on mobile) black
+export const viewport: Viewport = {
+  themeColor: "#000000",
+};
 
 export const metadata: Metadata = {
   title: {

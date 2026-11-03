@@ -19,7 +19,7 @@ interface ContactFormProps {
   initialSlug?: string;
 }
 
-// The contact page reads like the end of a letter: the message first, then who
+// The contact page reads like a letter: the message first, then who
 // it's from, then a send that matches "Write back". It fits one screen, centred:
 // min-h (not h + overflow-hidden) so a very short screen can still scroll.
 export function ContactForm({ posts, initialSlug }: ContactFormProps) {
@@ -135,7 +135,7 @@ export function ContactForm({ posts, initialSlug }: ContactFormProps) {
             {/* The letter */}
             <div className="flex flex-col gap-2">
               <label htmlFor="message" className={LABEL}>
-                Dear Filippo,
+                Message
               </label>
               <textarea
                 id="message"

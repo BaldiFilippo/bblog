@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useRef } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import { intro } from "./loading-screen";
 import {
   animate,
   motion,
@@ -41,13 +42,31 @@ const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(mi
 // pulled down: let go past a threshold (or just click it) to go home.
 export function Navbar() {
   const router = useRouter();
+  const pathname = usePathname();
   const reduced = useReducedMotion();
+  // First load on the home: the ribbon starts tucked above the screen and
+  // drops in as the intro (LoadingScreen holds a blank page meanwhile)
+  const [dropIn] = useState(() => pathname === "/");
 
   // Horizontal offset of the tip, and the two body control points trailing it
   const tipX = useMotionValue(0);
   const upperX = useSpring(useTransform(tipX, (v) => v * 0.2), UPPER);
   const lowerX = useSpring(useTransform(tipX, (v) => v * 0.8), LOWER);
-  const length = useSpring(REST, { stiffness: 300, damping: 18 });
+  const length = useSpring(dropIn ? -NOTCH : REST, { stiffness: 300, damping: 18 });
+
+  useEffect(() => {
+    intro.played = true;
+    if (!dropIn) return;
+    if (reduced) {
+      length.jump(REST);
+      return;
+    }
+    // A bouncier spring just for the fall, then back to the usual one
+    const t = setTimeout(() => {
+      animate(length, REST, { type: "spring", stiffness: 260, damping: 11 });
+    }, 100);
+    return () => clearTimeout(t);
+  }, [dropIn, length, reduced]);
 
   const path = useTransform([tipX, upperX, lowerX, length], ([tip, upper, lower, len]: number[]) => {
     const w = HALF_WIDTH;

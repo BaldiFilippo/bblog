@@ -1,39 +1,31 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import Lenis from "lenis";
-
-const LINE = "A Personal Blog";
 
 const preventDefault = (e: Event) => e.preventDefault();
 
-const charDelay = 0.04;
-const totalReveal = 0.1 + LINE.length * charDelay + 0.45;
-const holdDelay = 1.2;
-const exitAfter = (totalReveal + holdDelay) * 1000;
+// How long the blank page holds while the bookmark (Navbar) drops into place
+const HOLD_MS = 750;
 
 // Module-level flag: persists during client-side navigation (JS bundle stays in memory),
-// resets on page refresh/reload (JS bundle is reloaded from scratch).
-// This naturally gives us: show on first load + show on refresh, skip on internal navigation.
-let animationHasPlayed = false;
+// resets on page refresh/reload (JS bundle is reloaded from scratch). The Navbar
+// also sets it on mount, so the intro only plays when the home is the page the
+// visit starts on, never when arriving at it from another page.
+export const intro = { played: false };
 
-type Mode = "pending" | "show" | "hidden";
-
+// The intro: a blank page while the bookmark falls from the top edge and
+// settles (see Navbar, which sits above this layer), then the home fades in.
 export function LoadingScreen() {
-  // Both SSR and first client render start as 'pending' (renders nothing) — no hydration mismatch.
-  const [mode, setMode] = useState<Mode>("pending");
+  const reduced = useReducedMotion();
+  // Shown from the very first (server) render so the page never flashes before
+  // the intro; on internal navigation the flag is already set and it's skipped.
+  const [show, setShow] = useState(() => !intro.played);
 
   useEffect(() => {
-    if (animationHasPlayed) {
-      // Internal navigation — skip immediately
-      setMode("hidden");
-      return;
-    }
-
-    // First load or page refresh — show animation
-    animationHasPlayed = true;
-    setMode("show");
+    if (!show) return;
+    intro.played = true;
 
     // A reload must always start from the top: the browser would otherwise
     // restore the previous scroll position (and keeps re-applying it even
@@ -52,7 +44,7 @@ export function LoadingScreen() {
       (window as Window & { __lenis?: Lenis }).__lenis?.stop();
     }, 50);
 
-    const t = setTimeout(() => setMode("hidden"), exitAfter);
+    const t = setTimeout(() => setShow(false), reduced ? 200 : HOLD_MS);
 
     return () => {
       document.body.style.overflow = "";
@@ -77,32 +69,14 @@ export function LoadingScreen() {
 
   return (
     <AnimatePresence>
-      {mode === "show" && (
+      {show && (
         <motion.div
-          className="fixed inset-0 z-[200] bg-black flex items-center justify-center"
-          exit={{ y: "-100%" }}
-          transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
+          // Under the Navbar (z-60) so the bookmark stays visible, above everything else
+          className="fixed inset-0 z-[55] bg-background"
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
           onAnimationComplete={unlockScroll}
-        >
-          <div className="flex overflow-hidden">
-            {LINE.split("").map((char, i) => (
-              <motion.span
-                key={i}
-                className="text-white font-normal tracking-tight"
-                style={{ fontSize: "0.85rem", display: "inline-block", whiteSpace: "pre" }}
-                initial={{ y: "110%", opacity: 0 }}
-                animate={{ y: "0%", opacity: 1 }}
-                transition={{
-                  duration: 0.5,
-                  ease: [0.22, 1, 0.36, 1],
-                  delay: 0.1 + i * charDelay,
-                }}
-              >
-                {char}
-              </motion.span>
-            ))}
-          </div>
-        </motion.div>
+        />
       )}
     </AnimatePresence>
   );

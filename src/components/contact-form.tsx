@@ -10,16 +10,23 @@ const FIELD =
   "w-full border-b border-foreground/15 bg-transparent pb-2 text-foreground placeholder:text-foreground/25 outline-none transition-colors duration-200 focus:border-foreground";
 const LABEL = "font-mono text-xs text-muted-foreground";
 
+type Topic = { slug: string; title: string };
+
 interface ContactFormProps {
-  // Set when the reader arrives from an essay's "Write back"
-  replyTo?: { slug: string; title: string };
+  // Every essay the letter can be about, newest first
+  posts: Topic[];
+  // Preselected when the reader arrives from an essay's "Write back"
+  initialSlug?: string;
 }
 
 // The contact page reads like the end of a letter: the message first, then who
 // it's from, then a send that matches "Write back". It fits one screen, centred:
 // min-h (not h + overflow-hidden) so a very short screen can still scroll.
-export function ContactForm({ replyTo }: ContactFormProps) {
+export function ContactForm({ posts, initialSlug }: ContactFormProps) {
   const reduced = useReducedMotion();
+  // "" = a general letter, otherwise the slug of the essay it answers
+  const [topic, setTopic] = useState(initialSlug ?? "");
+  const replyTo = posts.find((p) => p.slug === topic);
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -65,15 +72,35 @@ export function ContactForm({ replyTo }: ContactFormProps) {
     <main className="flex min-h-[100svh] items-center justify-center px-gutter pt-20 pb-8 md:py-20">
       <div className="w-full max-w-lg" aria-live="polite">
         <motion.div key={sent ? "sent" : "write"} {...rise(0.1)} className="flex flex-col gap-3 md:gap-4">
-          {replyTo ? (
-            <Link
-              href={`/blog/${replyTo.slug}`}
-              className="self-start font-mono text-sm text-muted-foreground underline underline-offset-4 decoration-foreground/20 hover:text-foreground hover:decoration-foreground transition-colors outline-none focus-visible:text-foreground focus-visible:decoration-foreground"
-            >
-              Re: {replyTo.title}
-            </Link>
+          {sent ? (
+            <span className="font-mono text-sm text-muted-foreground">
+              {replyTo ? `Re: ${replyTo.title}` : "Sent"}
+            </span>
           ) : (
-            <span className="font-mono text-sm text-muted-foreground">Contact</span>
+            // What the letter is about: in general, or a reply to one essay
+            <div className="flex min-w-0 items-baseline gap-2 font-mono text-sm text-muted-foreground">
+              <label htmlFor="topic" className="shrink-0">
+                Re:
+              </label>
+              <div className="relative min-w-0">
+                <select
+                  id="topic"
+                  value={topic}
+                  onChange={(e) => setTopic(e.target.value)}
+                  className="w-full max-w-full cursor-pointer appearance-none truncate rounded-sm border-b border-dashed border-foreground/30 bg-transparent py-0.5 pr-5 text-foreground outline-none transition-colors hover:border-foreground focus-visible:border-solid focus-visible:border-foreground"
+                >
+                  <option value="">General</option>
+                  {posts.map((post) => (
+                    <option key={post.slug} value={post.slug}>
+                      {post.title}
+                    </option>
+                  ))}
+                </select>
+                <svg aria-hidden width="10" height="10" viewBox="0 0 10 10" className="pointer-events-none absolute right-0.5 top-1/2 -translate-y-1/2 text-muted-foreground">
+                  <path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </div>
+            </div>
           )}
           <h1 className={`text-[2.75rem] md:text-6xl font-black tracking-tighter leading-[1.05] ${SAFIRO}`}>
             {sent ? "Thank you." : replyTo ? "Write back." : "Let's talk."}

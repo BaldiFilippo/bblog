@@ -6,7 +6,7 @@ import { useState } from "react";
 import { motion, useAnimate, useReducedMotion } from "framer-motion";
 
 // Ribbon length (px) at rest, and how far it reaches toward the cursor on hover
-const REST = 30;
+const REST = 48;
 const REACH = 8;
 
 // The back-to-home element: a bookmark ribbon hanging from the top edge of the

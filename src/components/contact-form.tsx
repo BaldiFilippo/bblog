@@ -86,14 +86,13 @@ export function ContactForm({ posts, initialSlug }: ContactFormProps) {
             />
           )}
           <h1 className={`text-[2.75rem] md:text-6xl font-black tracking-tighter leading-[1.05] ${SAFIRO}`}>
-            {sent ? "Thank you." : replyTo ? "Write back." : "Let's talk."}
+            {sent ? "Thank you." : "Let's talk."}
           </h1>
           <p className="text-base md:text-lg text-muted-foreground">
+            {/* Same copy whatever the Re: choice, so the centred block never shifts */}
             {sent
-              ? "Your letter is on its way. I read every one, and I'll answer as soon as I can."
-              : replyTo
-                ? "Thoughts, disagreements, ideas. I read everything, and I answer."
-                : "About an essay, an idea, or anything else."}
+              ? "Your message is on its way. I'll get back to you soon."
+              : "About an essay, an idea, or anything else."}
           </p>
         </motion.div>
 

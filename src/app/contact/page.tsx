@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
@@ -12,6 +12,16 @@ export default function ContactPage() {
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // Arriving from an essay (?re=<slug>): the message starts as a reply to it
+  const messageRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    const slug = new URLSearchParams(window.location.search).get("re");
+    const field = messageRef.current;
+    if (!slug || !field || field.value) return;
+    const title = slug.replace(/-/g, " ").replace(/^\w/, (c) => c.toUpperCase());
+    field.value = `Re: ${title}\n\n`;
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -145,6 +155,7 @@ export default function ContactPage() {
                 required
                 maxLength={5000}
                 rows={3}
+                ref={messageRef}
                 onFocus={() => setFocused("message")}
                 onBlur={() => setFocused(null)}
                 className="border-b border-foreground/15 bg-transparent pb-2 text-foreground placeholder:text-foreground/20 text-base outline-none resize-none transition-colors duration-200 focus:border-foreground/60"

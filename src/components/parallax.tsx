@@ -1,11 +1,12 @@
 "use client";
 
-import { motion, AnimatePresence, useScroll, useMotionValueEvent, useAnimation, useVelocity, useTransform, useSpring, MotionValue, useInView } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useMotionValueEvent, useAnimation, useVelocity, useTransform, useSpring, MotionValue, useMotionValue } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Calendar, Clock, ArrowUpRight } from "lucide-react";
+import { Calendar, Clock } from "lucide-react";
 import { TiltCard } from "./tilt-card";
+import { PostIndex } from "./post-index";
 import {
   TITLE_CLASSES_TARGET,
   AUTHOR_CLASSES,
@@ -54,6 +55,14 @@ const TITLE_ANCHOR_CLASSES =
 // Measure 100svh in px. Unlike window.innerHeight, this value does not change
 // when the mobile browser URL bar collapses/expands, keeping the JS scroll math
 // in sync with the svh-based CSS layout.
+// Scroll range (px) in which post `id` is the active one: from where the
+// previous card leaves the top of the viewport to where this one does.
+function activeRange(id: number, vh: number): [number, number] {
+  const top = ((FIRST_CARD_TOP_SVH + (id - 1) * (COVER_HEIGHT_SVH + CARD_GAP_SVH)) / 100) * vh;
+  const start = id === 1 ? 0 : top - (CARD_GAP_SVH / 100) * vh;
+  return [start, top + (COVER_HEIGHT_SVH / 100) * vh];
+}
+
 function measureSvhPx(): number {
   const probe = document.createElement("div");
   probe.style.cssText =
@@ -119,34 +128,6 @@ const unlockScroll = () => {
 
 const preventDefault = (e: Event) => e.preventDefault();
 
-function SeeMoreButton({ hidden }: { hidden: boolean }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-10%" });
-
-  return (
-    <div
-      ref={ref}
-      className={`w-full flex items-center justify-center py-8 transition-opacity duration-500 ${
-        hidden ? "opacity-0 pointer-events-none" : "pointer-events-auto"
-      }`}
-    >
-      <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-      >
-        <Link
-          href="/blog"
-          className="group flex items-center gap-1.5 text-sm font-semibold text-foreground hover:text-muted-foreground transition-colors duration-200"
-        >
-          See all articles
-          <ArrowUpRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-        </Link>
-      </motion.div>
-    </div>
-  );
-}
-
 export default function Parallax({ posts }: ParallaxProps) {
   const router = useRouter();
   const { scrollY } = useScroll();
@@ -155,6 +136,7 @@ export default function Parallax({ posts }: ParallaxProps) {
   // Controlled by scroll position
   const [activeId, setActiveId] = useState(1);
   const activePost = posts.find((p) => p.id === activeId) || posts[0];
+  const activeProgress = useMotionValue(0);
 
   // -- TRANSITION STATE --
   // Frozen snapshot for the transition sequence
@@ -219,7 +201,20 @@ export default function Parallax({ posts }: ParallaxProps) {
     if (newActiveId !== activeId) {
       setActiveId(newActiveId);
     }
+
+    const [start, end] = activeRange(newActiveId, vh);
+    activeProgress.set(Math.min(1, Math.max(0, (latest - start) / (end - start))));
   });
+
+  // Side index: bring the chosen card to the centre of the viewport
+  const scrollToPost = (id: number) => {
+    const vh = svhPxRef.current || measureSvhPx();
+    const cardTop = activeRange(id, vh)[1] - (COVER_HEIGHT_SVH / 100) * vh;
+    const target = cardTop - ((100 - COVER_HEIGHT_SVH) / 200) * vh;
+    const lenis = (window as Window & { __lenis?: { scrollTo: (target: number, opts?: object) => void } }).__lenis;
+    if (lenis) lenis.scrollTo(target, { duration: 1.4 });
+    else window.scrollTo({ top: target, behavior: "smooth" });
+  };
 
   // Prefetch ALL article routes on mount so every router.push() is instant
   useEffect(() => {
@@ -425,6 +420,15 @@ export default function Parallax({ posts }: ParallaxProps) {
         </div>
       </div>
 
+      <PostIndex
+        posts={posts.filter((p) => !p.isSeeAll)}
+        activeId={activeId}
+        progress={activeProgress}
+        onSelect={scrollToPost}
+        hidden={transitionPhase === "running"}
+        allHref="/blog"
+      />
+
       {/* SCROLLABLE CONTENT */}
       <div className="relative z-10 w-full flex flex-col items-center pointer-events-none">
         {posts.map((post, index) => {
@@ -468,9 +472,6 @@ export default function Parallax({ posts }: ParallaxProps) {
         })}
         {/* Extra space so the last card can scroll past the middle of the viewport */}
         <div style={{ height: "80svh" }} />
-
-        {/* See More Button — fades out with the cards during the post transition */}
-        <SeeMoreButton hidden={transitionPhase === "running"} />
 
         <div style={{ height: "20svh" }} />
       </div>

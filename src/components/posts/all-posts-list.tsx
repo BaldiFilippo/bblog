@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
+import { CoverMedia } from "@/components/cover-media";
 import Link from "next/link";
 import { ArrowLeft, ArrowUpRight, Calendar } from "lucide-react";
 
@@ -93,10 +93,9 @@ export function AllPostsList({ posts }: AllPostsListProps) {
                   {/* Cover image */}
                   {post.cover && (
                     <div className="relative md:w-48 h-48 md:h-32 shrink-0">
-                      <Image
+                      <CoverMedia
                         src={post.cover}
                         alt={post.title}
-                        fill
                         className="object-cover rounded-lg transition-opacity duration-200 group-hover:opacity-70"
                         sizes="(max-width: 768px) 100vw, 192px"
                       />

@@ -37,5 +37,6 @@ Frontmatter: `title`, `date`, `excerpt` required; `slug` (defaults to filename),
 ## Gotchas
 
 - Both `pnpm-lock.yaml` and a stale `package-lock.json` exist: pnpm only, never touch the npm lockfile
+- Animated covers: keep authoring them as `.gif` in `public/images/covers/`, then run `scripts/convert-covers.sh` (ffmpeg + cwebp) to produce the `.mp4` and `-poster.webp` that `CoverMedia` actually serves. A GIF without them shows a broken cover. The GIFs remain the OG images.
 - `.mdx` files are picked up by the loader but rendered as plain Markdown — MDX components won't execute
 - `next.config.ts` has no remote image domains configured: post images must be local under `public/`

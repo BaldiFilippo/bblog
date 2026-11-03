@@ -15,8 +15,9 @@ interface ContactFormProps {
   replyTo?: { slug: string; title: string };
 }
 
-// The contact page reads like the end of a letter: same column and type as an
-// essay, the message first, then who it's from, then a send that matches "Write back".
+// The contact page reads like the end of a letter: the message first, then who
+// it's from, then a send that matches "Write back". It fits one screen, centred:
+// min-h (not h + overflow-hidden) so a very short screen can still scroll.
 export function ContactForm({ replyTo }: ContactFormProps) {
   const reduced = useReducedMotion();
   const [sent, setSent] = useState(false);
@@ -61,9 +62,9 @@ export function ContactForm({ replyTo }: ContactFormProps) {
   };
 
   return (
-    <main className="min-h-[100svh] px-gutter pt-page-top pb-section">
-      <div className="mx-auto max-w-article" aria-live="polite">
-        <motion.div key={sent ? "sent" : "write"} {...rise(0.1)} className="flex flex-col gap-6">
+    <main className="flex min-h-[100svh] items-center justify-center px-gutter pt-20 pb-8 md:py-20">
+      <div className="w-full max-w-lg" aria-live="polite">
+        <motion.div key={sent ? "sent" : "write"} {...rise(0.1)} className="flex flex-col gap-3 md:gap-4">
           {replyTo ? (
             <Link
               href={`/blog/${replyTo.slug}`}
@@ -74,10 +75,10 @@ export function ContactForm({ replyTo }: ContactFormProps) {
           ) : (
             <span className="font-mono text-sm text-muted-foreground">Contact</span>
           )}
-          <h1 className={`text-5xl md:text-7xl font-black tracking-tighter leading-[1.05] ${SAFIRO}`}>
+          <h1 className={`text-[2.75rem] md:text-6xl font-black tracking-tighter leading-[1.05] ${SAFIRO}`}>
             {sent ? "Thank you." : replyTo ? "Write back." : "Write to me."}
           </h1>
-          <p className="max-w-md text-lg text-muted-foreground">
+          <p className="text-base md:text-lg text-muted-foreground">
             {sent
               ? "Your letter is on its way. I read every one, and I'll answer as soon as I can."
               : "Thoughts, disagreements, ideas, collaborations. I read everything, and I answer."}
@@ -85,7 +86,7 @@ export function ContactForm({ replyTo }: ContactFormProps) {
         </motion.div>
 
         {sent ? (
-          <motion.p {...rise(0.25)} className="mt-section text-sm text-muted-foreground">
+          <motion.p {...rise(0.25)} className="mt-8 text-sm text-muted-foreground">
             {replyTo ? (
               <>
                 Back to{" "}
@@ -101,9 +102,9 @@ export function ContactForm({ replyTo }: ContactFormProps) {
             .
           </motion.p>
         ) : (
-          <motion.form {...rise(0.22)} onSubmit={handleSubmit} className="relative mt-section flex flex-col gap-10">
+          <motion.form {...rise(0.22)} onSubmit={handleSubmit} className="relative mt-8 md:mt-10 flex flex-col gap-6 md:gap-8">
             {/* The letter */}
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2">
               <label htmlFor="message" className={LABEL}>
                 Dear Filippo,
               </label>
@@ -112,21 +113,21 @@ export function ContactForm({ replyTo }: ContactFormProps) {
                 name="message"
                 required
                 maxLength={5000}
-                rows={6}
+                rows={3}
                 placeholder={replyTo ? "What did it make you think of?" : "Write here…"}
-                className={`${FIELD} resize-none [field-sizing:content] min-h-40 text-[clamp(1.0625rem,0.95rem+0.5vw,1.1875rem)] leading-[1.75]`}
+                className={`${FIELD} resize-none [field-sizing:content] min-h-20 md:min-h-24 max-h-[30svh] text-[clamp(1.0625rem,0.95rem+0.5vw,1.1875rem)] leading-[1.6]`}
               />
             </div>
 
             {/* The signature */}
-            <div className="grid gap-8 sm:grid-cols-2">
-              <div className="flex flex-col gap-3">
+            <div className="grid gap-6 sm:grid-cols-2">
+              <div className="flex flex-col gap-2">
                 <label htmlFor="name" className={LABEL}>
                   From
                 </label>
                 <input id="name" name="name" type="text" autoComplete="name" maxLength={100} required placeholder="Your name" className={`${FIELD} text-base`} />
               </div>
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-2">
                 <label htmlFor="email" className={LABEL}>
                   Reply to
                 </label>
@@ -140,14 +141,14 @@ export function ContactForm({ replyTo }: ContactFormProps) {
               <input id="company" name="company" type="text" tabIndex={-1} autoComplete="off" />
             </div>
 
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2">
               <p role="status" className="text-sm text-red-600 empty:hidden">
                 {error}
               </p>
               <button
                 type="submit"
                 disabled={sending}
-                className={`group self-start inline-flex items-baseline gap-2 text-3xl md:text-4xl font-black tracking-tighter ${SAFIRO} transition-opacity disabled:opacity-40 rounded-sm outline-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-foreground`}
+                className={`group self-start inline-flex items-baseline gap-2 text-2xl md:text-3xl font-black tracking-tighter ${SAFIRO} transition-opacity disabled:opacity-40 rounded-sm outline-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-foreground`}
               >
                 {sending ? "Sending…" : "Send"}
                 {!sending && (

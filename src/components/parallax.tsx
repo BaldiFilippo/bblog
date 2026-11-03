@@ -32,6 +32,19 @@ const FIRST_CARD_TOP_SVH = 80;
 // Gap between cards (in svh)
 const CARD_GAP_SVH = 100;
 
+// Vertical anchor of the home title. The title's TOP edge sits at a fixed point
+// (instead of the block being vertically centered), so the first line never moves
+// when consecutive posts have titles with a different number of lines: extra lines
+// just grow downwards. The offset is chosen so a title of typical length is exactly
+// centered: one scaled line = 0.6 scale × leading 1.1 × font size (TITLE_CLASSES_TARGET).
+// Mobile: typical 5 lines → 2.5 × 0.66 × 15.3846vw = 25.3846vw
+// Desktop: typical 3 lines → 1.5 × 0.66 × 8.4656vw = 8.3809vw
+// Shared by the fixed title layer and the transition overlay: they MUST match,
+// or the title jumps when a post is clicked.
+const HOME_TITLE_SCALE = 0.6;
+const TITLE_ANCHOR_CLASSES =
+  "absolute left-0 right-0 flex justify-center top-[calc(50svh_-_25.3846vw)] md:top-[calc(50svh_-_8.3809vw)]";
+
 // Measure 100svh in px. Unlike window.innerHeight, this value does not change
 // when the mobile browser URL bar collapses/expands, keeping the JS scroll math
 // in sync with the svh-based CSS layout.
@@ -250,7 +263,7 @@ export default function Parallax({ posts }: ParallaxProps) {
     await titleControls.start({
         x: centerXOffset,
         opacity: 1,
-        scale: 0.6,
+        scale: HOME_TITLE_SCALE,
         transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
     });
 
@@ -262,15 +275,15 @@ export default function Parallax({ posts }: ParallaxProps) {
         const currentRect = transitionTitleRef.current.getBoundingClientRect();
 
         const targetCX = targetRect.left + targetRect.width / 2;
-        const targetCY = targetRect.top + targetRect.height / 2;
         const currentCX = currentRect.left + currentRect.width / 2;
-        const currentCY = currentRect.top + currentRect.height / 2;
 
         // Exact (unrounded) deltas: the title must land on the same sub-pixel
         // position as the post page h1, otherwise glyph antialiasing differs
         // and the swap is visible as a subtle "font change".
+        // Vertical delta uses TOP edges: the title scales from its top edge
+        // (transformOrigin "50% 0"), so its top stays put while it grows.
         const finalX = centerXOffset + (targetCX - currentCX);
-        const finalY = targetCY - currentCY;
+        const finalY = targetRect.top - currentRect.top;
 
         await titleControls.start({
             x: finalX,
@@ -348,19 +361,19 @@ export default function Parallax({ posts }: ParallaxProps) {
                 </div>
             </div>
 
-            {/* ANIMATING ELEMENTS — h-[100svh] must match the home fixed title layer */}
-            <div className="fixed top-0 left-0 right-0 h-[100svh] flex items-center justify-center">
-                 <div className="relative w-full flex items-center justify-center">
-                    <div className="flex flex-col items-center justify-center gap-2 md:gap-4 px-4 w-full">
+            {/* ANIMATING ELEMENTS — layout must match the home fixed title layer */}
+            <div className="fixed top-0 left-0 right-0 h-[100svh]">
+                 <div className={TITLE_ANCHOR_CLASSES}>
+                    <div className="flex flex-col items-center gap-2 md:gap-4 px-4 w-full">
                          {/* Transition Title - starts at scale 0.6 (home size), animates to scale 1 (target size) */}
                          {/* No `filter` here: even blur(0px) forces GPU rasterization
                              and makes the text render differently from the post page h1 */}
                          <motion.h1
                             ref={transitionTitleRef}
-                            initial={{ x: 0, opacity: 1, scale: 0.6 }}
+                            initial={{ x: 0, opacity: 1, scale: HOME_TITLE_SCALE }}
                             animate={titleControls}
                             className={TITLE_CLASSES_TARGET}
-                            style={{ transformOrigin: "center center" }}
+                            style={{ transformOrigin: "50% 0" }}
                          >
                             {transitionData.title}
                          </motion.h1>
@@ -377,15 +390,15 @@ export default function Parallax({ posts }: ParallaxProps) {
 
       {/* FIXED TITLE LAYER (Hidden during transition) */}
       <div
-        className="fixed top-0 left-0 right-0 h-[100svh] flex items-center justify-center pointer-events-none z-20 mix-blend-difference transition-opacity duration-200"
+        className="fixed top-0 left-0 right-0 h-[100svh] pointer-events-none z-20 mix-blend-difference transition-opacity duration-200"
         style={{ opacity: transitionPhase === "running" ? 0 : 1 }}
       >
-        <div className="relative w-full flex items-center justify-center">
+        <div className={TITLE_ANCHOR_CLASSES}>
             <AnimatePresence mode="popLayout">
             <motion.div
                 key={activePost.id}
-                className="flex flex-col items-center justify-center px-4 w-full"
-                style={{ scale: 0.6 }}
+                className="flex flex-col items-center px-4 w-full"
+                style={{ scale: HOME_TITLE_SCALE, transformOrigin: "50% 0" }}
             >
                 <motion.h2
                     initial={{ opacity: 0, filter: "blur(12px)" }}

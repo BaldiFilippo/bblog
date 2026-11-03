@@ -13,17 +13,19 @@ import {
 } from "framer-motion";
 
 // Ribbon length (px) at rest, and how far it reaches toward a nearby cursor
-const REST = 48;
+const REST = 72;
 const REACH = 12;
 const HALF_WIDTH = 6;
 const NOTCH = 6;
+// The ribbon really starts this far above the screen, so its anchor never shows
+const ANCHOR = 120;
 // Pull the ribbon this much longer and let go to go home
 const PULL_TO_GO = 70;
 // Below this much pointer travel a press is a plain click
 const CLICK_SLOP = 4;
 // The SVG canvas the ribbon is drawn in, centred on where it hangs
 const CANVAS_W = 160;
-const CANVAS_H = 220;
+const CANVAS_H = 260;
 
 // The tip swings like a pendulum; the body follows it with a lag, so the
 // ribbon bends and ripples like fabric instead of rotating as a rigid bar.
@@ -49,8 +51,12 @@ export function Navbar() {
 
   const path = useTransform([tipX, upperX, lowerX, length], ([tip, upper, lower, len]: number[]) => {
     const w = HALF_WIDTH;
-    const y1 = len / 3;
-    const y2 = (len * 2) / 3;
+    const top = -ANCHOR;
+    const span = len + ANCHOR;
+    // Leaves the anchor straight down, so the visible part only bends lower
+    const y1 = top + span * 0.45;
+    const y2 = top + span * 0.75;
+    const x1 = upper * 0.3;
     // The end is cut square to the ribbon's direction there, not to the screen,
     // so a swinging tip keeps its full width and a clean swallowtail
     const dx = tip - lower;
@@ -60,10 +66,10 @@ export function Navbar() {
     const [nx, ny] = [ty * w, -tx * w];
     // Right edge down, swallowtail notch, left edge back up
     return [
-      `M ${-w} 0 L ${w} 0`,
-      `C ${upper + w} ${y1} ${lower + nx} ${y2 + ny} ${tip + nx} ${len + ny}`,
+      `M ${-w} ${top} L ${w} ${top}`,
+      `C ${x1 + w} ${y1} ${lower + nx} ${y2 + ny} ${tip + nx} ${len + ny}`,
       `L ${tip - tx * NOTCH} ${len - ty * NOTCH} L ${tip - nx} ${len - ny}`,
-      `C ${lower - nx} ${y2 - ny} ${upper - w} ${y1} ${-w} 0 Z`,
+      `C ${lower - nx} ${y2 - ny} ${x1 - w} ${y1} ${-w} ${top} Z`,
     ].join(" ");
   });
 
@@ -99,6 +105,8 @@ export function Navbar() {
   const handlePointerDown = (e: React.PointerEvent<HTMLAnchorElement>) => {
     if (reduced || e.button !== 0) return;
     e.currentTarget.setPointerCapture(e.pointerId);
+    // Grabbing it stops any swing still in progress, so the ribbon follows the hand
+    tipX.stop();
     drag.current = { x: e.clientX, y: e.clientY, moved: false, stretch: 0 };
   };
 
@@ -134,7 +142,7 @@ export function Navbar() {
         onPointerUp={release}
         onPointerCancel={release}
         onPointerLeave={() => !drag.current && length.set(REST)}
-        className="absolute left-3 top-0 block h-24 w-14 touch-none select-none outline-none"
+        className="absolute left-3 top-0 block h-28 w-14 touch-none select-none outline-none"
       >
         <svg
           aria-hidden

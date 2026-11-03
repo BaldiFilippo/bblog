@@ -76,12 +76,14 @@ export function ContactForm({ replyTo }: ContactFormProps) {
             <span className="font-mono text-sm text-muted-foreground">Contact</span>
           )}
           <h1 className={`text-[2.75rem] md:text-6xl font-black tracking-tighter leading-[1.05] ${SAFIRO}`}>
-            {sent ? "Thank you." : replyTo ? "Write back." : "Write to me."}
+            {sent ? "Thank you." : replyTo ? "Write back." : "Let's talk."}
           </h1>
           <p className="text-base md:text-lg text-muted-foreground">
             {sent
               ? "Your letter is on its way. I read every one, and I'll answer as soon as I can."
-              : "Thoughts, disagreements, ideas, collaborations. I read everything, and I answer."}
+              : replyTo
+                ? "Thoughts, disagreements, ideas. I read everything, and I answer."
+                : "About an essay, an idea, or anything else."}
           </p>
         </motion.div>
 

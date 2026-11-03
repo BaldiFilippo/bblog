@@ -29,9 +29,9 @@ const CANVAS_H = 260;
 
 // The tip swings like a pendulum; the body follows it with a lag, so the
 // ribbon bends and ripples like fabric instead of rotating as a rigid bar.
-const TIP = { type: "spring", stiffness: 120, damping: 4, mass: 0.6 } as const;
-const UPPER = { stiffness: 45, damping: 6, mass: 0.6 };
-const LOWER = { stiffness: 80, damping: 6, mass: 0.6 };
+const TIP = { type: "spring", stiffness: 200, damping: 9, mass: 0.6 } as const;
+const UPPER = { stiffness: 120, damping: 14, mass: 0.6 };
+const LOWER = { stiffness: 180, damping: 14, mass: 0.6 };
 
 const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v));
 
@@ -46,7 +46,7 @@ export function Navbar() {
   // Horizontal offset of the tip, and the two body control points trailing it
   const tipX = useMotionValue(0);
   const upperX = useSpring(useTransform(tipX, (v) => v * 0.2), UPPER);
-  const lowerX = useSpring(useTransform(tipX, (v) => v * 0.65), LOWER);
+  const lowerX = useSpring(useTransform(tipX, (v) => v * 0.8), LOWER);
   const length = useSpring(REST, { stiffness: 300, damping: 18 });
 
   const path = useTransform([tipX, upperX, lowerX, length], ([tip, upper, lower, len]: number[]) => {
@@ -94,7 +94,7 @@ export function Navbar() {
 
     // Brush: push the tip the way the cursor moves, as hard as it moves
     if (e.movementX !== 0) {
-      animate(tipX, 0, { ...TIP, velocity: clamp(e.movementX * 14, -240, 240) });
+      animate(tipX, 0, { ...TIP, velocity: clamp(e.movementX * 9, -160, 160) });
     }
     // Reach toward the cursor, more the closer it gets to the tip
     const rect = e.currentTarget.getBoundingClientRect();

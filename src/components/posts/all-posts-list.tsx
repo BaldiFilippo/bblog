@@ -30,14 +30,8 @@ export function AllPostsList({ posts }: { posts: PostItem[] }) {
   return (
     <main className="min-h-screen px-gutter pt-page-top pb-section">
       <div className="mx-auto max-w-article">
-        {/* Same two columns as the rows below: the count sits where their numbers do */}
-        <header className="grid grid-cols-[2rem_1fr] md:grid-cols-[3rem_1fr] gap-x-3">
-          <span
-            aria-label={`${posts.length} ${posts.length === 1 ? "article" : "articles"}`}
-            className="pt-[0.45em] font-mono text-xs md:text-sm tabular-nums text-muted-foreground"
-          >
-            {String(posts.length).padStart(2, "0")}
-          </span>
+        <header className="flex flex-col gap-6">
+          <span className="font-mono text-sm text-muted-foreground">Index</span>
           <h1 className={`text-5xl md:text-7xl font-black tracking-tighter leading-[1.05] ${SAFIRO}`}>Articles.</h1>
         </header>
 

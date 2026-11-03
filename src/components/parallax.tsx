@@ -6,7 +6,13 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Calendar, Clock, ArrowUpRight } from "lucide-react";
 import { TiltCard } from "./tilt-card";
-import { TITLE_CLASSES_TARGET, AUTHOR_CLASSES } from "@/lib/post-styles";
+import {
+  TITLE_CLASSES_TARGET,
+  AUTHOR_CLASSES,
+  POST_HERO_CLASSES,
+  POST_HERO_STACK_CLASSES,
+  POST_META_CLASSES,
+} from "@/lib/post-styles";
 
 // Post type for the parallax component
 export interface PostItem {
@@ -334,26 +340,24 @@ export default function Parallax({ posts }: ParallaxProps) {
             {/* GHOST for Measurement (Hidden) - Must match blog page structure exactly */}
             <div aria-hidden="true" className="fixed inset-0 invisible">
                 <div className="relative w-full">
-                    <div className="h-[100svh] bg-background flex flex-col">
-                        <div className="flex-1 flex items-center justify-center px-4">
-                            <div className="flex flex-col items-center gap-2 md:gap-4">
-                                <h1 ref={ghostTitleRef} className={TITLE_CLASSES_TARGET}>
-                                    {transitionData.title}
-                                </h1>
-                                {transitionData.url && (
-                                  <p className={AUTHOR_CLASSES}>
-                                    {transitionData.url.replace(/^https?:\/\//, "").replace(/\/$/, "")} ↗
-                                  </p>
-                                )}
-                                <div className="flex gap-4 text-sm md:text-base mt-2">
-                                    <div className="flex items-center gap-2 text-muted-foreground">
-                                        <Calendar className="w-4 h-4" />
-                                        <time>Date placeholder</time>
-                                    </div>
-                                    <div className="flex items-center gap-2 text-muted-foreground">
-                                        <Clock className="w-4 h-4" />
-                                        <span>Reading time</span>
-                                    </div>
+                    <div className={`bg-background ${POST_HERO_CLASSES}`}>
+                        <div className={POST_HERO_STACK_CLASSES}>
+                            <h1 ref={ghostTitleRef} className={TITLE_CLASSES_TARGET}>
+                                {transitionData.title}
+                            </h1>
+                            {transitionData.url && (
+                              <p className={AUTHOR_CLASSES}>
+                                {transitionData.url.replace(/^https?:\/\//, "").replace(/\/$/, "")} ↗
+                              </p>
+                            )}
+                            <div className={POST_META_CLASSES}>
+                                <div className="flex items-center gap-2 text-muted-foreground">
+                                    <Calendar className="w-4 h-4" />
+                                    <time>Date placeholder</time>
+                                </div>
+                                <div className="flex items-center gap-2 text-muted-foreground">
+                                    <Clock className="w-4 h-4" />
+                                    <span>Reading time</span>
                                 </div>
                             </div>
                         </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { AllArticlesLink } from "@/components/all-articles-link";
 import { motion, MotionValue, useReducedMotion } from "framer-motion";
 
 type IndexItem = { id: number; title: string };
@@ -64,20 +64,7 @@ export function PostIndex({ posts, activeId, progress, onSelect, hidden, allHref
           );
         })}
       </ol>
-      {allHref && (
-        <Link
-          href={allHref}
-          aria-label="All articles"
-          className="mt-3 ml-auto flex h-6 w-12 items-center justify-end text-foreground/40 hover:text-foreground focus-visible:text-foreground outline-none transition-colors duration-200"
-        >
-          {/* A deck seen from the front: the cards behind peek out on top, like the home's stack */}
-          <svg aria-hidden width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round">
-            <rect x="0.625" y="5.625" width="12.75" height="7.75" rx="1.5" />
-            <path d="M2.5 3.375h9" />
-            <path d="M4.5 1.125h5" />
-          </svg>
-        </Link>
-      )}
+      {allHref && <AllArticlesLink className="mt-3" />}
     </nav>
   );
 }

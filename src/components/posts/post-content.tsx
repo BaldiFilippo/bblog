@@ -2,6 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import { CoverMedia } from "@/components/cover-media";
+import { ReadingProgress } from "@/components/reading-progress";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { useRef, useEffect, useLayoutEffect } from "react";
@@ -84,6 +85,9 @@ export function PostContent({
   }, []);
 
   return (
+    <>
+    {/* Outside the animated article: a transformed ancestor would break position: fixed */}
+    <ReadingProgress />
     <motion.article
       initial="hidden"
       animate="visible"
@@ -155,5 +159,6 @@ export function PostContent({
         <div aria-hidden className="pb-section" />
       </div>
     </motion.article>
+    </>
   );
 }

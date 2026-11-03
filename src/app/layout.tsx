@@ -21,7 +21,7 @@ const geistMono = Geist_Mono({
 const safiro = localFont({
   src: "../../public/fonts/safiro-medium-webfont.woff2",
   variable: "--font-safiro",
-  weight: "500",
+  weight: "100 900",
   display: "swap",
   preload: true,
 });

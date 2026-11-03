@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { getPostSlugs, getPostWithHtml, getNextPost, formatDate } from "@/lib/posts";
 import { PostContent } from "@/components/posts/post-content";
 import { PostFixedHero } from "@/components/posts/PostFixedHero";
-import { SITE_NAME, SITE_URL } from "@/lib/site";
+import { SITE_URL } from "@/lib/site";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   const metadata: Metadata = {
-    title: `${post.title} | ${SITE_NAME}`,
+    title: post.title,
     description: post.excerpt,
     openGraph: {
       title: post.title,

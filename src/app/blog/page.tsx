@@ -2,10 +2,8 @@ import { Metadata } from "next";
 import { getAllPosts } from "@/lib/posts";
 import { AllPostsList } from "@/components/posts/all-posts-list";
 
-const SITE_NAME = "BBLOG";
-
 export const metadata: Metadata = {
-  title: `Articles | ${SITE_NAME}`,
+  title: "Articles",
   description: "All articles from BBLOG, the personal blog of Filippo Baldi",
 };
 

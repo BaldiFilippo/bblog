@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import Image from "next/image";
+import { CoverMedia } from "@/components/cover-media";
 import React, { useState, useEffect } from "react";
 
 interface TiltCardProps {
@@ -96,10 +96,9 @@ export function TiltCard({ image, title, priority = false }: TiltCardProps) {
             >
                 {/* Image */}
                 <div className="absolute inset-0 z-0 transform translate-z-0">
-                    <Image
+                    <CoverMedia
                         src={image}
                         alt={title}
-                        fill
                         priority={priority}
                         className="object-cover pointer-events-none scale-110"
                         sizes="(max-width: 768px) 100vw, 50vw"

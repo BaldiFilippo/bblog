@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import Image from "next/image";
+import { CoverMedia } from "@/components/cover-media";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useRef, useEffect, useLayoutEffect } from "react";
@@ -97,10 +97,9 @@ export function PostContent({
         >
           <div className="max-w-wide mx-auto px-gutter">
             <div className="relative aspect-[16/10] md:aspect-[16/9] overflow-hidden rounded-xl md:rounded-2xl">
-              <Image
+              <CoverMedia
                 src={cover}
                 alt={title}
-                fill
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1024px"
                 priority
@@ -131,10 +130,10 @@ export function PostContent({
               >
                 {nextPost.cover && (
                   <div className="relative w-20 h-20 md:w-24 md:h-24 shrink-0 overflow-hidden rounded-lg">
-                    <Image
+                    <CoverMedia
+                      still
                       src={nextPost.cover}
                       alt={nextPost.title}
-                      fill
                       className="object-cover transition-opacity duration-200 group-hover:opacity-70"
                       sizes="96px"
                     />

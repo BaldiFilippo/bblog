@@ -1,8 +1,16 @@
-import Parallax, { PostItem } from "@/components/parallax";
+import Parallax, { PostItem, SeeAllVariant } from "@/components/parallax";
 import { getAllPosts } from "@/lib/posts";
 import { LoadingScreen } from "@/components/loading-screen";
 
-export default function Home() {
+// Demo switch: /?seeAll=1|2|3 previews the "see all" redesign candidates
+const SEE_ALL_VARIANTS: Record<string, SeeAllVariant> = { "1": "title", "2": "index", "3": "archive" };
+
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<{ seeAll?: string }>;
+}) {
+  const { seeAll } = await searchParams;
   const posts = getAllPosts();
 
   // Transform the 5 most recent posts to the format expected by Parallax
@@ -19,7 +27,11 @@ export default function Home() {
   return (
     <>
       <LoadingScreen />
-      <Parallax posts={postItems} />
+      <Parallax
+        posts={postItems}
+        seeAll={seeAll ? SEE_ALL_VARIANTS[seeAll] : undefined}
+        archive={posts.map(({ slug, title, date }) => ({ slug, title, date }))}
+      />
     </>
   );
 }

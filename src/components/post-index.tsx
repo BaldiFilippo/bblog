@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { motion, MotionValue, useReducedMotion } from "framer-motion";
 
 type IndexItem = { id: number; title: string };
@@ -11,11 +12,13 @@ interface PostIndexProps {
   progress: MotionValue<number>;
   onSelect: (id: number) => void;
   hidden?: boolean;
+  // When set, a small "+" under the dashes links to the archive
+  allHref?: string;
 }
 
 // Side index for the home: one dash per post. Read posts are dark, upcoming
 // ones are light, the active one is longer and fills as you scroll through it.
-export function PostIndex({ posts, activeId, progress, onSelect, hidden }: PostIndexProps) {
+export function PostIndex({ posts, activeId, progress, onSelect, hidden, allHref }: PostIndexProps) {
   const reduced = useReducedMotion();
 
   return (
@@ -61,6 +64,15 @@ export function PostIndex({ posts, activeId, progress, onSelect, hidden }: PostI
           );
         })}
       </ol>
+      {allHref && (
+        <Link
+          href={allHref}
+          aria-label="All essays"
+          className="mt-3 ml-auto flex h-6 w-12 items-center justify-end text-foreground/40 hover:text-foreground focus-visible:text-foreground outline-none transition-colors duration-200"
+        >
+          <span aria-hidden className="relative block h-[11px] w-[11px] before:absolute before:inset-x-0 before:top-1/2 before:h-[1.5px] before:-translate-y-1/2 before:bg-current after:absolute after:inset-y-0 after:left-1/2 after:w-[1.5px] after:-translate-x-1/2 after:bg-current" />
+        </Link>
+      )}
     </nav>
   );
 }

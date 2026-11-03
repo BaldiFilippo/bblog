@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { FallenBookmark } from "@/components/fallen-bookmark";
 
 export const metadata: Metadata = {
   title: "Page not found",
@@ -8,8 +7,7 @@ export const metadata: Metadata = {
   robots: { index: false },
 };
 
-// 404: the bookmark has slipped out of its place at the top of the screen and
-// lies on the page. Picking it up (clicking it) goes back home.
+// 404: you lost your place. The bookmark, top left, takes you back to the start.
 export default function NotFound() {
   return (
     <main className="relative min-h-[100svh] overflow-hidden px-gutter">
@@ -22,14 +20,13 @@ export default function NotFound() {
           This page isn&apos;t in the stack. Maybe it moved, maybe it was never written.
         </p>
         <p className="text-sm text-muted-foreground">
-          Pick up the bookmark to go back to the start, or{" "}
+          The bookmark up top takes you back to the start, or{" "}
           <Link href="/blog" className="text-foreground underline underline-offset-4 decoration-foreground/30 hover:decoration-foreground transition-colors">
             browse every essay
           </Link>
           .
         </p>
       </div>
-      <FallenBookmark />
     </main>
   );
 }

@@ -409,7 +409,9 @@ export default function Parallax({ posts }: ParallaxProps) {
                 >
                     <Link
                         href={`/blog/${activePost.slug}`}
-                        className="pointer-events-auto cursor-pointer hover:text-muted-foreground transition-colors duration-200"
+                        // This layer is mix-blend-difference: #aaa here shows as #555 on white,
+                        // a soft dim rather than the washed-out grey muted-foreground gave
+                        className="pointer-events-auto cursor-pointer hover:text-[#aaa] transition-colors duration-200"
                         onClick={(e) => handlePostClick(e, activePost)}
                     >
                         {activePost.title}

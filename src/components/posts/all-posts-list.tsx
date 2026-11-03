@@ -72,7 +72,6 @@ export function AllPostsList({ posts }: { posts: PostItem[] }) {
                         <CoverMedia
                           src={post.cover}
                           alt=""
-                          still
                           sizes="96px"
                           className="object-cover transition-transform duration-500 ease-out group-hover:scale-105 motion-reduce:transition-none"
                         />

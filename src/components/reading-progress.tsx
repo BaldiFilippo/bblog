@@ -12,7 +12,9 @@ export function ReadingProgress() {
 
   return (
     <motion.div
-      className="fixed right-4 lg:right-8 top-1/2 z-30 flex -translate-y-1/2 flex-col items-end"
+      // Centred column, shifted right by half the icon box (11px) so the bar keeps
+      // its place at right-4 / right-8, in line with the home's dashes
+      className="fixed right-4 lg:right-8 top-1/2 z-30 flex translate-x-[11px] -translate-y-1/2 flex-col items-center"
       initial={reduced ? false : { opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
@@ -26,7 +28,7 @@ export function ReadingProgress() {
       >
         <motion.div className="absolute inset-0 origin-top bg-foreground" style={{ scaleY: scrollYProgress }} />
       </motion.div>
-      <AllArticlesLink className="mt-3" />
+      <AllArticlesLink align="center" className="mt-3" />
     </motion.div>
   );
 }

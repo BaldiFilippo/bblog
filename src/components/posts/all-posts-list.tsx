@@ -33,8 +33,8 @@ export function AllPostsList({ posts }: AllPostsListProps) {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="pt-24 pb-12 px-4">
-        <div className="max-w-4xl mx-auto">
+      <header className="pt-page-top pb-12 px-gutter">
+        <div className="max-w-wide mx-auto">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -69,7 +69,7 @@ export function AllPostsList({ posts }: AllPostsListProps) {
       </header>
 
       {/* Posts list */}
-      <main className="max-w-4xl mx-auto px-4 pb-16">
+      <main className="max-w-wide mx-auto px-gutter pb-section">
         {posts.length === 0 ? (
           <p className="text-muted-foreground">No articles yet.</p>
         ) : (

@@ -44,6 +44,37 @@
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
+
+  /* Page layout system - every page uses these, never ad-hoc px-4/pt-24/etc.
+     Values live in :root below (they change at the md breakpoint). */
+  --spacing-gutter: var(--page-gutter);
+  --spacing-page-top: var(--page-top);
+  --spacing-section: var(--section-gap);
+  --container-article: var(--article-width);
+  --container-wide: var(--wide-width);
+}
+
+/* ============================================
+   LAYOUT SYSTEM
+   One spacing logic for every page:
+   - gutter:   horizontal page margin (aligned with the navbar's px-6)
+   - page-top: distance from the top of the page to the first heading
+   - section:  vertical gap between major blocks (hero, cover, body, footer)
+   - article:  reading column width; wide: cover / list width
+   ============================================ */
+:root {
+  --page-gutter: 1.5rem;
+  --page-top: 7rem;
+  --section-gap: 3.5rem;
+  --article-width: 680px;
+  --wide-width: 64rem;
+}
+
+@media (min-width: 48rem) {
+  :root {
+    --page-top: 9rem;
+    --section-gap: 5rem;
+  }
 }
 
 :root {
@@ -153,7 +184,7 @@
   color: var(--foreground);
 
   /* Optimal line length for readability */
-  max-width: 680px;
+  max-width: var(--article-width);
   margin-left: auto;
   margin-right: auto;
 }

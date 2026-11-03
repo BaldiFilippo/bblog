@@ -18,3 +18,13 @@ export const TITLE_CLASSES_HOME = "text-[9.2308vw] md:text-[4.7619vw] font-black
 
 // Author classes
 export const AUTHOR_CLASSES = "text-xl md:text-2xl font-light tracking-wide text-muted-foreground text-center";
+
+// Post hero layout - shared by PostFixedHero and the home→post transition ghost
+// in parallax.tsx, so the ghost measures exactly where the real title lands.
+// Title block is anchored at a fixed distance from the top (page-top) and the
+// cover always follows at the same gap (section), whatever the title's length.
+// No horizontal padding here: the title sizes itself with max-w-[90vw] (see TITLE_CLASSES_TARGET),
+// a gutter would shrink its box and change where it wraps.
+export const POST_HERO_CLASSES = "pt-page-top pb-section flex justify-center";
+export const POST_HERO_STACK_CLASSES = "flex flex-col items-center gap-2 md:gap-4";
+export const POST_META_CLASSES = "flex gap-4 text-sm md:text-base mt-2";

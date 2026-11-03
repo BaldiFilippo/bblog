@@ -93,9 +93,9 @@ export function PostContent({
       {cover && (
         <motion.div
           variants={coverVariants}
-          className="w-full mb-16 md:mb-24"
+          className="w-full mb-section"
         >
-          <div className="max-w-5xl mx-auto px-4 md:px-8">
+          <div className="max-w-wide mx-auto px-gutter">
             <div className="relative aspect-[16/10] md:aspect-[16/9] overflow-hidden rounded-xl md:rounded-2xl">
               <Image
                 src={cover}
@@ -111,7 +111,7 @@ export function PostContent({
       )}
 
       {/* Main Content Container */}
-      <div className="px-5 md:px-8">
+      <div className="px-gutter">
         {/* Post Body with custom typography */}
         <AnimatedSection>
           <div
@@ -122,7 +122,7 @@ export function PostContent({
 
         {/* Next Post Preview */}
         {nextPost && (
-          <AnimatedSection className="max-w-[680px] mx-auto mt-16" delay={0.1}>
+          <AnimatedSection className="max-w-article mx-auto mt-section" delay={0.1}>
             <div className="border-t border-foreground/10 pt-8">
               <span className="text-sm text-muted-foreground font-medium">Next article</span>
               <Link
@@ -153,7 +153,7 @@ export function PostContent({
         )}
 
         {/* Footer Navigation */}
-        <AnimatedSection className="max-w-[680px] mx-auto mt-8 pb-24" delay={0.15}>
+        <AnimatedSection className="max-w-article mx-auto mt-8 pb-section" delay={0.15}>
           <Link
             href="/blog"
             className="group inline-flex items-center gap-1.5 text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors duration-200"

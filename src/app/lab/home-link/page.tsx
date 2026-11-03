@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Home link lab",
-  description: "Four candidates for the top-left back-to-home element.",
+  description: "Candidates for the top-left back-to-home element.",
   robots: { index: false },
 };
 
@@ -14,60 +14,53 @@ const STATES: { state: State; label: string }[] = [
 ];
 const PROGRESS = 0.4;
 
-function Dash({ state }: { state: State }) {
-  if (state === "hover") {
-    return (
-      <svg width="30" height="12" viewBox="0 0 30 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-        <path d="M1 6h28M1 6l5-5M1 6l5 5" />
-      </svg>
-    );
-  }
-  return (
-    <span className="relative block h-[2px] w-5 overflow-hidden rounded-full bg-foreground/20">
-      <span
-        className="absolute inset-0 origin-left bg-foreground"
-        style={{ transform: `scaleX(${state === "reading" ? PROGRESS : 1})` }}
-      />
-    </span>
-  );
-}
+// Each frame's top-left corner stands in for the screen's top-left corner.
 
-function Caret({ state }: { state: State }) {
+function Bookmark({ state }: { state: State }) {
+  // Hangs from the top edge; lowers while reading, pulled up on hover
+  const length = state === "hover" ? 18 : state === "reading" ? 30 + PROGRESS * 40 : 30;
   return (
-    <span className="flex items-center gap-0.5 font-mono text-sm">
-      {state === "hover" && <span>home</span>}
-      <span className="inline-block h-[18px] w-[2px] bg-foreground" />
-    </span>
-  );
-}
-
-function DateMark({ state }: { state: State }) {
-  return (
-    <span className="font-mono text-sm tabular-nums">{state === "hover" ? "← home" : "03.11"}</span>
-  );
-}
-
-function Deck({ state }: { state: State }) {
-  // Reading: the top card is pulled out of the deck; hover puts it back
-  const out = state === "reading";
-  return (
-    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
-      <rect x="2" y="12" width="18" height="9" rx="2" />
-      <path d="M4.5 9h13" />
-      {out ? (
-        <rect x="6" y="1" width="12" height="7" rx="1.5" transform="rotate(-8 12 4.5)" />
-      ) : (
-        <path d="M7 6h8" />
-      )}
+    <svg className="absolute left-8 top-0" width="12" height="80" viewBox="0 0 12 80" fill="currentColor">
+      <path d={`M0 0h12v${length}l-6 -6l-6 6z`} />
     </svg>
   );
 }
 
+function DogEar({ state }: { state: State }) {
+  const size = state === "hover" ? 44 : 28;
+  return (
+    <svg className="absolute left-0 top-0" width="48" height="48" viewBox="0 0 48 48">
+      {/* The fold: the back of the page, then its shadow edge */}
+      <path d={`M0 0h${size}L0 ${size}z`} className="fill-background" />
+      <path d={`M${size} 0L0 ${size}V0z`} className="fill-neutral-200" />
+      <path d={`M${size} 0L0 ${size}`} className="stroke-neutral-400" strokeWidth="1" fill="none" />
+    </svg>
+  );
+}
+
+function Pilcrow({ state }: { state: State }) {
+  return (
+    <span
+      className="absolute left-6 top-4 text-2xl leading-none font-[family-name:var(--font-safiro)]"
+    >
+      {state === "hover" ? "←" : "¶"}
+    </span>
+  );
+}
+
+function FullStop({ state }: { state: State }) {
+  return (
+    <span className="absolute left-6 top-3 text-3xl leading-none font-black tracking-tighter font-[family-name:var(--font-safiro)]">
+      {state === "hover" ? "home." : "."}
+    </span>
+  );
+}
+
 const VARIANTS = [
-  { name: "1 · The dash", note: "Same mark as the side index; fills as you read, turns into ← on hover.", C: Dash },
-  { name: "2 · The caret", note: "A blinking writing cursor; types “home” on hover.", C: Caret },
-  { name: "3 · Today's date", note: "A diary header; becomes “← home” on hover.", C: DateMark },
-  { name: "4 · The pulled card", note: "The archive deck; in an article its top card is out, home puts it back.", C: Deck },
+  { name: "1 · The bookmark", note: "A ribbon hanging from the top edge; lowers as you read, pulls up on hover.", C: Bookmark },
+  { name: "2 · The dog-ear", note: "The screen's corner is folded; folds further on hover, turning back to the home.", C: DogEar },
+  { name: "3 · The pilcrow", note: "The proofreader's paragraph mark; flips into an arrow on hover.", C: Pilcrow },
+  { name: "4 · The full stop", note: "A single period; becomes “home.” on hover.", C: FullStop },
 ];
 
 export default function HomeLinkLab() {
@@ -84,11 +77,9 @@ export default function HomeLinkLab() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {STATES.map(({ state, label }) => (
-              <div key={state} className="relative h-28 rounded-xl border border-border">
-                <div className="absolute left-6 top-6 flex h-6 items-center">
-                  <C state={state} />
-                </div>
-                <span className="absolute bottom-3 left-6 text-xs text-muted-foreground">{label}</span>
+              <div key={state} className="relative h-32 overflow-hidden rounded-xl border border-border">
+                <C state={state} />
+                <span className="absolute bottom-3 right-4 text-xs text-muted-foreground">{label}</span>
               </div>
             ))}
           </div>

@@ -4,15 +4,7 @@ import { motion } from "framer-motion";
 import { CoverMedia } from "@/components/cover-media";
 import Link from "next/link";
 import { ArrowUpRight, Calendar } from "lucide-react";
-
-function formatDate(dateString: string): string {
-  const date = new Date(dateString);
-  return date.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-}
+import { formatDate } from "@/lib/format";
 
 interface PostItem {
   slug: string;

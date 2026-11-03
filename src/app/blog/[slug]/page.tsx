@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getPostSlugs, getPostWithHtml, getNextPost, formatDate } from "@/lib/posts";
+import { getPostSlugs, getPostBySlug, getPostWithHtml, getNextPost, formatDate, ogImageFor } from "@/lib/posts";
 import { PostContent } from "@/components/posts/post-content";
 import { PostFixedHero } from "@/components/posts/PostFixedHero";
 import { SITE_URL } from "@/lib/site";
@@ -18,7 +18,7 @@ export async function generateStaticParams() {
 // Generate metadata for SEO
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = await getPostWithHtml(slug);
+  const post = getPostBySlug(slug);
 
   if (!post) {
     return {
@@ -26,9 +26,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
+  const og = ogImageFor(post.cover);
   const metadata: Metadata = {
     title: post.title,
     description: post.excerpt,
+    alternates: { canonical: `/blog/${post.slug}` },
     openGraph: {
       title: post.title,
       description: post.excerpt,
@@ -37,22 +39,15 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       url: `${SITE_URL}/blog/${post.slug}`,
     },
     twitter: {
-      card: post.cover ? "summary_large_image" : "summary",
+      card: og ? "summary_large_image" : "summary",
       title: post.title,
       description: post.excerpt,
     },
   };
 
-  if (post.cover) {
-    metadata.openGraph!.images = [
-      {
-        url: post.cover.startsWith("http") ? post.cover : `${SITE_URL}${post.cover}`,
-        width: 1200,
-        height: 630,
-        alt: post.title,
-      },
-    ];
-    metadata.twitter!.images = [post.cover.startsWith("http") ? post.cover : `${SITE_URL}${post.cover}`];
+  if (og) {
+    metadata.openGraph!.images = [{ ...og, alt: post.title }];
+    metadata.twitter!.images = [og.url];
   }
 
   return metadata;
@@ -69,14 +64,18 @@ export default async function PostPage({ params }: PageProps) {
   const nextPost = getNextPost(slug);
 
   // JSON-LD structured data for SEO
+  const og = ogImageFor(post.cover);
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     headline: post.title,
     description: post.excerpt,
     datePublished: post.date,
-    image: post.cover ? (post.cover.startsWith("http") ? post.cover : `${SITE_URL}${post.cover}`) : undefined,
+    dateModified: post.date,
+    author: { "@type": "Person", name: post.author ?? "Filippo Baldi", url: SITE_URL },
+    image: og ? (og.url.startsWith("http") ? og.url : `${SITE_URL}${og.url}`) : undefined,
     url: `${SITE_URL}/blog/${post.slug}`,
+    mainEntityOfPage: `${SITE_URL}/blog/${post.slug}`,
   };
 
   return (
@@ -87,7 +86,7 @@ export default async function PostPage({ params }: PageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <article className="min-h-screen  bg-background relative overflow-x-hidden">
+      <main className="min-h-screen bg-background relative overflow-x-hidden">
         {/* Hero - Title + Author + Meta (scrolls naturally) */}
         <PostFixedHero
           title={post.title}
@@ -105,7 +104,7 @@ export default async function PostPage({ params }: PageProps) {
           nextPost={nextPost ? { slug: nextPost.slug, title: nextPost.title, cover: nextPost.cover, excerpt: nextPost.excerpt } : undefined}
         />
 
-      </article>
+      </main>
     </>
   );
 }

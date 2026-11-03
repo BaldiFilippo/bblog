@@ -124,19 +124,21 @@ export function getAllPosts(): Post[] {
 export function getNextPost(currentSlug: string): Post | null {
   const posts = getAllPosts();
   const currentIndex = posts.findIndex((p) => p.slug === currentSlug);
-  if (currentIndex === -1) return null;
+  if (currentIndex === -1 || posts.length < 2) return null;
   const nextIndex = (currentIndex + 1) % posts.length;
   return posts[nextIndex];
 }
 
+export { formatDate } from "./format";
+
 /**
- * Format date for display
+ * Open Graph image for a post. Animated covers are GIFs of 2–5 MB at 500×500:
+ * scripts/convert-covers.sh also writes a 1200×630 JPEG next to each one.
  */
-export function formatDate(dateString: string): string {
-  const date = new Date(dateString);
-  return date.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+export function ogImageFor(cover?: string): { url: string; width: number; height: number } | null {
+  if (!cover) return null;
+  if (cover.startsWith("http")) return { url: cover, width: 1200, height: 630 };
+  const og = cover.endsWith(".gif") ? `${cover.slice(0, -".gif".length)}-og.jpg` : cover;
+  if (!fs.existsSync(path.join(process.cwd(), "public", og))) return null;
+  return { url: og, width: 1200, height: 630 };
 }

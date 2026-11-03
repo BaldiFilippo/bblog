@@ -19,6 +19,8 @@ export default function ContactPage() {
     const name = (form.elements.namedItem("name") as HTMLInputElement).value;
     const email = (form.elements.namedItem("email") as HTMLInputElement).value;
     const message = (form.elements.namedItem("message") as HTMLTextAreaElement).value;
+    // Honeypot: hidden from people, filled by bots (see /api/contact)
+    const company = (form.elements.namedItem("company") as HTMLInputElement).value;
 
     setSending(true);
     setError(null);
@@ -27,21 +29,27 @@ export default function ContactPage() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, message }),
+        body: JSON.stringify({ name, email, message, company }),
       });
 
+      if (res.status === 429) throw new Error("rate");
       if (!res.ok) throw new Error("Failed to send");
       setSent(true);
-    } catch {
-      setError("Something went wrong. Please try again.");
+    } catch (err) {
+      setError(
+        err instanceof Error && err.message === "rate"
+          ? "Too many messages in a row. Please try again in a few minutes."
+          : "Something went wrong. Please try again."
+      );
     } finally {
       setSending(false);
     }
   };
 
   // svh (not dvh): dvh resizes live with the mobile URL bar and shifts the layout
+  // The header's key flips on `sent`, so screen readers get the "Thank you" via aria-live below
   return (
-    <div className="h-svh bg-background flex items-center justify-center overflow-hidden px-6">
+    <main className="h-svh bg-background flex items-center justify-center overflow-hidden px-6">
       <div className="w-full max-w-lg">
 
         {/* Header */}
@@ -51,6 +59,7 @@ export default function ContactPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease }}
           className="mb-12"
+          aria-live="polite"
         >
           <h1 className="text-5xl md:text-6xl font-black tracking-tighter text-foreground font-[family-name:var(--font-safiro)] leading-[0.95]">
             {sent ? <>Thank you.</> : <>Let&apos;s<br />get in<br />touch</>}
@@ -86,6 +95,8 @@ export default function ContactPage() {
                 id="name"
                 name="name"
                 type="text"
+                autoComplete="name"
+                maxLength={100}
                 required
                 onFocus={() => setFocused("name")}
                 onBlur={() => setFocused(null)}
@@ -108,6 +119,8 @@ export default function ContactPage() {
                 id="email"
                 name="email"
                 type="email"
+                autoComplete="email"
+                maxLength={254}
                 required
                 onFocus={() => setFocused("email")}
                 onBlur={() => setFocused(null)}
@@ -130,6 +143,7 @@ export default function ContactPage() {
                 id="message"
                 name="message"
                 required
+                maxLength={5000}
                 rows={3}
                 onFocus={() => setFocused("message")}
                 onBlur={() => setFocused(null)}
@@ -138,15 +152,18 @@ export default function ContactPage() {
               />
             </div>
 
+            {/* Honeypot: off-screen and skipped by the tab order, so only bots fill it */}
+            <div aria-hidden="true" className="absolute -left-[9999px] top-0 h-0 w-0 overflow-hidden">
+              <label htmlFor="company">Company</label>
+              <input id="company" name="company" type="text" tabIndex={-1} autoComplete="off" />
+            </div>
+
             {/* Submit */}
             <div className="flex flex-col gap-3 pt-1">
-              {error && (
-                <p className="text-xs text-red-500">{error}</p>
-              )}
-              <div className="flex items-center justify-between">
-                <span className="text-xs text-foreground/30 tracking-wide">
-                  hello@bblog.com
-                </span>
+              <p role="status" aria-live="polite" className="text-xs text-red-500 empty:hidden">
+                {error}
+              </p>
+              <div className="flex items-center justify-end">
                 <button
                   type="submit"
                   disabled={sending}
@@ -174,6 +191,6 @@ export default function ContactPage() {
           </motion.div>
         )}
       </div>
-    </div>
+    </main>
   );
 }

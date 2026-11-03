@@ -135,7 +135,6 @@ export function PostContent({
                 {nextPost.cover && (
                   <div className="relative w-20 h-20 md:w-24 md:h-24 shrink-0 overflow-hidden rounded-lg">
                     <CoverMedia
-                      still
                       src={nextPost.cover}
                       alt={nextPost.title}
                       className="object-cover transition-opacity duration-200 group-hover:opacity-70"

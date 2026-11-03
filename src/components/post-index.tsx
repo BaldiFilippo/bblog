@@ -15,7 +15,6 @@ interface PostIndexProps {
 
 // Side index for the home: one dash per post. Read posts are dark, upcoming
 // ones are light, the active one is longer and fills as you scroll through it.
-// Hover/focus shows the post's number and title in a label to the left.
 export function PostIndex({ posts, activeId, progress, onSelect, hidden }: PostIndexProps) {
   const reduced = useReducedMotion();
 
@@ -38,19 +37,8 @@ export function PostIndex({ posts, activeId, progress, onSelect, hidden }: PostI
                 onClick={() => onSelect(post.id)}
                 aria-current={isActive ? "true" : undefined}
                 aria-label={`${number} ${post.title}`}
-                className="group relative flex h-8 w-14 items-center justify-end outline-none"
+                className="group relative flex h-3 w-12 items-center justify-end outline-none"
               >
-                {/* Label */}
-                <span
-                  aria-hidden
-                  className="pointer-events-none absolute right-full mr-3 flex items-center gap-2 whitespace-nowrap rounded-full bg-foreground py-2 pl-3.5 pr-4 text-sm text-background opacity-0 translate-x-1 transition-[opacity,translate] duration-200 group-hover:opacity-100 group-hover:translate-x-0 group-focus-visible:opacity-100 group-focus-visible:translate-x-0 motion-reduce:transition-none"
-                >
-                  <span className="font-mono text-xs tabular-nums opacity-50">{number}</span>
-                  <span className="max-w-[18rem] truncate">{post.title}</span>
-                  {/* Arrow pointing at the dash */}
-                  <span className="absolute left-full top-1/2 -translate-y-1/2 border-y-[5px] border-l-[6px] border-y-transparent border-l-foreground" />
-                </span>
-
                 {/* Dash */}
                 <motion.span
                   aria-hidden

@@ -2,9 +2,10 @@ import { Resend } from "resend";
 import { NextResponse } from "next/server";
 
 const TO = "baldi.filippo@icloud.com";
-// Resend's shared sender: delivers only to the account owner's address.
-// Swap for an address on a domain verified in Resend once there is one.
-const FROM = "BBLOG <onboarding@resend.dev>";
+// CONTACT_FROM must be an address on a domain verified in Resend (hello@bblog.blog).
+// Until it is set, Resend's shared sender is used: it delivers only to the
+// account owner's address and tends to land in spam.
+const FROM = process.env.CONTACT_FROM || "BBLOG <onboarding@resend.dev>";
 
 const MAX = { name: 100, email: 254, message: 5000 };
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

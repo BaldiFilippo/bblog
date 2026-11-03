@@ -31,8 +31,9 @@ Frontmatter: `title`, `date`, `excerpt` required; `slug` (defaults to filename),
 
 ## Environment
 
-- `NEXT_PUBLIC_SITE_URL` — falls back to `https://www.bblog.blog` in prod (the host Vercel serves; the apex 308s to www) and localhost:3000 elsewhere
-- `RESEND_API_KEY` — contact form; read at request time, so builds don't need it. Sender is still Resend's shared `onboarding@resend.dev` (delivers only to the account owner): switch `FROM` in `api/contact/route.ts` once a domain is verified in Resend
+- `NEXT_PUBLIC_SITE_URL` — falls back to `https://bblog.blog` in prod and localhost:3000 elsewhere. The apex must be the primary domain in Vercel (www → apex), DNS is at GoDaddy
+- `RESEND_API_KEY` — contact form; read at request time, so builds don't need it
+- `CONTACT_FROM` — sender for the contact form, e.g. `BBLOG <hello@bblog.blog>`, on a domain verified in Resend; unset, Resend's shared `onboarding@resend.dev` is used (delivers only to the account owner)
 
 ## Gotchas
 

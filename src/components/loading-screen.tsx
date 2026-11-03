@@ -7,7 +7,7 @@ import Lenis from "lenis";
 const preventDefault = (e: Event) => e.preventDefault();
 
 // How long the blank page holds while the bookmark (Navbar) drops into place
-const HOLD_MS = 750;
+const HOLD_MS = 1400;
 
 // Module-level flag: persists during client-side navigation (JS bundle stays in memory),
 // resets on page refresh/reload (JS bundle is reloaded from scratch). The Navbar
@@ -74,7 +74,7 @@ export function LoadingScreen() {
           // Under the Navbar (z-60) so the bookmark stays visible, above everything else
           className="fixed inset-0 z-[55] bg-background"
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           onAnimationComplete={unlockScroll}
         />
       )}

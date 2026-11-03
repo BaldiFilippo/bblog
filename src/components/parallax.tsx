@@ -1,10 +1,10 @@
 "use client";
 
-import { motion, AnimatePresence, useScroll, useMotionValueEvent, useAnimation, useVelocity, useTransform, useSpring, MotionValue, useInView, useMotionValue } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useMotionValueEvent, useAnimation, useVelocity, useTransform, useSpring, MotionValue, useMotionValue } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Calendar, Clock, ArrowUpRight } from "lucide-react";
+import { Calendar, Clock } from "lucide-react";
 import { TiltCard } from "./tilt-card";
 import { PostIndex } from "./post-index";
 import {
@@ -27,19 +27,8 @@ export interface PostItem {
   isSeeAll?: boolean;
 }
 
-export type SeeAllVariant = "title" | "index" | "archive";
-
-export interface ArchiveItem {
-  slug: string;
-  title: string;
-  date: string;
-}
-
 interface ParallaxProps {
   posts: PostItem[];
-  // Demo switch for the "see all" redesign; undefined keeps the current button
-  seeAll?: SeeAllVariant;
-  archive?: ArchiveItem[];
 }
 
 // All vertical layout uses svh (small viewport height): it stays constant while
@@ -139,67 +128,7 @@ const unlockScroll = () => {
 
 const preventDefault = (e: Event) => e.preventDefault();
 
-function SeeMoreButton({ hidden }: { hidden: boolean }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-10%" });
-
-  return (
-    <div
-      ref={ref}
-      className={`w-full flex items-center justify-center py-8 transition-opacity duration-500 ${
-        hidden ? "opacity-0 pointer-events-none" : "pointer-events-auto"
-      }`}
-    >
-      <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-      >
-        <Link
-          href="/blog"
-          className="group flex items-center gap-1.5 text-sm font-semibold text-foreground hover:text-muted-foreground transition-colors duration-200"
-        >
-          See all articles
-          <ArrowUpRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-        </Link>
-      </motion.div>
-    </div>
-  );
-}
-
-// Variant "archive": the stack ends in a plain list of every essay
-function Archive({ items, hidden, ref }: { items: ArchiveItem[]; hidden: boolean; ref: React.Ref<HTMLElement> }) {
-  return (
-    <section
-      ref={ref}
-      aria-label="All essays"
-      className={`w-full max-w-2xl px-6 transition-opacity duration-500 ${
-        hidden ? "opacity-0 pointer-events-none" : "pointer-events-auto"
-      }`}
-    >
-      <p className="mb-6 text-sm text-muted-foreground">
-        {items.length} {items.length === 1 ? "essay" : "essays"} so far
-      </p>
-      <ol className="border-t border-border">
-        {items.map((item) => (
-          <li key={item.slug} className="border-b border-border">
-            <Link
-              href={`/blog/${item.slug}`}
-              className="group flex items-baseline justify-between gap-6 py-4 hover:text-muted-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground transition-colors duration-200"
-            >
-              <span className="text-base md:text-lg tracking-tight">{item.title}</span>
-              <time dateTime={item.date} className="shrink-0 font-mono text-xs tabular-nums text-muted-foreground">
-                {new Date(item.date).toLocaleDateString("en-GB", { day: "2-digit", month: "2-digit", year: "2-digit", timeZone: "UTC" }).replaceAll("/", ".")}
-              </time>
-            </Link>
-          </li>
-        ))}
-      </ol>
-    </section>
-  );
-}
-
-export default function Parallax({ posts, seeAll, archive = [] }: ParallaxProps) {
+export default function Parallax({ posts }: ParallaxProps) {
   const router = useRouter();
   const { scrollY } = useScroll();
 
@@ -208,13 +137,6 @@ export default function Parallax({ posts, seeAll, archive = [] }: ParallaxProps)
   const [activeId, setActiveId] = useState(1);
   const activePost = posts.find((p) => p.id === activeId) || posts[0];
   const activeProgress = useMotionValue(0);
-  // Variant "title": past the last card, the fixed title becomes "All essays"
-  const [atEnd, setAtEnd] = useState(false);
-  const showAllTitle = seeAll === "title" && atEnd;
-  // Variant "archive": the fixed title steps aside so the list can be read
-  const archiveRef = useRef<HTMLElement>(null);
-  const archiveInView = useInView(archiveRef, { margin: "0px 0px -25% 0px" });
-  const hideTitleForArchive = seeAll === "archive" && archiveInView;
 
   // -- TRANSITION STATE --
   // Frozen snapshot for the transition sequence
@@ -282,9 +204,6 @@ export default function Parallax({ posts, seeAll, archive = [] }: ParallaxProps)
 
     const [start, end] = activeRange(newActiveId, vh);
     activeProgress.set(Math.min(1, Math.max(0, (latest - start) / (end - start))));
-
-    const pastLast = latest >= activeRange(posts.length, vh)[1];
-    if (pastLast !== atEnd) setAtEnd(pastLast);
   });
 
   // Side index: bring the chosen card to the centre of the viewport
@@ -471,33 +390,10 @@ export default function Parallax({ posts, seeAll, archive = [] }: ParallaxProps)
       {/* FIXED TITLE LAYER (Hidden during transition) */}
       <div
         className="fixed top-0 left-0 right-0 h-[100svh] pointer-events-none z-20 mix-blend-difference transition-opacity duration-200"
-        style={{ opacity: transitionPhase === "running" || hideTitleForArchive ? 0 : 1 }}
+        style={{ opacity: transitionPhase === "running" ? 0 : 1 }}
       >
         <div className={TITLE_ANCHOR_CLASSES}>
             <AnimatePresence mode="popLayout">
-            {showAllTitle ? (
-            <motion.div
-                key="all"
-                className="flex flex-col items-center px-4 w-full"
-                style={{ scale: HOME_TITLE_SCALE, transformOrigin: "50% 0" }}
-            >
-                <motion.h2
-                    initial={{ opacity: 0, filter: "blur(12px)" }}
-                    animate={{ opacity: 1, filter: "blur(0px)" }}
-                    exit={{ opacity: 0, filter: "blur(8px)" }}
-                    transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                    className={TITLE_CLASSES_TARGET}
-                    style={{ color: "#fff" }}
-                >
-                    <Link
-                        href="/blog"
-                        className="pointer-events-auto cursor-pointer hover:text-muted-foreground transition-colors duration-200"
-                    >
-                        All essays
-                    </Link>
-                </motion.h2>
-            </motion.div>
-            ) : (
             <motion.div
                 key={activePost.id}
                 className="flex flex-col items-center px-4 w-full"
@@ -520,7 +416,6 @@ export default function Parallax({ posts, seeAll, archive = [] }: ParallaxProps)
                     </Link>
                 </motion.h2>
             </motion.div>
-            )}
             </AnimatePresence>
         </div>
       </div>
@@ -530,8 +425,8 @@ export default function Parallax({ posts, seeAll, archive = [] }: ParallaxProps)
         activeId={activeId}
         progress={activeProgress}
         onSelect={scrollToPost}
-        hidden={transitionPhase === "running" || showAllTitle || hideTitleForArchive}
-        allHref={seeAll === "index" ? "/blog" : undefined}
+        hidden={transitionPhase === "running"}
+        allHref="/blog"
       />
 
       {/* SCROLLABLE CONTENT */}
@@ -577,10 +472,6 @@ export default function Parallax({ posts, seeAll, archive = [] }: ParallaxProps)
         })}
         {/* Extra space so the last card can scroll past the middle of the viewport */}
         <div style={{ height: "80svh" }} />
-
-        {/* See More Button — fades out with the cards during the post transition */}
-        {seeAll === undefined && <SeeMoreButton hidden={transitionPhase === "running"} />}
-        {seeAll === "archive" && <Archive ref={archiveRef} items={archive} hidden={transitionPhase === "running"} />}
 
         <div style={{ height: "20svh" }} />
       </div>

@@ -12,7 +12,7 @@ interface PostIndexProps {
   progress: MotionValue<number>;
   onSelect: (id: number) => void;
   hidden?: boolean;
-  // When set, a small "+" under the dashes links to the archive
+  // When set, a small "all essays" mark under the dashes links to the archive
   allHref?: string;
 }
 
@@ -70,7 +70,12 @@ export function PostIndex({ posts, activeId, progress, onSelect, hidden, allHref
           aria-label="All essays"
           className="mt-3 ml-auto flex h-6 w-12 items-center justify-end text-foreground/40 hover:text-foreground focus-visible:text-foreground outline-none transition-colors duration-200"
         >
-          <span aria-hidden className="relative block h-[11px] w-[11px] before:absolute before:inset-x-0 before:top-1/2 before:h-[1.5px] before:-translate-y-1/2 before:bg-current after:absolute after:inset-y-0 after:left-1/2 after:w-[1.5px] after:-translate-x-1/2 after:bg-current" />
+          {/* A deck seen from the front: the cards behind peek out on top, like the home's stack */}
+          <svg aria-hidden width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round">
+            <rect x="0.625" y="5.625" width="12.75" height="7.75" rx="1.5" />
+            <path d="M2.5 3.375h9" />
+            <path d="M4.5 1.125h5" />
+          </svg>
         </Link>
       )}
     </nav>

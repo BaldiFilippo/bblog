@@ -1,7 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <style>
-    path { fill: #000; }
-    @media (prefers-color-scheme: dark) { path { fill: #fff; } }
-  </style>
-  <path d="M10 0h12v28l-6-5-6 5z"/>
+  <!-- Black ribbon with a thin white edge: the browser's dark mode doesn't tell
+       us the tab's colour (an active tab can be white in a dark UI), so the
+       icon has to read on both instead of switching. -->
+  <path d="M10 0h12v28l-6-5-6 5z" fill="#000" stroke="#fff" stroke-width="2.5" stroke-linejoin="round" paint-order="stroke"/>
 </svg>

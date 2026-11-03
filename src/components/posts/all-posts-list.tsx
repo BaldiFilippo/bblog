@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { CoverMedia } from "@/components/cover-media";
 import Link from "next/link";
-import { ArrowLeft, ArrowUpRight, Calendar } from "lucide-react";
+import { ArrowUpRight, Calendar } from "lucide-react";
 
 function formatDate(dateString: string): string {
   const date = new Date(dateString);
@@ -35,20 +35,6 @@ export function AllPostsList({ posts }: AllPostsListProps) {
       {/* Header */}
       <header className="pt-page-top pb-12 px-gutter">
         <div className="max-w-wide mx-auto">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, ease }}
-          >
-            <Link
-              href="/"
-              className="group inline-flex items-center gap-1.5 text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors duration-200 mb-8"
-            >
-              <ArrowLeft className="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
-              Back to home
-            </Link>
-          </motion.div>
-
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}

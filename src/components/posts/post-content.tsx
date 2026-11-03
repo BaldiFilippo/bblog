@@ -3,7 +3,7 @@
 import { motion, useInView } from "framer-motion";
 import { CoverMedia } from "@/components/cover-media";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useRef, useEffect, useLayoutEffect } from "react";
 
 interface NextPostInfo {
@@ -151,16 +151,8 @@ export function PostContent({
           </AnimatedSection>
         )}
 
-        {/* Footer Navigation */}
-        <AnimatedSection className="max-w-article mx-auto mt-8 pb-section" delay={0.15}>
-          <Link
-            href="/blog"
-            className="group inline-flex items-center gap-1.5 text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors duration-200"
-          >
-            <ArrowLeft className="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
-            See all articles
-          </Link>
-        </AnimatedSection>
+        {/* Bottom breathing room (going home is the bookmark, top left) */}
+        <div aria-hidden className="pb-section" />
       </div>
     </motion.article>
   );

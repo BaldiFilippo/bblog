@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
+import { TopicPicker } from "@/components/topic-picker";
 
 const ease = [0.22, 1, 0.36, 1] as [number, number, number, number];
 const SAFIRO = "font-[family-name:var(--font-safiro)]";
@@ -78,29 +79,11 @@ export function ContactForm({ posts, initialSlug }: ContactFormProps) {
             </span>
           ) : (
             // What the letter is about: in general, or a reply to one essay
-            <div className="flex min-w-0 items-baseline gap-2 font-mono text-sm text-muted-foreground">
-              <label htmlFor="topic" className="shrink-0">
-                Re:
-              </label>
-              <div className="relative min-w-0">
-                <select
-                  id="topic"
-                  value={topic}
-                  onChange={(e) => setTopic(e.target.value)}
-                  className="w-full max-w-full cursor-pointer appearance-none truncate rounded-sm border-b border-dashed border-foreground/30 bg-transparent py-0.5 pr-5 text-foreground outline-none transition-colors hover:border-foreground focus-visible:border-solid focus-visible:border-foreground"
-                >
-                  <option value="">General</option>
-                  {posts.map((post) => (
-                    <option key={post.slug} value={post.slug}>
-                      {post.title}
-                    </option>
-                  ))}
-                </select>
-                <svg aria-hidden width="10" height="10" viewBox="0 0 10 10" className="pointer-events-none absolute right-0.5 top-1/2 -translate-y-1/2 text-muted-foreground">
-                  <path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </div>
-            </div>
+            <TopicPicker
+              value={topic}
+              onChange={setTopic}
+              options={[{ value: "", label: "General" }, ...posts.map((p) => ({ value: p.slug, label: p.title }))]}
+            />
           )}
           <h1 className={`text-[2.75rem] md:text-6xl font-black tracking-tighter leading-[1.05] ${SAFIRO}`}>
             {sent ? "Thank you." : replyTo ? "Write back." : "Let's talk."}

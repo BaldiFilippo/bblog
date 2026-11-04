@@ -21,7 +21,7 @@ I'm telling this story because it's the opposite of the one you usually hear. Th
 
 ## Everyone seems to be going backwards
 
-Look around and the pattern is everywhere. People are buying "dumb phones" that look like the phones we had twenty years ago, small screen and all. Teenagers are hunting for old digital cameras from 2005 because the photos look worse, which apparently is the point. Notebooks, fountain pens, mechanical watches, board games, film. Sweden, one of the most digital countries in the world, decided to put printed textbooks back into its schools. Even car makers are quietly bringing back physical buttons after years of touchscreens, because it turns out you can't find a button on glass without looking at it.
+Look around and the pattern is everywhere. People are buying "dumb phones" that look like the phones we had twenty years ago, small screen and all. Teenagers are <a href="https://www.npr.org/2024/12/09/nx-s1-5209770/gen-z-digital-compact-cameras-millennials-trendy" target="_blank" rel="noopener noreferrer">hunting for old digital cameras from 2005</a> because the photos look worse, which apparently is the point. Notebooks, fountain pens, mechanical watches, board games, film. Sweden, one of the most digital countries in the world, decided to <a href="https://www.clickorlando.com/news/world/2023/09/10/sweden-brings-more-books-and-handwriting-practice-back-to-its-tech-heavy-schools/" target="_blank" rel="noopener noreferrer">put printed textbooks back into its schools</a>. Even car makers are quietly <a href="https://www.techspot.com/news/107078-volkswagen-brings-back-physical-controls-essential-cabin-functions.html" target="_blank" rel="noopener noreferrer">bringing back physical buttons</a> after years of touchscreens, and <a href="https://www.autoexpress.co.uk/consumer-news/362499/touchscreen-backlash-euro-ncap-says-physical-buttons-will-be-incentivised-car" target="_blank" rel="noopener noreferrer">safety ratings now reward them</a>, because it turns out you can't find a button on glass without looking at it.
 
 Every one of these things is, on paper, worse. Less convenient, less accessible, less connected. The digital version does more, costs less and is always with you. That's hard to argue with. And yet.
 
@@ -43,7 +43,7 @@ They talk about **limits**. A notebook ends. A roll of film has thirty-six shots
 
 They talk about **doing one thing**. A camera takes pictures. A calendar holds your days. A phone, the old kind, makes calls. Every digital tool, by contrast, is a door to every other tool. You open your calendar and three taps later you're somewhere else, and you don't remember why you picked up the phone.
 
-They talk about **owning things**. The book on your shelf is yours. The ebook is a licence. In 2009 Amazon deleted copies of *1984* from people's Kindles because of a rights issue, which is the kind of irony you couldn't write on purpose. People are buying Blu-rays again because films keep disappearing from streaming catalogues. They're not collecting out of nostalgia. They're collecting because they've been burned.
+They talk about **owning things**. The book on your shelf is yours. The ebook is a licence. In 2009 Amazon <a href="https://www.engadget.com/2009/07/17/amazon-remotely-deletes-orwell-e-books-from-kindles-unpersons-r/" target="_blank" rel="noopener noreferrer">deleted copies of <em>1984</em> from people's Kindles</a> because of a rights issue. Think about it: <em>1984</em> is the novel about a state that makes books disappear and rewrites the past. And one morning, with no warning, that exact book disappeared from thousands of devices, as if it had never been there. You couldn't write an irony like that on purpose. People are buying Blu-rays again because films keep disappearing from streaming catalogues. They're not collecting out of nostalgia. They're collecting because they've been burned.
 
 And they talk, without using the word, about **friction**. The effort of writing by hand. The wait for the film to be developed. The small ritual of putting a record on. All the things design has spent twenty years trying to remove.
 
@@ -53,19 +53,19 @@ If there is one dogma in my field, it's this: remove friction. Don't make the us
 
 But at some point we took a principle that was built for checkout forms and applied it to everything. Including the parts of life where the friction *was* the point.
 
-There's a well-known study showing that students who take notes by hand understand the material better than those who type, precisely because handwriting is slower. You can't write everything down, so you have to decide what matters. The inefficiency is the mechanism. Make it efficient and you kill it.
+There's a <a href="https://doi.org/10.1177/0956797614524581" target="_blank" rel="noopener noreferrer">well-known study</a> suggesting that students who take notes by hand understand the material better than those who type, precisely because handwriting is slower. You can't write everything down, so you have to decide what matters. <a href="https://link.springer.com/article/10.1007/s10648-019-09468-2" target="_blank" rel="noopener noreferrer">Later studies found the effect smaller than first claimed</a>, but the idea behind it still rings true to me: the inefficiency is the mechanism. Make it efficient and you kill it.
 
 I think my paper calendar was the same. It was "flexible" because it was slightly harder. I had to pick up a pen, find the page, write with my own hand. That tiny cost made each thing I wrote down feel like a decision. The app asked for less, and so each entry meant less.
 
 So maybe the question for designers isn't "how do we make this smoother?" but "is this a tool for a task, or a tool for a life?". Booking a train: a task, zero friction please. Keeping a journal, choosing what to read, remembering your week: a life. And in a life, a little resistance is not a bug.
 
-The philosopher Byung-Chul Han wrote that "the smooth is the signature of the present time". Smooth screens, smooth interfaces, smooth experiences. Maybe what people are reaching for, when they pick up a notebook, is simply something rough.
+The philosopher Byung-Chul Han <a href="https://philosophynow.org/issues/130/Saving_Beauty_by_Byung-Chul_Han" target="_blank" rel="noopener noreferrer">wrote</a> that "the smooth is the signature of the present time". Smooth screens, smooth interfaces, smooth experiences. Maybe what people are reaching for, when they pick up a notebook, is simply something rough.
 
 ## The uncomfortable part
 
 I should be honest, though, because there's a side of this that doesn't flatter anyone, including me.
 
-A lot of the analog revival is, in fact, digital. The beautiful notebook gets photographed for Instagram. The film photo gets scanned and posted. The vinyl is bought online, and according to more than one survey a surprising number of buyers don't even own a turntable. And the "dumb phone" often lives in a drawer, next to the smartphone that's still doing all the real work.
+A lot of the analog revival is, in fact, digital. The beautiful notebook gets photographed for Instagram. The film photo gets scanned and posted. The vinyl is bought online, and <a href="https://www.musicbusinessworldwide.com/50-of-vinyl-buyers-dont-own-a-record-player-data-shows/" target="_blank" rel="noopener noreferrer">according to more than one survey</a> a surprising number of buyers don't even own a turntable. And the "dumb phone" often lives in a drawer, next to the smartphone that's still doing all the real work.
 
 So are we really escaping the digital world, or are we buying an *aesthetic* of escaping it? Is the notebook a tool, or a costume? I genuinely don't know. Probably both, depending on the day. I'm not sure it matters as much as it seems. Even if the gesture is partly performance, the need underneath it is real. People don't perform a craving they don't have.
 

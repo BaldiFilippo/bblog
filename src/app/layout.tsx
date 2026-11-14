@@ -5,6 +5,7 @@ import "./globals.css";
 import { clsx } from "clsx";
 import { Navbar } from "@/components/navbar";
 import { Providers } from "@/components/providers";
+import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 
@@ -75,6 +76,7 @@ export default function RootLayout({
           <Navbar />
           {children}
         </Providers>
+        <Analytics />
         <SpeedInsights />
       </body>
     </html>
